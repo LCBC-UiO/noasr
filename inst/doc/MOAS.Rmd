@@ -66,6 +66,26 @@ Like all R-functions, the MOAS package functions have documentation that may be 
 ?fs_lmm
 ```
 
+#### The `launch_LCBCshiny()` function {#launch_LCBCshiny}
+This function will launch the LCBC shiny explorer in your default browser. 
+It works "out-of-the-box" and will immediately launch the app in your browser
+without any extra inputs. You can then use the file browser in the application
+to upload the file you want to work on.
+
+```{r "shiny1"}
+MOAS::launch_LCBCshiny()
+```
+
+If you have already loaded in the MOAS or a MOAS generated file in your R instance,
+you can supply it directly through R.
+We already loaded in the MOAS data into the object `data` in the previous section.
+We provide this information to the shiny launcher, and the data will automatically be loaded
+into the application.
+
+```{r "shiny2"}
+MOAS::launch_LCBCshiny(data)
+```
+
 #### The `widen()` function {#widen} 
 This function will create a wider data.frame of the data you have, given some specification. 
 This is often necessary if you want to use the data in SPSS, or for running ANOVAs etc.

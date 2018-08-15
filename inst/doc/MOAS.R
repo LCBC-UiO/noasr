@@ -23,6 +23,12 @@ library(tidyverse) #Recommended
 #  ?widen
 #  ?fs_lmm
 
+## ----"shiny1"------------------------------------------------------------
+#  MOAS::launch_LCBCshiny()
+
+## ----"shiny2"------------------------------------------------------------
+#  MOAS::launch_LCBCshiny(data)
+
 ## ----"widen examplel1"---------------------------------------------------
 #  widened_data = widen(data, by="Site_Name")
 

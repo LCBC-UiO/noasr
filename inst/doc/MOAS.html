@@ -105,6 +105,13 @@ data =<span class="st"> </span><span class="kw">get</span>(nm)</code></pre></div
 <span class="co"># MOAS functions</span>
 ?widen
 ?fs_lmm</code></pre></div>
+<div id="launch_LCBCshiny" class="section level4">
+<h4>The <code>launch_LCBCshiny()</code> function</h4>
+<p>This function will launch the LCBC shiny explorer in your default browser. It works “out-of-the-box” and will immediately launch the app in your browser without any extra inputs. You can then use the file browser in the application to upload the file you want to work on.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MOAS<span class="op">::</span><span class="kw">launch_LCBCshiny</span>()</code></pre></div>
+<p>If you have already loaded in the MOAS or a MOAS generated file in your R instance, you can supply it directly through R. We already loaded in the MOAS data into the object <code>data</code> in the previous section. We provide this information to the shiny launcher, and the data will automatically be loaded into the application.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MOAS<span class="op">::</span><span class="kw">launch_LCBCshiny</span>(data)</code></pre></div>
+</div>
 <div id="widen" class="section level4">
 <h4>The <code>widen()</code> function</h4>
 <p>This function will create a wider data.frame of the data you have, given some specification. This is often necessary if you want to use the data in SPSS, or for running ANOVAs etc. To view the manual page of this package, simply type:</p>
