@@ -11,10 +11,10 @@
 #' na.col.rm(data)
 #'
 #' @export
-na.col.rm = function(data){
-
-  NaNidx = apply(data,2,function(x) all(is.na(x)))
-  data = data[,!NaNidx]
-
-  return(data)
+na.col.rm = function(data) {
+    
+    NaNidx = apply(data, 2, function(x) all(is.na(x)))
+    data = data[, !NaNidx]
+    
+    return(data)
 }

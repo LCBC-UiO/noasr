@@ -11,25 +11,25 @@
 #'
 #' @export
 
-calc_hour = function(data){
-
-  tmp = strsplit(as.character(data), ":")
-
-  DATA2 = data.frame(matrix(nrow=length(tmp),ncol=3))
-
-  for(i in 1:length(tmp)){
-    n=(data[i] %>% count_chars(":",.))+1
-
-    if(n<ncol(DATA2)) tmp[[i]] = c(tmp[[i]],"")
-      DATA2[i,]  = tmp[[i]]
-  }
-  DATA2 = as.data.frame(apply(DATA2,2,as.numeric))
-  names(DATA2) = c("H","M","S");
-
-  DATA2 = DATA2 %>%
-    mutate(M=as.numeric(M)/60, S=S/60/60)
-  DATA2$time = rowSums(DATA2, na.rm = T)
-
-
-  return(DATA2$time)
+calc_hour = function(data) {
+    
+    tmp = strsplit(as.character(data), ":")
+    
+    DATA2 = data.frame(matrix(nrow = length(tmp), ncol = 3))
+    
+    for (i in 1:length(tmp)) {
+        n = (data[i] %>% count_chars(":", .)) + 1
+        
+        if (n < ncol(DATA2)) 
+            tmp[[i]] = c(tmp[[i]], "")
+        DATA2[i, ] = tmp[[i]]
+    }
+    DATA2 = as.data.frame(apply(DATA2, 2, as.numeric))
+    names(DATA2) = c("H", "M", "S")
+    
+    DATA2 = DATA2 %>% mutate(M = as.numeric(M)/60, S = S/60/60)
+    DATA2$time = rowSums(DATA2, na.rm = T)
+    
+    
+    return(DATA2$time)
 }

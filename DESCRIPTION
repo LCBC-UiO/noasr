@@ -11,7 +11,13 @@ Imports: tidyverse,
     stringr,
     utils,
     lubridate,
-    stats
+    stats,
+    rio,
+    plotly,
+    DT,
+    png,
+    svglite,
+    shiny
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

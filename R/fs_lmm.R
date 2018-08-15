@@ -14,8 +14,8 @@
 #' @param missing.action Action to take on missing data for the
 #' numeric.vars. Options are:
 #' 'delete' - deletes observations with any missing numeric.vars,
-#' 'Mean' - replaces missing with mean for that participant,
-#' 'All' - replaces all values with the mean for that participant,
+#' 'mean' - replaces missing with mean for that participant,
+#' 'all' - replaces all values with the mean for that participant,
 #' 'first' - replaced all values with the first observation for that
 #' participant.
 #' @param keep For double/triple scans, which data should be kept.
@@ -37,7 +37,7 @@
 fs_lmm = function(data,
                   grouping.var = c(""),
                   numeric.var = c(""),
-                  missing.action = "Mean",
+                  missing.action = "mean",
                   keep = "long",
                   file = NULL){
 
@@ -105,7 +105,7 @@ fs_lmm = function(data,
   if(missing.action != "Delete"){
     FS_data =  switch(missing.action,
                       #Replace missing values with the mean of other values for the same person
-                      "Mean" = {
+                      "mean" = {
                         tmp=FS_data
                         for(i in NumIdx){
                           idx=grep(names(tmp)[i],names(MEANS))
@@ -114,7 +114,7 @@ fs_lmm = function(data,
                         tmp
 
                         #Replace all values with the mean of other values for the same person.
-                      },"All" = {
+                      },"all" = {
                         FS_data %>%
                           select(-one_of(numeric.var)) %>% left_join(MEANS, by="ID")
 

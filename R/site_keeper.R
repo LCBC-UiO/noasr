@@ -12,49 +12,45 @@
 #' @param data The MOAS or a MOAS generated file.
 #' @param keep A string specifying which data from double/triple scans to keep.
 #' Available options are:
-#' "long" - keep data from scanner with most data (default),
-#' "ousAvanto" = keep 'ousAvanto',
-#' "ousSkyra" = keep 'ousSkyra', or
-#' "ousPrisma" = keep 'ousPrisma'.
+#' 'long' - keep data from scanner with most data (default),
+#' 'ousAvanto' = keep 'ousAvanto',
+#' 'ousSkyra' = keep 'ousSkyra', or
+#' 'ousPrisma' = keep 'ousPrisma'.
 #'
 #' @return A MOAS type file with one line per subject and timepoint.
 
 #' @examples
 #' site_keeper(MOAS)
-#' site_keeper(MOAS, "ousSkyra")
-#' site_keeper(MOAS, "ousAvanto")
+#' site_keeper(MOAS, 'ousSkyra')
+#' site_keeper(MOAS, 'ousAvanto')
 #'
 #' @import tidyverse
 #' @export
 
-site_keeper = function(data, keep="long"){
-  requireNamespace("tidyverse", quietly = TRUE)
-
+site_keeper = function(data, keep = "long") {
   switch(keep,
-         "long" = warning("Keeping data from scanner with most data from double/triple scanned."),
-         "ousAvanto" = warning("Keeping 'ousAvanto' from double/triple scanned."),
-         "ousSkyra" = warning("Keeping 'ousSkyra' from double/triple scanned."),
-         "ousPrisma" = warning("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file.")
-  )
+         long = warning("Keeping data from scanner with most data from double/triple scanned."),
+         ousAvanto = warning("Keeping 'ousAvanto' from double/triple scanned."),
+         ousSkyra = warning("Keeping 'ousSkyra' from double/triple scanned."),
+         ousPrisma = warning("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file."))
 
   # Decide which data to keep from double/triple scans
-  if(keep %in% "long"){
-    data =data %>% group_by(CrossProject_ID, Site_Name) %>% add_tally %>%
-      group_by(CrossProject_ID) %>% filter(max(n)==n) %>% select(-n) %>%
+  if (keep %in% "long") {
+    data = data %>%
+      dplyr::group_by(CrossProject_ID, Site_Name) %>%
+      dplyr::add_tally %>%
+      dplyr::group_by(CrossProject_ID) %>%
+      filter(max(n) == data %>% arrange(CrossProject_ID, desc(Site_Name)) %>%
+      filter(!duplicated(Subject_Timepoint)) %>% arrange(CrossProject_ID,Subject_Timepoint)
 
-      # In cases where there is a draw, choose Skyra.
-      arrange(CrossProject_ID, desc(Site_Name)) %>%
-      filter(!duplicated(Subject_Timepoint)) %>%
-      arrange(CrossProject_ID, Subject_Timepoint)
+  } else {
 
-  }else{
-
-    data = data %>% group_by(CrossProject_ID, Subject_Timepoint) %>%
-      add_tally %>%
-      ungroup %>%
-      mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
-      filter(Keep) %>%
-      select(-n, -Keep)
+    data = data %>%
+      dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
+      dplyr::add_tally %>%
+      dplyr::ungroup %>%
+      mutate(Keep = ifelse(n ==1, T, ifelse(Site_Name %in% keep, T, F))) %>%
+      filter(Keep) %>% select(-n, -Keep)
   }
 
   return(data)

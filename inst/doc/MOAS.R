@@ -35,13 +35,18 @@ library(tidyverse) #Recommended
 #  simple_data = site_keeper(data, "ousAvanto")
 #  simple_data = site_keeper(data, "ourPrisma")
 
+## ----fs_lmm1, eval=F-----------------------------------------------------
+#  fs_lmm(data, grouping.var = c("Sex","Site_Name"), numeric.var="CVLT_A_Total")
+
+## ------------------------------------------------------------------------
+#  ?fs_lmm
+
 ## ----"pipeExample"-------------------------------------------------------
 #  simple_data = data %>%
 #    filter(Project_Name %in% c("MemC","MemP")) %>%
 #    na.col.rm() %>% # see section on Utility functions
 #    site_keeper("ousPrisma") %>%
 #    widen("Project_Wave")
-#  
 
 ## ----"na.col.rm"---------------------------------------------------------
 #  data2 = data %>% filter(Project_Name %in% "NCP") %>% na.col.rm()

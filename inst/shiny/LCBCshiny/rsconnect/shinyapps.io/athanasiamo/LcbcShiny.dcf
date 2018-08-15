@@ -1,0 +1,13 @@
+name: LcbcShiny
+title: LcbcShiny
+username:
+account: athanasiamo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 219365
+bundleId: 1076787
+url: https://athanasiamo.shinyapps.io/LcbcShiny/
+when: 1510756759.1196
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|~.Renvrion|INSTALL.R|appScripts/app.R|appScripts/HelpPage.html|appScripts/HelpPage.Rmd|data/MOAS.RData|docker/build.sh|docker/Dockerfile|docker/README.md|docker/shiny-server.sh

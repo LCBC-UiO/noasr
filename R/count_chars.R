@@ -10,13 +10,13 @@
 #' @return vector of integers
 
 #' @examples
-#' count_chars("h", "How many times is 'h' in this string?")
+#' count_chars('h', 'How many times is 'h' in this string?')
 #'
 #'
 #' @export
 #'
 
 count_chars = function(char, s) {
-  s2 <- gsub(char,"",s)
-  return (nchar(s) - nchar(s2))
+    s2 <- gsub(char, "", s)
+    return(nchar(s) - nchar(s2))
 }
