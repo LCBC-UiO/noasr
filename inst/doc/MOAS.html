@@ -82,6 +82,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>After the package is installed, the package needs to be called in every script or R instance to make it’s functions available.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MOAS)
 <span class="kw">library</span>(tidyverse) <span class="co">#Recommended</span></code></pre></div>
+<pre><code>## -- Attaching packages ----------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## &lt;U+221A&gt; ggplot2 3.0.0     &lt;U+221A&gt; purrr   0.2.5
+## &lt;U+221A&gt; tibble  1.4.2     &lt;U+221A&gt; dplyr   0.7.6
+## &lt;U+221A&gt; tidyr   0.8.1     &lt;U+221A&gt; stringr 1.3.1
+## &lt;U+221A&gt; readr   1.1.1     &lt;U+221A&gt; forcats 0.3.0</code></pre>
+<pre><code>## -- Conflicts -------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks MOAS::filter(), stats::filter()
+## x dplyr::lag()    masks MOAS::lag(), stats::lag()</code></pre>
 <p>The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. The MOAS may be found in the MOAS data-foler in the Lagringshotell: <code>LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData</code></p>
 <p>Each project contained in the MOAS also has it’s own MOAS-derived files at the top level of their data folder, in this type of format: <code>LCBC/Projects/11_MemP/Data/11_MemP_Imaging_Long.RData</code> These types of files are compatible with all functions in the package.</p>
 <div id="loading-the-moas-or-moas-derived-files" class="section level4">
@@ -153,20 +161,16 @@ strings <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 - Afternoon<br />
 - Evening<br />
 - Night</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;22:40&quot;</span>,<span class="st">&quot;19:30&quot;</span>,<span class="st">&quot;08:21&quot;</span>,<span class="st">&quot;02:47&quot;</span>,<span class="st">&quot;11:45&quot;</span>,<span class="st">&quot;13:12&quot;</span>)
-<span class="kw">factor_times</span>(times)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times_hhmm =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;22:40&quot;</span>,<span class="st">&quot;19:30&quot;</span>,<span class="st">&quot;08:21&quot;</span>,<span class="st">&quot;02:47&quot;</span>,<span class="st">&quot;11:45&quot;</span>,<span class="st">&quot;13:12&quot;</span>)
+<span class="kw">factor_times</span>(times_hhmm)</code></pre></div>
 <pre><code>## [1] &quot;Night&quot;     &quot;Evening&quot;   &quot;Morning&quot;   &quot;Night&quot;     &quot;Morning&quot;   &quot;Afternoon&quot;</code></pre>
 </div>
-<div id="factor_times" class="section level4">
-<h4>The <code>factor_times()</code> function</h4>
-<p>If you have a vector of “HH:MM” time specification, it might be convenient to create a factor of what time of day this would be. <code>factor_times()</code> takes a character vector, and produces a new carachte vector with up to four levels:<br />
-- Morning<br />
-- Afternoon<br />
-- Evening<br />
-- Night</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;22:40&quot;</span>,<span class="st">&quot;19:30&quot;</span>,<span class="st">&quot;08:21&quot;</span>,<span class="st">&quot;02:47&quot;</span>,<span class="st">&quot;11:45&quot;</span>,<span class="st">&quot;13:12&quot;</span>)
-<span class="kw">factor_times</span>(times)</code></pre></div>
-<pre><code>## [1] &quot;Night&quot;     &quot;Evening&quot;   &quot;Morning&quot;   &quot;Night&quot;     &quot;Morning&quot;   &quot;Afternoon&quot;</code></pre>
+<div id="calc_hour" class="section level4">
+<h4>The <code>calc_hour()</code> function</h4>
+<p>If you have a vector of “HH:MM” time specification, it might be convenient to create a factor of what time of day this would be. <code>calc_hour()</code> takes a character time vector, a numeric vector of decimal hours.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times_hhmm =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;22:40&quot;</span>,<span class="st">&quot;19:30&quot;</span>,<span class="st">&quot;08:21&quot;</span>,<span class="st">&quot;02:47&quot;</span>,<span class="st">&quot;11:45&quot;</span>,<span class="st">&quot;13:12&quot;</span>)
+<span class="kw">calc_hour</span>(times_hhmm)</code></pre></div>
+<pre><code>## [1] 22.666667 19.500000  8.350000  2.783333 11.750000 13.200000</code></pre>
 </div>
 </div>
 </div>

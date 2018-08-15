@@ -12,3 +12,11 @@ devtools::install_github("LCBC-UiO/MOAS")
 ```
 
 The functions are now loaded for your use and are documented.
+
+The package also has a vignette, to help you get started using it. 
+You can access it via R:
+
+```r
+library(MOAS)
+vignette(MOAS)
+```
