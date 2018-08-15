@@ -17,7 +17,8 @@ Imports: tidyverse,
     DT,
     png,
     svglite,
-    shiny
+    shiny,
+    stringi
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

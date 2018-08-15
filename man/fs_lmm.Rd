@@ -5,8 +5,8 @@
 \title{Create a data.frame that is ready for use in Freesufers linear
 mixed models}
 \usage{
-fs_lmm(data, grouping.var = "Site_Name", numeric.var = "Age",
-  missing.missing.action = "Mean", keep = "long", file = NULL)
+fs_lmm(data, grouping.var = c(""), numeric.var = c(""),
+  missing.action = "mean", keep = "long", file = NULL)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
@@ -17,19 +17,18 @@ categorical/ordinal factors.}
 \item{numeric.var}{A string vector of column names for numeric,
 scalar co-variates.}
 
-\item{keep}{For double/triple scans, which data should be kept.
-option calls \code{site_keeper}.}
-
-\item{file}{Optional string specifying file name to be saved,
-omit extention.}
-
 \item{missing.action}{Action to take on missing data for the
 numeric.vars. Options are:
 'delete' - deletes observations with any missing numeric.vars,
-'Mean' - replaces missing with mean for that participant,
-'All' - replaces all values with the mean for that participant,
+'mean' - replaces missing with mean for that participant,
+'all' - replaces all values with the mean for that participant,
 'first' - replaced all values with the first observation for that
 participant.}
+
+\item{keep}{For double/triple scans, which data should be kept.
+option calls \code{site_keeper}.}
+
+\item{file}{Optional string specifying file name to be saved}
 }
 \value{
 a data frame ready for Freesurfer LMM use.

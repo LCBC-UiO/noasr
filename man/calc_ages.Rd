@@ -16,7 +16,7 @@ a data frame with added/replaced age and timepoint variables.
 \description{
 \code{calc_ages} Creates a dataframe where age and subject timepoint
 have been added to the data. Both MRI and Test age are calculated,
-and "Age" is the mean between these two. If only of of MRI or Test
+and 'Age' is the mean between these two. If only of of MRI or Test
 age are present, this one is used for Age. Also calculates intervals
 between test and MRI, baseline to every subsequent testing, and
 intervall between timepoints.

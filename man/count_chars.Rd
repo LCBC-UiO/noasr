@@ -20,7 +20,7 @@ vector of integers
 character occurs in a string
 }
 \examples{
-count_chars("h", "How many times is 'h' in this string?")
+count_chars('h', 'How many times is 'h' in this string?')
 
 
 }

@@ -35,23 +35,23 @@ site_keeper = function(data, keep = "long") {
          ousPrisma = warning("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file."))
 
   # Decide which data to keep from double/triple scans
-  if (keep %in% "long") {
+  if(keep %in% "long"){
     data = data %>%
-      dplyr::group_by(CrossProject_ID, Site_Name) %>%
-      dplyr::add_tally %>%
-      dplyr::group_by(CrossProject_ID) %>%
-      filter(max(n) == data %>% arrange(CrossProject_ID, desc(Site_Name)) %>%
-      filter(!duplicated(Subject_Timepoint)) %>% arrange(CrossProject_ID,Subject_Timepoint)
+      group_by(CrossProject_ID, Site_Name) %>%
+      add_tally %>%
+      ungroup %>%
+      group_by(CrossProject_ID) %>%
+      filter(max(n)==n) %>%
+      select(-n)
 
-  } else {
+  }else{
 
-    data = data %>%
-      dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
-      dplyr::add_tally %>%
-      dplyr::ungroup %>%
-      mutate(Keep = ifelse(n ==1, T, ifelse(Site_Name %in% keep, T, F))) %>%
-      filter(Keep) %>% select(-n, -Keep)
+    data = data %>% group_by(CrossProject_ID, Subject_Timepoint) %>%
+      add_tally %>%
+      ungroup %>%
+      mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
+      filter(Keep) %>%
+      select(-n, -Keep)
   }
-
   return(data)
 }

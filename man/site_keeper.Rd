@@ -11,10 +11,10 @@ site_keeper(data, keep = "long")
 
 \item{keep}{A string specifying which data from double/triple scans to keep.
 Available options are:
-"long" - keep data from scanner with most data (default),
-"ousAvanto" = keep 'ousAvanto',
-"ousSkyra" = keep 'ousSkyra', or
-"ousPrisma" = keep 'ousPrisma'.}
+'long' - keep data from scanner with most data (default),
+'ousAvanto' = keep 'ousAvanto',
+'ousSkyra' = keep 'ousSkyra', or
+'ousPrisma' = keep 'ousPrisma'.}
 }
 \value{
 A MOAS type file with one line per subject and timepoint.
@@ -30,7 +30,7 @@ will be reduced. All timepoints will be retained.
 }
 \examples{
 site_keeper(MOAS)
-site_keeper(MOAS, "ousSkyra")
-site_keeper(MOAS, "ousAvanto")
+site_keeper(MOAS, 'ousSkyra')
+site_keeper(MOAS, 'ousAvanto')
 
 }
