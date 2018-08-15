@@ -53,22 +53,31 @@ data = get(nm)
 
 You now have MOAS-data in your environment stored in the object `data`.
 
+### Function documentation
+Like all R-functions, the MOAS package functions have documentation that may be accessed by typing a question mark in the console, and the function you want to know more about.
+
+```{r "help"}
+# Base R
+?anova
+?t.test
+
+# MOAS functions
+?widen
+?fs_lmm
+```
+
 #### The `widen()` function {#widen} 
 This function will create a wider data.frame of the data you have, given some specification. 
 This is often necessary if you want to use the data in SPSS, or for running ANOVAs etc.
 To view the manual page of this package, simply type:
 
-```{r "Widen manual"}
-?widen
-```
-
 `widen()` has two mandatory inputs, the data to widen, and the column name to widen by. 
 
 There are four options to widen the data by:  
-- "Subject_Timepoint"  
-- "Project_Wave"  
-- "Site_Name"  
-- "Site_Number"  
+1. "Subject_Timepoint"  
+1. "Project_Wave"  
+1. "Site_Name"  
+1. "Site_Number"  
 
 To widen data, simply type:
 ```{r "widen examplel1"}
@@ -90,10 +99,10 @@ This is necessary for all analyses not using the site as a variable of interest.
 To run the function, you must choose which scanner you wish to keep data from.   
 
 There are four options:  
-- "long" - finds which scanner there is most data from, and keeps those (default) 
-- "ousAvanto" - keeps Avanto data  
-- "ousSkyra" - keeps Skyra data  
-- "ourPrisma" - keeps Prisma data  
+1. "long" - finds which scanner there is most data from, and keeps those (default) 
+1. "ousAvanto" - keeps Avanto data  
+1. "ousSkyra" - keeps Skyra data  
+1. "ourPrisma" - keeps Prisma data  
 
 **Note**: the operation only affects double and triple scan timepoints.
 All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.

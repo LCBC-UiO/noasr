@@ -14,8 +14,14 @@ library(tidyverse) #Recommended
 #  data = get(nm)
 #  
 
-## ----"Widen manual"------------------------------------------------------
+## ----"help"--------------------------------------------------------------
+#  # Base R
+#  ?anova
+#  ?t.test
+#  
+#  # MOAS functions
 #  ?widen
+#  ?fs_lmm
 
 ## ----"widen examplel1"---------------------------------------------------
 #  widened_data = widen(data, by="Site_Name")
