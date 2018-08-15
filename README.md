@@ -8,10 +8,10 @@ The package can be installed using devtools:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("LCBC-UiO/MOAS")
+devtools::install_github("LCBC-UiO/MOAS", build_vignettes = TRUE)
 ```
 
-The functions are now installed, and you may load them when you want to use them. All functions are documented in standard R fashion. The package also has a vignette, to help you get started using it. You can access it [here](inst/doc/MOAS.md), or via R:
+The functions are now installed, and you may load them when you want to use them. All functions are documented in standard R fashion. The package also has a vignette, to help you get started using it. You can access it [here](inst/doc/MOAS.Rmd), or via R:
 
 ``` r
 library(MOAS)
