@@ -1,7 +1,7 @@
 ## ----setup, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(eval=F)
 
-## ----"library", eval=TRUE------------------------------------------------
+## ----"library", eval=TRUE, warning=F, error=F----------------------------
 library(MOAS)
 library(tidyverse) #Recommended
 

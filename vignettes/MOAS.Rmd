@@ -21,7 +21,7 @@ The MOAS R-package is created witht he intent to share common operations/functio
 ### Basic usage
 After the package is installed, the package needs to be called in every script or R instance to make it's functions available.
 
-```{r "library", eval=TRUE}
+```{r "library", eval=TRUE, warning=F, error=F}
 library(MOAS)
 library(tidyverse) #Recommended
 
