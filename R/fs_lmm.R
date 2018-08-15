@@ -20,8 +20,7 @@
 #' participant.
 #' @param keep For double/triple scans, which data should be kept.
 #' option calls \code{site_keeper}.
-#' @param file Optional string specifying file name to be saved,
-#' omit extention.
+#' @param file Optional string specifying file name to be saved
 #'
 #' @return a data frame ready for Freesurfer LMM use.
 
@@ -36,12 +35,11 @@
 #' @export
 
 fs_lmm = function(data,
-                  grouping.var = "Site_Name",
-                  numeric.var = "Age",
-                  missing.missing.action = "Mean",
+                  grouping.var = c(""),
+                  numeric.var = c(""),
+                  missing.action = "Mean",
                   keep = "long",
                   file = NULL){
-  requireNamespace("tidyverse", quietly = TRUE)
 
   data = cbind.data.frame(data,N=1:nrow(data))
 
