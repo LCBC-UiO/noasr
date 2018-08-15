@@ -4,7 +4,7 @@
 \alias{na.col.rm}
 \title{Utility function to remove columns with no data}
 \usage{
-na.col.rm(df)
+na.col.rm(data)
 }
 \arguments{
 \item{data}{a data.frame}

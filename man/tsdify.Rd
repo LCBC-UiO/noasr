@@ -26,5 +26,4 @@ wave from TSD folder names.
  tsdify(Data)
  tsdify(Data, reverse=TRUE)
 
-
 }

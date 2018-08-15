@@ -127,7 +127,7 @@ simple_data =<span class="st"> </span><span class="kw">site_keeper</span>(data, 
 <h3>Pipe ( %&gt;% ) compatibility</h3>
 <p>All MOAS functions are pipe compatible, and should thus easily be incorporated into tidyverse-type syntax.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simple_data =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(Project_Name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MemC&quot;</span>,<span class="st">&quot;MemP&quot;</span>))<span class="er">)</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(Project_Name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MemC&quot;</span>,<span class="st">&quot;MemP&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">na.col.rm</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see section on Utility functions</span>
 <span class="st">  </span><span class="kw">site_keeper</span>(<span class="st">&quot;ousPrisma&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">widen</span>(<span class="st">&quot;Project_Wave&quot;</span>)</code></pre></div>
@@ -153,8 +153,20 @@ strings <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">
 - Afternoon<br />
 - Evening<br />
 - Night</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strings =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;This is a vector&quot;</span>,<span class="st">&quot;containing two strings&quot;</span>)
-strings <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count_chars</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;22:40&quot;</span>,<span class="st">&quot;19:30&quot;</span>,<span class="st">&quot;08:21&quot;</span>,<span class="st">&quot;02:47&quot;</span>,<span class="st">&quot;11:45&quot;</span>,<span class="st">&quot;13:12&quot;</span>)
+<span class="kw">factor_times</span>(times)</code></pre></div>
+<pre><code>## [1] &quot;Night&quot;     &quot;Evening&quot;   &quot;Morning&quot;   &quot;Night&quot;     &quot;Morning&quot;   &quot;Afternoon&quot;</code></pre>
+</div>
+<div id="factor_times" class="section level4">
+<h4>The <code>factor_times()</code> function</h4>
+<p>If you have a vector of “HH:MM” time specification, it might be convenient to create a factor of what time of day this would be. <code>factor_times()</code> takes a character vector, and produces a new carachte vector with up to four levels:<br />
+- Morning<br />
+- Afternoon<br />
+- Evening<br />
+- Night</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">times =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;22:40&quot;</span>,<span class="st">&quot;19:30&quot;</span>,<span class="st">&quot;08:21&quot;</span>,<span class="st">&quot;02:47&quot;</span>,<span class="st">&quot;11:45&quot;</span>,<span class="st">&quot;13:12&quot;</span>)
+<span class="kw">factor_times</span>(times)</code></pre></div>
+<pre><code>## [1] &quot;Night&quot;     &quot;Evening&quot;   &quot;Morning&quot;   &quot;Night&quot;     &quot;Morning&quot;   &quot;Afternoon&quot;</code></pre>
 </div>
 </div>
 </div>

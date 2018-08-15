@@ -33,5 +33,4 @@ site_keeper(MOAS)
 site_keeper(MOAS, "ousSkyra")
 site_keeper(MOAS, "ousAvanto")
 
-
 }
