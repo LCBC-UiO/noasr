@@ -14,7 +14,7 @@ The package can be installed using devtools:
 
 ```{r eval=F}
 install.packages("devtools")
-devtools::install_github("LCBC-UiO/MOAS")
+devtools::install_github("LCBC-UiO/MOAS", build_vignettes = TRUE)
 ```
 
 The functions are now installed, and you may load them when you want to use them.
