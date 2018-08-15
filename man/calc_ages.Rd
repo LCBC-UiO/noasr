@@ -24,5 +24,4 @@ intervall between timepoints.
 \examples{
 calc_ages(Data)
 
-
 }

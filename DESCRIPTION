@@ -8,15 +8,3 @@ License: none
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
-Imports:
-    stats,
-    utils,
-    magrittr,
-    stringr,
-    lubridate,
-    tidyverse
-Suggests: 
-      testthat,
-      knitr, 
-      rmarkdown
-VignetteBuilder: knitr

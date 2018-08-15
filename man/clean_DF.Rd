@@ -19,5 +19,4 @@ labels and attributed, for easier reading and handling in R
 \examples{
 clean_DF(data)
 
-
 }
