@@ -11,14 +11,12 @@ RoxygenNote: 6.1.0
 Imports:
     stats,
     utils,
-    rio,
-    ppcor,
-    psych,
-    grid,
-    gridExtra,
-    zoo,
     magrittr,
     stringr,
     lubridate,
     tidyverse
-Suggests: testthat
+Suggests: 
+      testthat,
+      knitr, 
+      rmarkdown
+VignetteBuilder: knitr

@@ -20,7 +20,7 @@
 #' @export
 
 tsdify = function(DATA, reverse=F){
-  requireNamespace("stringr")
+  requireNamespace("stringr", quietly = T)
 
   # Specify columns you want, in the order you want them for folder names
   COLS=c("CrossProject_ID","Subject_Timepoint","Project_Number","Project_Wave")

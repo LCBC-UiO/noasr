@@ -15,6 +15,8 @@
 #'
 
 clean_DF = function(data){
+  requireNamespace("tidyverse", quietly = TRUE)
+
   data = apply(data,2,function(x) as.character(x)) %>% as.data.frame(stringsAsFactors=F)
 
   #Grab any column with an alhpabetic character or what is date

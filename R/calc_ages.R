@@ -19,7 +19,7 @@
 #' @export
 
 calc_ages = function(data){
-  requireNamespace("tidyverse")
+  requireNamespace("tidyverse", quietly = TRUE)
 
   #Create a single Date columns. with test-Date if MRI-date is missing
   data$Date = ifelse(!is.na(data$MRI_Date), data$MRI_Date, data$Test_Date) %>%

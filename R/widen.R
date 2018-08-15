@@ -26,7 +26,6 @@
 
 widen = function(data, by, ColumnList){
   requireNamespace("tidyverse", quietly = TRUE)
-  require(na.col.rm)
 
   if(missing(ColumnList)) ColumnList = data %>% select(-matches("MRI|PET|InBody")) %>% names()
 
