@@ -95,9 +95,6 @@ fs_lmm = function(data,
                      time=Interval_FirstVisit) %>%
     stats::na.omit()
 
-  print("c'mon!")
-
-  print("where")
   # Remove omitted rows above in the incoming data. For merging purposes
   data = data %>% dplyr::filter(N %in% FS_data$N)
 
@@ -120,7 +117,6 @@ fs_lmm = function(data,
   data = data %>% dplyr::filter(N %in% GROUPS$N)
   GROUPS = GROUPS %>% dplyr::select(-N, -ID)
 
-  print("are")
   # Get the numerical data
   NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
 
@@ -136,8 +132,6 @@ fs_lmm = function(data,
     stats::na.omit()
 
   NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
-
-  print("you")
 
   if(missing.action != "delete"){
     FS_data =  switch(missing.action,
@@ -186,7 +180,6 @@ fs_lmm = function(data,
     warning("'Age' is set to base-line constant, to avoid colinearity with 'time'")
   }
 
-  print("failing")
   #Z-transform the numerical columns
   SCALED= apply(FS_data[NumIdx], 2, scale) %>% as.data.frame()
   names(SCALED) = paste("Z", names(SCALED), sep=".")
@@ -201,9 +194,8 @@ fs_lmm = function(data,
     dplyr::mutate(time = dplyr::first(Age_orig)) %>%
     dplyr::mutate(time = Age_orig-time) %>%
     as.data.frame() %>%
-    select(-Age_orig,-N)
+    dplyr::select(-Age_orig,-N)
 
-  print(", dude")
   #Rename column two to what Freesurfer wants it to be.
   FS_data = FS_data %>%
     dplyr::mutate(`fsid-base`=paste("base",ID,Site_Number,sep="_")) %>%
