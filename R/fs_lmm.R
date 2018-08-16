@@ -50,9 +50,16 @@ fs_lmm = function(data,
   # Get data from participants who have FS data available
   dt = names(data)[grep("aparc", names(data))[1]]
   reqCols = c("CrossProject_ID","Site_Number","Project_Number","Project_Wave", "Folder","Interval_FirstVisit")
-  if(any(!reqCols %in% names(data)) | is.null(dt) ){
-    reqCols=paste(reqCols, collapse=", ")
-    stop(paste("Data must contain columns",reqCols, "and at least one 'aparc' column for data verification. Please add one MRI column."))
+  if(any(!reqCols %in% names(data)) | is.na(dt) ){
+
+    errString  = "Data must contain"
+    reqColsS=paste(reqCols[!reqCols %in% names(data)], collapse=" ,")
+
+    if(any(!reqCols %in% names(data))) errString = paste(errString, reqColsS)
+    if(any(!reqCols %in% names(data)) & is.na(dt) ) errString = paste(errString, "and")
+    if(is.na(dt) ) errString = paste(errString, "at least one 'aparc' column for data verification.")
+
+    stop(errString)
   }
 
 
