@@ -81,49 +81,47 @@ fs_lmm = function(data,
                      time=Interval_FirstVisit) %>%
     stats::na.omit()
 
+  print("where")
   # Remove omitted rows above in the incoming data. For merging purposes
   data = data %>% dplyr::filter(N %in% FS_data$N)
 
-  if(!(missing(grouping.var))){
-    # Get the grouping.var data, and create one column with them pasted into eachother. Reduce factor levels to only the present ones
-    GROUPS = data %>%
-      dplyr::select(ID,N,dplyr::one_of(grouping.var)) %>%
-      dplyr::mutate_all(dplyr::funs(factor)) %>%
-      stats::na.omit()
+  # Get the grouping.var data, and create one column with them pasted into eachother. Reduce factor levels to only the present ones
+  GROUPS = data %>%
+    dplyr::select(ID,N,dplyr::one_of(grouping.var)) %>%
+    dplyr::mutate_all(dplyr::funs(factor)) %>%
+    stats::na.omit()
 
-    #Create model.matrix (GLM) for the group variables
-    Group.matrix = eval(parse(text=paste("model.matrix(~ ",paste(grouping.var, collapse="+"),",data=GROUPS)"))) %>% as.data.frame()
-    tmp=names(Group.matrix)[-1]; Group.matrix = Group.matrix[,-1] %>% as.data.frame()
-    for(i in 1:length(grouping.var)){
-      names(Group.matrix) = gsub(grouping.var[i], paste("1.",grouping.var[i],":",sep=""), tmp)
-      tmp = names(Group.matrix)
-    }
-
-    #Remove correspinding rows in the data frames
-    FS_data = FS_data %>% dplyr::filter(N %in% GROUPS$N);
-    data = data %>% dplyr::filter(N %in% GROUPS$N)
-    GROUPS = GROUPS %>% dplyr::select(-N, -ID)
+  #Create model.matrix (GLM) for the group variables
+  Group.matrix = eval(parse(text=paste("model.matrix(~ ",paste(grouping.var, collapse="+"),",data=GROUPS)"))) %>% as.data.frame()
+  tmp=names(Group.matrix)[-1]; Group.matrix = Group.matrix[,-1] %>% as.data.frame()
+  for(i in 1:length(grouping.var)){
+    names(Group.matrix) = gsub(grouping.var[i], paste("1.",grouping.var[i],":",sep=""), tmp)
+    tmp = names(Group.matrix)
   }
 
-  if(!missing(numeric.var)){
-    # Get the numerical data
-    NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
+  #Remove correspinding rows in the data frames
+  FS_data = FS_data %>% dplyr::filter(N %in% GROUPS$N);
+  data = data %>% dplyr::filter(N %in% GROUPS$N)
+  GROUPS = GROUPS %>% dplyr::select(-N, -ID)
 
-    #Combine the Four matrices
-    FS_data = cbind.data.frame(FS_data,GROUPS,Group.matrix,NUMERIC)
+  print("are")
+  # Get the numerical data
+  NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
 
-    # Get the mean numeric values for each particiant
-    MEANS = FS_data %>%
-      dplyr::group_by(ID) %>%
-      dplyr::select(ID, dplyr::one_of(numeric.var))  %>%
-      dplyr::summarise_all(dplyr::funs(mean(.,na.rm=T))) %>%
-      as.data.frame() %>%
-      stats::na.omit()
+  #Combine the Four matrices
+  FS_data = cbind.data.frame(FS_data,GROUPS,Group.matrix,NUMERIC)
 
-    NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
+  # Get the mean numeric values for each particiant
+  MEANS = FS_data %>%
+    dplyr::group_by(ID) %>%
+    dplyr::select(ID, dplyr::one_of(numeric.var))  %>%
+    dplyr::summarise_all(dplyr::funs(mean(.,na.rm=T))) %>%
+    as.data.frame() %>%
+    stats::na.omit()
 
-  }
+  NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
 
+  print("you")
 
   print(missing.action)
   if(missing.action != "delete"){
@@ -165,7 +163,7 @@ fs_lmm = function(data,
   FS_data = FS_data %>% stats::na.omit()
   data = data %>% dplyr::filter(N %in% FS_data$N)
 
-  if(!missing(numeric.var) & "Age" %in% numeric.var){
+  if("Age" %in% numeric.var){
     FS_data = FS_data %>%
       dplyr::group_by(ID) %>%
       dplyr::mutate(Age=dplyr::first(Age)) %>%
@@ -173,6 +171,7 @@ fs_lmm = function(data,
     warning("'Age' is set to base-line constant, to avoid colinearity with 'time'")
   }
 
+  print("failing")
   #Z-transform the numerical columns
   SCALED= apply(FS_data[NumIdx], 2, scale) %>% as.data.frame()
   names(SCALED) = paste("Z", names(SCALED), sep=".")
@@ -189,6 +188,7 @@ fs_lmm = function(data,
     as.data.frame() %>%
     select(-Age_orig,-N)
 
+  print(", dude")
   #Rename column two to what Freesurfer wants it to be.
   FS_data = FS_data %>%
     dplyr::mutate(`fsid-base`=paste("base",ID,Site_Number,sep="_")) %>%
