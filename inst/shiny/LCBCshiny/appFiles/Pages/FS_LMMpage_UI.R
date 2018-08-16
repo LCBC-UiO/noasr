@@ -16,12 +16,15 @@ output$FS_LMMPage = shiny::renderUI({
         shiny::HTML("<p style='color: #626262; font-size: 12px;'> (i.e. numeric variables of interest, comma separated).</p>"),
         style="background-color: #c6e7f2; border-color: #66bfdd;")),
 
-      shiny::column(4,  shiny::wellPanel(
+      shiny::column(4,shiny::wellPanel(
+        shiny::radioButtons("actionFS", label="Action to take for values in 'Numeric' columns",
+                            choices=c("Mean","All","First","Delete"), inline=T),
+        shiny::uiOutput("actionFSHelp"))),
+
+      shiny::column(4,shiny::wellPanel(
         shiny::radioButtons("keepFS", label="Which data from double/triple scans to keep",
                             choices=c("long", "ousAvanto","ousSkyra","ousPrisma"), inline=T),
-        shiny::uiOutput("keepFSHelp")
-      ))
-
+        shiny::uiOutput("keepFSHelp")))
     ),
 
     # Go button ------
@@ -61,21 +64,6 @@ output$chooseNumeric = shiny::renderUI({
   shiny::selectizeInput('choiceNumeric', 'Select numeric covariates', opts, selected = character(0),
                         multiple = T, options = list(placeholder = 'Type to start selecting'), width="100%")
 })
-
-#
-# output$optsFS = shiny::renderUI({
-#   if(input$actionDoubles == "asis"){
-#     shiny::radioButtons("keepFS", label="Which data from double/triple scans to keep",
-#                         choices=c("long", "ousAvanto","ousSkyra","ousPrisma"), inline=T)
-#   }else{
-#     shiny::radioButtons("keepFS", label="Which data from double/triple scans to keep",
-#                         choices=c("long"), inline=T)
-#   }
-# })
-
-
-
-
 
 FS_Table = shiny::eventReactive(input$goClick_FS_LMM, {
   if(purrr::is_empty(input$choiceGrouping) | purrr::is_empty(input$choiceNumeric)){
