@@ -28,12 +28,19 @@
 #' @importFrom magrittr "%>%"
 #'
 #' @export
-site_keeper = function(data, keep = "long") {
-  switch(keep,
-         long = warning("Keeping data from scanner with most data from double/triple scanned."),
-         ousAvanto = warning("Keeping 'ousAvanto' from double/triple scanned."),
-         ousSkyra = warning("Keeping 'ousSkyra' from double/triple scanned."),
-         ousPrisma = warning("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file."))
+site_keeper = function(data, keep = "long", quiet = F) {
+
+  if(any(!keep %in% c("long","ousAvanto","ousSkyra","ousPrisma"))){
+    stop(paste0("Unrecognised option '",keep,"' for keep. Options are: 'long','ousAvanto','ousSkyra','ousPrisma'"))
+  }
+
+  if(!quiet){
+    switch(keep,
+           long = warning("Keeping data from scanner with most data from double/triple scanned."),
+           ousAvanto = warning("Keeping 'ousAvanto' from double/triple scanned."),
+           ousSkyra = warning("Keeping 'ousSkyra' from double/triple scanned."),
+           ousPrisma = warning("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file."))
+  }
 
   # Decide which data to keep from double/triple scans
   if(keep %in% "long"){

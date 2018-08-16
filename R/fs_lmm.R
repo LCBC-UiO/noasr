@@ -53,14 +53,14 @@ fs_lmm = function(data,
     stop(paste("Check spelling, there are no columns named", cols))
   }
 
-  if(!missing.action %in% c("mean","all","first","delete")){
+  if(any(!missing.action %in% c("mean","all","first","delete"))){
     stop(paste0("Unrecognised option '",missing.action,"' for missing.action. Options are: 'mean','first','all','delete'"))
   }
 
   data = cbind.data.frame(data,N=1:nrow(data))
 
   # Decide which data to keep from double/triple scans
-  data = data %>% MOAS::site_keeper(keep=keep)
+  data = data %>% MOAS::site_keeper(keep, quiet=T)
 
   # Get data from participants who have FS data available
   dt = names(data)[grep("aparc", names(data))[1]]

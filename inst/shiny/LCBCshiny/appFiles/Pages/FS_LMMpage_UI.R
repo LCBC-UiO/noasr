@@ -65,7 +65,7 @@ output$chooseNumeric = shiny::renderUI({
 })
 
 FS_Table = shiny::eventReactive(input$goClick_FS_LMM, {
-  print(input$actionFS)
+  print(paste(input$actionFS, input$choiceGrouping, input$choiceNumeric,input$keepFS))
   if(purrr::is_empty(input$choiceGrouping) | purrr::is_empty(input$choiceNumeric)){
     tmp = MOAS::fs_lmm(data=subDATA(), grouping.var="Site_Name",numeric.var="Age", missing.action=input$actionFS,keep=input$keepFS)
   }else{

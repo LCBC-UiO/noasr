@@ -61,7 +61,7 @@ subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
 
   if(input$tickSelect) tmp = tmp %>% dplyr::filter(tmp %>% dplyr::select(dplyr::one_of(input$ExtraColsDATA)) %>% stats::complete.cases())
 
-  if(input$actionDoubles != "asis") tmp = tmp %>% MOAS::site_keeper(input$actionDoubles)
+  if(input$actionDoubles != "asis") tmp = tmp %>% MOAS::site_keeper(input$actionDoubles, quiet=T)
 
   return(tmp %>% MOAS::na.col.rm())
 })
