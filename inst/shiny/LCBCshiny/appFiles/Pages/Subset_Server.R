@@ -21,11 +21,11 @@ output$actionTableHelp = shiny::renderUI({
 
   help = switch(input$actionTable,
                 "none" = "",
-                "Site_Name"     = "one row per scanning and project wave (prefix 'S[site]')",
-                "Project_Wave"  = "one row per participant (prefix 'W[x]')",
+                "Site_Name"         = "one row per scanning and project wave (prefix 'S[site]')",
+                "Project_Wave"      = "one row per participant (prefix 'W[x]')",
                 "Subject_Timepoint" = "one row per participant (prefix 'tp[x]')",
-                "s2w"           = "one row per participant (prefix 'S[site]_W')",
-                "t2w"           = "one row per participant (prefix 'tp[x]_W')"
+                "s2w"               = "one row per participant (prefix 'S[site]_W')",
+                "t2w"               = "one row per participant (prefix 'tp[x]_W')"
   )
 
   if(input$actionDoubles != "asis" & input$actionTable == "Site_Name"){
@@ -61,7 +61,7 @@ subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
 
   if(input$tickSelect) tmp = tmp %>% dplyr::filter(tmp %>% dplyr::select(dplyr::one_of(input$ExtraColsDATA)) %>% stats::complete.cases())
 
-  if(input$actionTable != "asis") tmp = tmp %>% MOAS::site_keeper(input$actionTable)
+  if(input$actionDoubles != "asis") tmp = tmp %>% MOAS::site_keeper(input$actionDoubles)
 
   return(tmp %>% MOAS::na.col.rm())
 })
