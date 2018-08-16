@@ -5,13 +5,13 @@
 \title{Creates TSD folder names for MRI data location, or
 project wave from TSD folder names}
 \usage{
-tsdify(DATA, reverse = F)
+tsdify(data, reverse = F)
 }
 \arguments{
+\item{data}{The MOAS or a MOAS generated file.}
+
 \item{reverse}{logical. If FALSE (default) creates TSD folder
 strings. If TRUE, finds project wave number from Folder information.}
-
-\item{data}{The MOAS or a MOAS generated file.}
 }
 \value{
 either an string vector of folder names (default), or a
@@ -23,7 +23,7 @@ TSD folder location of MRI data is, or to figure out the project
 wave from TSD folder names.
 }
 \examples{
- tsdify(Data)
- tsdify(Data, reverse=TRUE)
+ tsdify(data)
+ tsdify(data, reverse=TRUE)
 
 }

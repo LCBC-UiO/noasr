@@ -28,7 +28,6 @@
 #' @importFrom magrittr "%>%"
 #'
 #' @export
-#'
 site_keeper = function(data, keep = "long") {
   switch(keep,
          long = warning("Keeping data from scanner with most data from double/triple scanned."),

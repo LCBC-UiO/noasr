@@ -9,7 +9,6 @@
 #' @examples
 #'  calc_hour(data)
 #'
-#' @importFrom MOAS count_chars
 #' @importFrom dplyr mutate
 #' @importFrom magrittr "%>%"
 #'

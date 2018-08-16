@@ -3,22 +3,20 @@ Title: MOAS convenience functions
 Version: 0.0.0.9000
 Authors@R: person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"))
 Description: Functions created to work well with LCBC's Mother of All Spreadsheet data.
-License: none
+License: MIT
 Encoding: UTF-8
 RoxygenNote: 6.1.0
-Imports: tidyverse,
-    magrittr,
+Imports: magrittr,
     stringr,
     utils,
     lubridate,
     stats,
-    rio,
-    plotly,
-    DT,
-    png,
-    svglite,
     shiny,
-    stringi
+    stringi,
+    tidyr,
+    dplyr,
+    purrr
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    tidyverse
 VignetteBuilder: knitr

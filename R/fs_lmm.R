@@ -29,7 +29,6 @@
 #' site_keeper(MOAS, "ousSkyra")
 #' site_keeper(MOAS, "ousAvanto")
 #'
-#' @importFrom MOAS site_keeper
 #' @importFrom dplyr filter mutate ungroup transmute select one_of mutate_all funs group_by summarise_all left_join first everything
 #' @importFrom stats na.omit
 #' @importFrom utils write.table

@@ -22,6 +22,6 @@ between test and MRI, baseline to every subsequent testing, and
 intervall between timepoints.
 }
 \examples{
-calc_ages(Data)
+calc_ages(data)
 
 }

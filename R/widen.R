@@ -22,7 +22,6 @@
 #' dt = widen(MOAS, by='Site_Name')
 #' df = widen(dt, by='Project_Wave')
 #'
-#' @importFrom MOAS na.col.rm
 #' @importFrom dplyr select matches one_of everything distinct arrange_ arrange filter group_by summarise anti_join left_join mutate
 #' @importFrom purrr is_empty
 #' @importFrom stats na.omit

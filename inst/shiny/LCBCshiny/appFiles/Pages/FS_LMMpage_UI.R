@@ -66,7 +66,13 @@ output$optsFS = shiny::renderUI({
       shiny::radioButtons("keepFS", label="Which data from double/triple scans to keep",
                           choices=c("long", "ousAvanto","ousSkyra","ousPrisma"), inline=T),
       shiny::uiOutput("keepFSHelp")
-      )
+    )
+  }else{
+    shiny::wellPanel(
+      shiny::radioButtons("keepFS", label="Which data from double/triple scans to keep",
+                          choices=c("long", "ousAvanto","ousSkyra","ousPrisma"), inline=T),
+      shiny::uiOutput("keepFSHelp")
+    )
   }
 })
 

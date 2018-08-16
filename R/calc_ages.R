@@ -13,7 +13,7 @@
 #' @return a data frame with added/replaced age and timepoint variables.
 
 #' @examples
-#' calc_ages(Data)
+#' calc_ages(data)
 #'
 #' @importFrom magrittr "%>%"
 #' @importFrom stats ave na.omit time
@@ -62,15 +62,13 @@ calc_ages = function(data) {
     dplyr::select(CrossProject_ID, Project_Number, Project_Wave) %>%
     unique %>%
     dplyr::group_by(CrossProject_ID) %>%
-    dplyr::mutate(Subject_Timepoint = stats::ave(CrossProject_ID,
-                                                                                                                                                                               CrossProject_ID, FUN = seq_along))
+    dplyr::mutate(Subject_Timepoint = stats::ave(CrossProject_ID,CrossProject_ID, FUN = seq_along))
 
   data = data %>%
     dplyr::select(-dplyr::one_of("Subject_Timepoint")) %>%
     dplyr::left_join(tmp, by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>%
     dplyr::group_by(CrossProject_ID) %>%
-    dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), difftime(Test_Date,
-                                                                                                                                                                                                                                                                                                                                                                                    0, stats::lag(Interval_LastVisit, 1), Interval_LastVisit))
+    dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), difftime(Test_Date,MRI_Date), NA))
 
   data = data %>%
     dplyr::arrange(CrossProject_ID, Subject_Timepoint) %>%

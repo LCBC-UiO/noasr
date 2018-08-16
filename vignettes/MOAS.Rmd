@@ -23,8 +23,6 @@ After the package is installed, the package needs to be called in every script o
 
 ```{r "library", eval=TRUE, warning=F, error=F}
 library(MOAS)
-library(tidyverse) #Recommended
-
 ```
 
 The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. 
