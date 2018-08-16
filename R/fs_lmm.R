@@ -63,16 +63,18 @@ fs_lmm = function(data,
   data = data %>% MOAS::site_keeper(keep, quiet=T)
 
   # Get data from participants who have FS data available
-  data = data %>%
-    dplyr::filter_at(dplyr::vars(dplyr::contains("aparc")),dplyr::all_vars(!is.na(.)))
+  dt = names(data)[grep("aparc", names(data))[1]]
 
+  if(is.null(dt)){
+    stop("Data must have at least one 'aparc' column for data verification. Please add one MRI column.")
+  }
+
+  data = data %>% dplyr::filter(!is.na(get(dt)))
   print("c'mon!")
 
   data = data %>%
-    dplyr::mutate(Folder = as.character(Folder),
-                  Site_Number = as.character(Site_Number),
-                  Site_Name = as.character(Site_Name)
-    ) %>%
+    dplyr::mutate_at(dplyr::vars(Folder,Site_Number,Site_Name),
+                     dplyr::all_vars(as.character(.))) %>%
     dplyr::ungroup()
   names(data)[1] = "ID"
 
@@ -188,7 +190,7 @@ fs_lmm = function(data,
     dplyr::mutate(time = dplyr::first(Age_orig)) %>%
     dplyr::mutate(time = Age_orig-time) %>%
     as.data.frame() %>%
-    dplyr::select(-Age_orig,-N)
+    select(-Age_orig,-N)
 
   print(", dude")
   #Rename column two to what Freesurfer wants it to be.
