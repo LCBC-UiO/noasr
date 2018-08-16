@@ -18,7 +18,7 @@ output$FS_LMMPage = shiny::renderUI({
 
       shiny::column(4,shiny::wellPanel(
         shiny::radioButtons("actionFS", label="Action to take for values in 'Numeric' columns",
-                            choices=c("Mean","All","First","Delete"), inline=T),
+                            choices=c("Mean"="mean","All"="all","First"="first","Delete"="delete"), inline=T),
         shiny::uiOutput("actionFSHelp"))),
 
       shiny::column(4,shiny::wellPanel(
@@ -65,7 +65,7 @@ output$chooseNumeric = shiny::renderUI({
 })
 
 FS_Table = shiny::eventReactive(input$goClick_FS_LMM, {
-  print(subDATA() %>% head())
+  print(input$actionFS)
   if(purrr::is_empty(input$choiceGrouping) | purrr::is_empty(input$choiceNumeric)){
     tmp = MOAS::fs_lmm(data=subDATA(), grouping.var="Site_Name",numeric.var="Age", missing.action=input$actionFS,keep=input$keepFS)
   }else{
@@ -75,15 +75,16 @@ FS_Table = shiny::eventReactive(input$goClick_FS_LMM, {
                        missing.action=input$actionFS,
                        keep=input$keepFS)
   }
+  print(tmp %>% head)
   return(tmp)
 })
 
 output$actionFSHelp = shiny::renderUI({
   help = switch(input$actionFS,
-                Mean   = "Replace missing values with the mean of the participant. Keeps as much available data as possible.",
-                Delete = "Delete all missing values from the dataset.",
-                First  = "Replace all values with the first recorded instance for the participant. Circumvent change-change relationship.",
-                All    = "Replace all values with the mean of the participant. Assumes a stable trait."
+                mean   = "Replace missing values with the mean of the participant. Keeps as much available data as possible.",
+                delete = "Delete all missing values from the dataset.",
+                first  = "Replace all values with the first recorded instance for the participant. Circumvent change-change relationship.",
+                all    = "Replace all values with the mean of the participant. Assumes a stable trait."
   )
   shiny::helpText(help)
 })

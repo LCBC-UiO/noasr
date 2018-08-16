@@ -43,6 +43,20 @@ fs_lmm = function(data,
                   keep = "long",
                   file){
 
+  if(missing(grouping.var) | missing(numeric.var)){
+    stop("Both grouping and numeric variables must be supplied.")
+  }
+
+  noCol = !(c(grouping.var,numeric.var) %in% names(data) )
+  if(any(noCol)){
+    cols = paste(c(grouping.var,numeric.var)[noCol], collapse=", ")
+    stop(paste("Check spelling, there are no columns named", cols))
+  }
+
+  if(!missing.action %in% c("mean","all","first","delete")){
+    stop(paste0("Unrecognised option '",missing.action,"' for missing.action. Options are: 'mean','first','all','delete'"))
+  }
+
   data = cbind.data.frame(data,N=1:nrow(data))
 
   # Decide which data to keep from double/triple scans
@@ -107,8 +121,11 @@ fs_lmm = function(data,
       stats::na.omit()
 
     NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
+
   }
 
+
+  print(missing.action)
   if(missing.action != "delete"){
     FS_data =  switch(missing.action,
                       #Replace missing values with the mean of other values for the same person
