@@ -57,15 +57,16 @@ fs_lmm = function(data,
     stop(paste0("Unrecognised option '",missing.action,"' for missing.action. Options are: 'mean','first','all','delete'"))
   }
 
-  print("c'mon!")
   data = cbind.data.frame(data,N=1:nrow(data))
 
   # Decide which data to keep from double/triple scans
   data = data %>% MOAS::site_keeper(keep, quiet=T)
 
   # Get data from participants who have FS data available
-  dt = names(data)[grep("aparc", names(data))[1]]
-  data = data %>% dplyr::filter(!is.na(get(dt)))
+  data = data %>%
+    dplyr::filter_at(dplyr::vars(dplyr::contains("aparc")),dplyr::all_vars(!is.na(.)))
+
+  print("c'mon!")
 
   data = data %>%
     dplyr::mutate(Folder = as.character(Folder),
@@ -187,7 +188,7 @@ fs_lmm = function(data,
     dplyr::mutate(time = dplyr::first(Age_orig)) %>%
     dplyr::mutate(time = Age_orig-time) %>%
     as.data.frame() %>%
-    select(-Age_orig,-N)
+    dplyr::select(-Age_orig,-N)
 
   print(", dude")
   #Rename column two to what Freesurfer wants it to be.
