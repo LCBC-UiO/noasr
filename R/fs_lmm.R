@@ -86,9 +86,7 @@ fs_lmm = function(data,
     dplyr::mutate_at(dplyr::vars(Folder,Site_Number,Site_Name),
                      dplyr::all_vars(as.character(.))) %>%
     dplyr::ungroup()
-  names(data)[1] = "ID"
-
-  print("c'mon!")
+  names(data)[grep("CrossProject_ID",names(data))] = "ID"
 
   FS_data = data %>%
     dplyr::transmute(N=N,
@@ -96,6 +94,8 @@ fs_lmm = function(data,
                      ID=ID,
                      time=Interval_FirstVisit) %>%
     stats::na.omit()
+
+  print("c'mon!")
 
   print("where")
   # Remove omitted rows above in the incoming data. For merging purposes
@@ -139,7 +139,6 @@ fs_lmm = function(data,
 
   print("you")
 
-  print(missing.action)
   if(missing.action != "delete"){
     FS_data =  switch(missing.action,
                       #Replace missing values with the mean of other values for the same person
