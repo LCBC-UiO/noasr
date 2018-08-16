@@ -41,7 +41,7 @@ fs_lmm = function(data,
                   numeric.var = c(""),
                   missing.action = "mean",
                   keep = "long",
-                  file = NULL){
+                  file){
 
   data = cbind.data.frame(data,N=1:nrow(data))
 
@@ -98,13 +98,14 @@ fs_lmm = function(data,
   # Get the mean numeric values for each particiant
   MEANS = FS_data %>%
     dplyr::group_by(ID) %>%
-    dplyr::select(dplyr::one_of(numeric.var))  %>%
+    dplyr::select(ID, dplyr::one_of(numeric.var))  %>%
     dplyr::summarise_all(dplyr::funs(mean(.,na.rm=T))) %>%
-    as.data.frame() %>% stats::na.omit()
+    as.data.frame() %>%
+    stats::na.omit()
 
   NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
 
-  if(missing.action != "Delete"){
+  if(missing.action != "delete"){
     FS_data =  switch(missing.action,
                       #Replace missing values with the mean of other values for the same person
                       "mean" = {
@@ -122,7 +123,7 @@ fs_lmm = function(data,
                           dplyr::left_join(MEANS, by="ID")
 
                         #Replace all values with the first instance for the same person.
-                      },"First" = {
+                      },"first" = {
                         FIRSTS = FS_data %>%
                           dplyr::group_by(ID) %>%
                           dplyr::select(dplyr::one_of(numeric.var)) %>%
@@ -169,11 +170,11 @@ fs_lmm = function(data,
 
   #Rename column two to what Freesurfer wants it to be.
   FS_data = FS_data %>%
-    dplyr::select(`fsid-base`=paste("base",ID,Site_Number,sep="_")) %>%
-    dplyr::mutate(-ID, -Site_Number)  %>%
-    dplyr::select(fsid, `fsid-base`, time, dplyr::select(grouping.var), dplyr::one_of(numeric.var), dplyr::everything())
+    dplyr::mutate(`fsid-base`=paste("base",ID,Site_Number,sep="_")) %>%
+    dplyr::select(-ID, -Site_Number)  %>%
+    dplyr::select(fsid, `fsid-base`, time, dplyr::one_of(grouping.var), dplyr::one_of(numeric.var), dplyr::everything())
 
-  if(!is.null(file)) utils::write.table(FS_data, file=file, sep=",", dec=".")
+  if(!missing(file)) utils::write.table(FS_data, file=file, sep=",", dec=".")
 
   return(FS_data)
 }
