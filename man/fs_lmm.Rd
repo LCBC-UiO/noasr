@@ -6,7 +6,7 @@
 mixed models}
 \usage{
 fs_lmm(data, grouping.var = c(""), numeric.var = c(""),
-  missing.action = "mean", keep = "long", file = NULL)
+  missing.action = "mean", keep = "long", file)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}

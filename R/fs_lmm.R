@@ -37,8 +37,8 @@
 #' @export
 
 fs_lmm = function(data,
-                  grouping.var = c(""),
-                  numeric.var = c(""),
+                  grouping.var,
+                  numeric.var,
                   missing.action = "mean",
                   keep = "long",
                   file){
@@ -54,56 +54,60 @@ fs_lmm = function(data,
 
   data = data %>%
     dplyr::mutate(Folder = as.character(Folder),
-           Site_Number = as.character(Site_Number),
-           Site_Name = as.character(Site_Name)
+                  Site_Number = as.character(Site_Number),
+                  Site_Name = as.character(Site_Name)
     ) %>%
     dplyr::ungroup()
   names(data)[1] = "ID"
 
   FS_data = data %>%
     dplyr::transmute(N=N,
-              fsid=as.character(Folder),
-              ID=ID,
-              time=Interval_FirstVisit) %>%
+                     fsid=as.character(Folder),
+                     ID=ID,
+                     time=Interval_FirstVisit) %>%
     stats::na.omit()
 
   # Remove omitted rows above in the incoming data. For merging purposes
   data = data %>% dplyr::filter(N %in% FS_data$N)
 
-  # Get the grouping.var data, and create one column with them pasted into eachother. Reduce factor levels to only the present ones
-  GROUPS = data %>%
-    dplyr::select(ID,N,dplyr::one_of(grouping.var)) %>%
-    dplyr::mutate_all(dplyr::funs(factor)) %>%
-    stats::na.omit()
+  if(!(missing(grouping.var))){
+    # Get the grouping.var data, and create one column with them pasted into eachother. Reduce factor levels to only the present ones
+    GROUPS = data %>%
+      dplyr::select(ID,N,dplyr::one_of(grouping.var)) %>%
+      dplyr::mutate_all(dplyr::funs(factor)) %>%
+      stats::na.omit()
 
-  #Create model.matrix (GLM) for the group variables
-  Group.matrix = eval(parse(text=paste("model.matrix(~ ",paste(grouping.var, collapse="+"),",data=GROUPS)"))) %>% as.data.frame()
-  tmp=names(Group.matrix)[-1]; Group.matrix = Group.matrix[,-1] %>% as.data.frame()
-  for(i in 1:length(grouping.var)){
-    names(Group.matrix) = gsub(grouping.var[i], paste("1.",grouping.var[i],":",sep=""), tmp)
-    tmp = names(Group.matrix)
+    #Create model.matrix (GLM) for the group variables
+    Group.matrix = eval(parse(text=paste("model.matrix(~ ",paste(grouping.var, collapse="+"),",data=GROUPS)"))) %>% as.data.frame()
+    tmp=names(Group.matrix)[-1]; Group.matrix = Group.matrix[,-1] %>% as.data.frame()
+    for(i in 1:length(grouping.var)){
+      names(Group.matrix) = gsub(grouping.var[i], paste("1.",grouping.var[i],":",sep=""), tmp)
+      tmp = names(Group.matrix)
+    }
+
+    #Remove correspinding rows in the data frames
+    FS_data = FS_data %>% dplyr::filter(N %in% GROUPS$N);
+    data = data %>% dplyr::filter(N %in% GROUPS$N)
+    GROUPS = GROUPS %>% dplyr::select(-N, -ID)
   }
 
-  #Remove correspinding rows in the data frames
-  FS_data = FS_data %>% dplyr::filter(N %in% GROUPS$N);
-  data = data %>% dplyr::filter(N %in% GROUPS$N)
-  GROUPS = GROUPS %>% dplyr::select(-N, -ID)
+  if(!missing(numeric.var)){
+    # Get the numerical data
+    NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
 
-  # Get the numerical data
-  NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
+    #Combine the Four matrices
+    FS_data = cbind.data.frame(FS_data,GROUPS,Group.matrix,NUMERIC)
 
-  #Combine the Four matrices
-  FS_data = cbind.data.frame(FS_data,GROUPS,Group.matrix,NUMERIC)
+    # Get the mean numeric values for each particiant
+    MEANS = FS_data %>%
+      dplyr::group_by(ID) %>%
+      dplyr::select(ID, dplyr::one_of(numeric.var))  %>%
+      dplyr::summarise_all(dplyr::funs(mean(.,na.rm=T))) %>%
+      as.data.frame() %>%
+      stats::na.omit()
 
-  # Get the mean numeric values for each particiant
-  MEANS = FS_data %>%
-    dplyr::group_by(ID) %>%
-    dplyr::select(ID, dplyr::one_of(numeric.var))  %>%
-    dplyr::summarise_all(dplyr::funs(mean(.,na.rm=T))) %>%
-    as.data.frame() %>%
-    stats::na.omit()
-
-  NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
+    NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
+  }
 
   if(missing.action != "delete"){
     FS_data =  switch(missing.action,
@@ -144,7 +148,7 @@ fs_lmm = function(data,
   FS_data = FS_data %>% stats::na.omit()
   data = data %>% dplyr::filter(N %in% FS_data$N)
 
-  if("Age" %in% numeric.var){
+  if(!missing(numeric.var) & "Age" %in% numeric.var){
     FS_data = FS_data %>%
       dplyr::group_by(ID) %>%
       dplyr::mutate(Age=dplyr::first(Age)) %>%

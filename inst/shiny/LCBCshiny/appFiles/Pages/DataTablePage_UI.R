@@ -13,7 +13,6 @@ output$DataTablePage = shiny::renderUI({
                shiny::downloadButton("download_subDATA",
                               label="Download table")),
         style="background-color: transparent; border-color: transparent; margin-bottom: 2%;")),
-      shiny::HTML("<p align='center' style='color: #626262; font-size: 12px;'> Random sample of the subsetted data. Scroll sideways to see all columns"),
       shiny::wellPanel(shiny::p(shiny::textOutput("N_DATA")),
                 shiny::fluidRow(DT::dataTableOutput("table_DATA") %>%
                                   shinycssloaders::withSpinner(type = 5, color = "#66bfdd")))

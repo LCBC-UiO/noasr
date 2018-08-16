@@ -42,7 +42,6 @@ output$FS_LMMPage = shiny::renderUI({
         shiny::downloadButton("download_FS_LMM", label="Download table"),
         style="background-color: transparent; border-color: transparent; margin-bottom: 2%;")),
       shiny::wellPanel(shiny::p(shiny::textOutput("N_FS_LMM")),
-                       shiny::HTML("<p align='center' style='color: #626262; font-size: 12px;'> Random sample of the subsetted data. Scroll sideways to see all columns"),
                        shiny::fluidRow(DT::dataTableOutput("table_FS_LMM") %>% shinycssloaders::withSpinner(type = 5, color = "#66bfdd")))
     )
   )
@@ -66,8 +65,9 @@ output$chooseNumeric = shiny::renderUI({
 })
 
 FS_Table = shiny::eventReactive(input$goClick_FS_LMM, {
+  print(subDATA() %>% head())
   if(purrr::is_empty(input$choiceGrouping) | purrr::is_empty(input$choiceNumeric)){
-    tmp = MOAS::fs_lmm(data=subDATA(), grouping.var="Sex",numeric.var="Age", missing.action=input$actionFS,keep=input$keepFS)
+    tmp = MOAS::fs_lmm(data=subDATA(), grouping.var="Site_Name",numeric.var="Age", missing.action=input$actionFS,keep=input$keepFS)
   }else{
     tmp = MOAS::fs_lmm(data=subDATA(),
                        grouping.var=input$choiceGrouping,
