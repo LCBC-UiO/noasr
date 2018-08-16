@@ -24,9 +24,11 @@
 #' site_keeper(MOAS, 'ousSkyra')
 #' site_keeper(MOAS, 'ousAvanto')
 #'
-#' @import tidyverse
+#' @importFrom dplyr group_by add_tally ungroup filter select mutate
+#' @importFrom magrittr "%>%"
+#'
 #' @export
-
+#'
 site_keeper = function(data, keep = "long") {
   switch(keep,
          long = warning("Keeping data from scanner with most data from double/triple scanned."),
@@ -37,21 +39,21 @@ site_keeper = function(data, keep = "long") {
   # Decide which data to keep from double/triple scans
   if(keep %in% "long"){
     data = data %>%
-      group_by(CrossProject_ID, Site_Name) %>%
-      add_tally %>%
-      ungroup %>%
-      group_by(CrossProject_ID) %>%
-      filter(max(n)==n) %>%
-      select(-n)
+      dplyr::group_by(CrossProject_ID, Site_Name) %>%
+      dplyr::add_tally %>%
+      dplyr::ungroup %>%
+      dplyr::group_by(CrossProject_ID) %>%
+      dplyr::filter(max(n)==n) %>%
+      dplyr::select(-n)
 
   }else{
 
-    data = data %>% group_by(CrossProject_ID, Subject_Timepoint) %>%
-      add_tally %>%
-      ungroup %>%
-      mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
-      filter(Keep) %>%
-      select(-n, -Keep)
+    data = data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
+      dplyr::add_tally %>%
+      dplyr::ungroup %>%
+      dplyr::mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
+      dplyr::filter(Keep) %>%
+      dplyr::select(-n, -Keep)
   }
   return(data)
 }

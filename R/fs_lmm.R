@@ -29,8 +29,11 @@
 #' site_keeper(MOAS, "ousSkyra")
 #' site_keeper(MOAS, "ousAvanto")
 #'
-#' @importFrom utils type.convert write.table
-#' @import tidyverse
+#' @importFrom MOAS site_keeper
+#' @importFrom dplyr filter mutate ungroup transmute select one_of mutate_all funs group_by summarise_all left_join first everything
+#' @importFrom stats na.omit
+#' @importFrom utils write.table
+#' @importFrom magrittr "%>%"
 #'
 #' @export
 
@@ -44,35 +47,35 @@ fs_lmm = function(data,
   data = cbind.data.frame(data,N=1:nrow(data))
 
   # Decide which data to keep from double/triple scans
-  data = data %>% site_keeper(keep=keep)
+  data = data %>% MOAS::site_keeper(keep=keep)
 
   # Get data from participants who have FS data available
   dt = names(data)[grep("aparc", names(data))[1]]
-  data = data %>% filter(!is.na(get(dt)))
+  data = data %>% dplyr::filter(!is.na(get(dt)))
 
   data = data %>%
-    mutate(Folder = as.character(Folder),
+    dplyr::mutate(Folder = as.character(Folder),
            Site_Number = as.character(Site_Number),
            Site_Name = as.character(Site_Name)
     ) %>%
-    ungroup()
+    dplyr::ungroup()
   names(data)[1] = "ID"
 
   FS_data = data %>%
-    transmute(N=N,
+    dplyr::transmute(N=N,
               fsid=as.character(Folder),
               ID=ID,
               time=Interval_FirstVisit) %>%
-    na.omit()
+    stats::na.omit()
 
   # Remove omitted rows above in the incoming data. For merging purposes
-  data = data %>% filter(N %in% FS_data$N)
+  data = data %>% dplyr::filter(N %in% FS_data$N)
 
   # Get the grouping.var data, and create one column with them pasted into eachother. Reduce factor levels to only the present ones
   GROUPS = data %>%
-    select(ID,N,one_of(grouping.var)) %>%
-    mutate_all(funs(factor)) %>%
-    na.omit()
+    dplyr::select(ID,N,dplyr::one_of(grouping.var)) %>%
+    dplyr::mutate_all(dplyr::funs(factor)) %>%
+    stats::na.omit()
 
   #Create model.matrix (GLM) for the group variables
   Group.matrix = eval(parse(text=paste("model.matrix(~ ",paste(grouping.var, collapse="+"),",data=GROUPS)"))) %>% as.data.frame()
@@ -83,22 +86,22 @@ fs_lmm = function(data,
   }
 
   #Remove correspinding rows in the data frames
-  FS_data = FS_data %>% filter(N %in% GROUPS$N);
-  data = data %>% filter(N %in% GROUPS$N)
-  GROUPS = GROUPS %>% select(-N, -ID)
+  FS_data = FS_data %>% dplyr::filter(N %in% GROUPS$N);
+  data = data %>% dplyr::filter(N %in% GROUPS$N)
+  GROUPS = GROUPS %>% dplyr::select(-N, -ID)
 
   # Get the numerical data
-  NUMERIC = data %>% select(one_of(numeric.var))
+  NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
 
   #Combine the Four matrices
   FS_data = cbind.data.frame(FS_data,GROUPS,Group.matrix,NUMERIC)
 
   # Get the mean numeric values for each particiant
   MEANS = FS_data %>%
-    group_by(ID) %>%
-    select(one_of(numeric.var))  %>%
-    summarise_all(funs(mean(.,na.rm=T))) %>%
-    as.data.frame() %>% na.omit()
+    dplyr::group_by(ID) %>%
+    dplyr::select(dplyr::one_of(numeric.var))  %>%
+    dplyr::summarise_all(dplyr::funs(mean(.,na.rm=T))) %>%
+    as.data.frame() %>% stats::na.omit()
 
   NumIdx = grep(paste(numeric.var,collapse="|"), names(FS_data))
 
@@ -116,19 +119,19 @@ fs_lmm = function(data,
                         #Replace all values with the mean of other values for the same person.
                       },"all" = {
                         FS_data %>%
-                          select(-one_of(numeric.var)) %>% left_join(MEANS, by="ID")
+                          dplyr::select(-dplyr::one_of(numeric.var)) %>% dplyr::left_join(MEANS, by="ID")
 
                         #Replace all values with the first instance for the same person.
                       },"First" = {
                         FIRSTS = FS_data %>%
-                          group_by(ID) %>%
-                          select(one_of(numeric.var)) %>%
-                          na.omit() %>%
-                          summarise_all(funs(first(.))) %>%
+                          dplyr::group_by(ID) %>%
+                          dplyr::select(dplyr::one_of(numeric.var)) %>%
+                          stats::na.omit() %>%
+                          dplyr::summarise_all(dplyr::funs(dplyr::first(.))) %>%
                           as.data.frame()
 
                         FS_data %>%
-                          select(-one_of(numeric.var)) %>% left_join(FIRSTS, by="ID")
+                          dplyr::select(-dplyr::one_of(numeric.var)) %>% dplyr::left_join(FIRSTS, by="ID")
                       }
 
     ) #Switch end
@@ -136,11 +139,11 @@ fs_lmm = function(data,
 
   # Delete instances where there still is missing values, it means we cannot compute them
   # If missing.action is set to "delete" then this the above ifs are circumvented and this line deletes all rows that include missing values.
-  FS_data = FS_data %>% na.omit()
-  data = data %>% filter(N %in% FS_data$N)
+  FS_data = FS_data %>% stats::na.omit()
+  data = data %>% dplyr::filter(N %in% FS_data$N)
 
   if("Age" %in% numeric.var){
-    FS_data = FS_data %>% group_by(ID) %>% mutate(Age=first(Age)) %>% as.data.frame()
+    FS_data = FS_data %>% dplyr::group_by(ID) %>% dplyr::mutate(Age=dplyr::first(Age)) %>% as.data.frame()
     warning("'Age' is set to base-line constant, to avoid colinearity with 'time'")
   }
 
@@ -154,18 +157,18 @@ fs_lmm = function(data,
   FS_data$Age_orig = data$Age
   FS_data$Site_Number = data$Site_Number
 
-  FS_data = FS_data %>% group_by(ID) %>%
-    mutate(time = first(Age_orig)) %>%
-    mutate(time = Age_orig-time) %>%
+  FS_data = FS_data %>% dplyr::group_by(ID) %>%
+    dplyr::mutate(time = dplyr::first(Age_orig)) %>%
+    dplyr::mutate(time = Age_orig-time) %>%
     as.data.frame() %>% select(-Age_orig,-N)
 
   #Rename column two to what Freesurfer wants it to be.
   FS_data = FS_data %>%
-    mutate(`fsid-base`=paste("base",ID,Site_Number,sep="_")) %>%
-    select(-ID, -Site_Number)  %>%
-    select(fsid, `fsid-base`, time, one_of(grouping.var), one_of(numeric.var), everything())
+    dplyr::select(`fsid-base`=paste("base",ID,Site_Number,sep="_")) %>%
+    dplyr::mutate(-ID, -Site_Number)  %>%
+    dplyr::select(fsid, `fsid-base`, time, dplyr::select(grouping.var), dplyr::one_of(numeric.var), dplyr::everything())
 
-  if(!is.null(file)) write.table(FS_data, file=file, sep=",", dec=".")
+  if(!is.null(file)) utils::write.table(FS_data, file=file, sep=",", dec=".")
 
   return(FS_data)
 }

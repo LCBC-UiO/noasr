@@ -1,12 +1,13 @@
-library(shinycssloaders); library(plotly); library(shiny);
+library(MOAS); library(shinycssloaders); library(plotly); library(shiny);
+library(Cairo)
 library(tidyverse); library(rio); library(svglite); library(DT); library(RColorBrewer)
 
 #Source all the necessary functions
 lapply(list.files("subscripts/", pattern=".R$",full.names = T), source)
 
 
-ConversionTab = import("Documentation/Project_Harmonization.xlsx") %>%
-   select(1:5)
+ConversionTab = rio::import("Documentation/Project_Harmonization.xlsx") %>%
+   dplyr::select(1:5)
 
 
 # Get some global variables

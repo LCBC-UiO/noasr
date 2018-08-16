@@ -14,10 +14,8 @@
 #' launch_LCBCshiny()
 #' launch_LCBCshiny(MOAS)
 #'
-#' @import tidyverse
-#' @import DT
-#' @import shiny
-#' @import plotly
+#' @importFrom shiny runApp
+#'
 #' @export
 
 launch_LCBCshiny <- function(data) {
@@ -37,5 +35,5 @@ launch_LCBCshiny <- function(data) {
     on.exit(rm(inDATA, envir=.GlobalEnv))
   }
 
-  shiny::runApp(appDir, display.mode = "normal")
+  shiny::runApp(appDir, quiet = T)
 }

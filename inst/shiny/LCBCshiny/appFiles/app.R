@@ -5,25 +5,25 @@ options(shiny.maxRequestSize=100*1024^2)
 # VARIABLES code --------------
 
 #In case something goes wrong with loading the inDATA, prompt manual upload
-if(!exists("inDATA")) { 
-  InFILE = eventReactive(input$inDATA,{
+if(!exists("inDATA")) {
+  InFILE = shiny::eventReactive(input$inDATA,{
     if ( is.null(input$inDATA)) return(NULL)
-    inFile = isolate({input$inDATA })
+    inFile = shiny::isolate({input$inDATA })
     tmp = get_file(inFile$datapath)
     return( tmp)
   })
-  
-  output$uploadFILE = renderUI({
-    fileInput("inDATA", "Upload the MOAS.RData file",
+
+  output$uploadFILE = shiny::renderUI({
+    shiny::fileInput("inDATA", "Upload the MOAS.RData file",
               multiple = FALSE,
               accept = c(".RData", ".rda"))
   })
-  
+
 }else{
   InFILE=function(){return(inDATA)}
 }
 
-DATA = reactive({
+DATA = shiny::reactive({
   InFILE()
 })
 
