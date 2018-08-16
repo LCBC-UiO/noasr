@@ -57,6 +57,7 @@ fs_lmm = function(data,
     stop(paste0("Unrecognised option '",missing.action,"' for missing.action. Options are: 'mean','first','all','delete'"))
   }
 
+  print("c'mon!")
   data = cbind.data.frame(data,N=1:nrow(data))
 
   # Decide which data to keep from double/triple scans
