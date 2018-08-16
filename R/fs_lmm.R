@@ -47,6 +47,15 @@ fs_lmm = function(data,
     stop("Both grouping and numeric variables must be supplied.")
   }
 
+  # Get data from participants who have FS data available
+  dt = names(data)[grep("aparc", names(data))[1]]
+  reqCols = c("CrossProject_ID","Site_Number","Project_Number","Project_Wave", "Folder","Interval_FirstVisit")
+  if(any(!reqCols %in% names(data)) | is.null(dt) ){
+    reqCols=paste(reqCols, collapse=", ")
+    stop(paste("Data must contain columns",reqCols, "and at least one 'aparc' column for data verification. Please add one MRI column."))
+  }
+
+
   noCol = !(c(grouping.var,numeric.var) %in% names(data) )
   if(any(noCol)){
     cols = paste(c(grouping.var,numeric.var)[noCol], collapse=", ")
@@ -61,13 +70,6 @@ fs_lmm = function(data,
 
   # Decide which data to keep from double/triple scans
   data = data %>% MOAS::site_keeper(keep, quiet=T)
-
-  # Get data from participants who have FS data available
-  dt = names(data)[grep("aparc", names(data))[1]]
-
-  if(is.null(dt)){
-    stop("Data must have at least one 'aparc' column for data verification. Please add one MRI column.")
-  }
 
   data = data %>% dplyr::filter(!is.na(get(dt)))
   print("c'mon!")

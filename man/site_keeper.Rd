@@ -4,7 +4,7 @@
 \alias{site_keeper}
 \title{Utility function for reducing double/triple scans to a single row}
 \usage{
-site_keeper(data, keep = "long")
+site_keeper(data, keep = "long", quiet = F)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
