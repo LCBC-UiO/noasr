@@ -22,7 +22,7 @@ clean_DF = function(data) {
     data = apply(data, 2, function(x) as.character(x)) %>% as.data.frame(stringsAsFactors = F)
 
     # Grab any column with an alhpabetic character or what is date
-    COLS = apply(data, 2, function(x) grepl("[a-zA-Z]|\\:", x) %>% any()) %>% unlist %>% unname() + grepl("date|dato", names(data),
+    COLS = apply(data, 2, function(x) grepl("[a-zA-Z]|\\:", x) %>% any()) %>% unlist() %>% unname() + grepl("date|dato", names(data),
         ignore.case = T)
     COLS = ifelse(COLS == 1, TRUE, FALSE)
 

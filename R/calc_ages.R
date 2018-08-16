@@ -60,7 +60,7 @@ calc_ages = function(data) {
 
   tmp = data %>%
     dplyr::select(CrossProject_ID, Project_Number, Project_Wave) %>%
-    unique %>%
+    unique() %>%
     dplyr::group_by(CrossProject_ID) %>%
     dplyr::mutate(Subject_Timepoint = stats::ave(CrossProject_ID,CrossProject_ID, FUN = seq_along))
 

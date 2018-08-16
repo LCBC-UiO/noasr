@@ -39,8 +39,8 @@ site_keeper = function(data, keep = "long") {
   if(keep %in% "long"){
     data = data %>%
       dplyr::group_by(CrossProject_ID, Site_Name) %>%
-      dplyr::add_tally %>%
-      dplyr::ungroup %>%
+      dplyr::add_tally() %>%
+      dplyr::ungroup() %>%
       dplyr::group_by(CrossProject_ID) %>%
       dplyr::filter(max(n)==n) %>%
       dplyr::select(-n)
@@ -48,8 +48,8 @@ site_keeper = function(data, keep = "long") {
   }else{
 
     data = data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
-      dplyr::add_tally %>%
-      dplyr::ungroup %>%
+      dplyr::add_tally() %>%
+      dplyr::ungroup() %>%
       dplyr::mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
       dplyr::filter(Keep) %>%
       dplyr::select(-n, -Keep)

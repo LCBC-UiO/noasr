@@ -81,7 +81,7 @@ widen = function(data, by, ColumnList) {
       dplyr::anti_join(tmp, by = c("CrossProject_ID", "Birth_Date", "Sex", "temp")) %>%
       rbind.data.frame(tmp) %>%
       stats::na.omit() %>%
-      dplyr::distinct
+      dplyr::distinct()
 
 
     ### This is where it usually goes wrong if there's something odd with the data

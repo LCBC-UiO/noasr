@@ -118,7 +118,8 @@ fs_lmm = function(data,
                         #Replace all values with the mean of other values for the same person.
                       },"all" = {
                         FS_data %>%
-                          dplyr::select(-dplyr::one_of(numeric.var)) %>% dplyr::left_join(MEANS, by="ID")
+                          dplyr::select(-dplyr::one_of(numeric.var)) %>%
+                          dplyr::left_join(MEANS, by="ID")
 
                         #Replace all values with the first instance for the same person.
                       },"First" = {
@@ -130,7 +131,8 @@ fs_lmm = function(data,
                           as.data.frame()
 
                         FS_data %>%
-                          dplyr::select(-dplyr::one_of(numeric.var)) %>% dplyr::left_join(FIRSTS, by="ID")
+                          dplyr::select(-dplyr::one_of(numeric.var)) %>%
+                          dplyr::left_join(FIRSTS, by="ID")
                       }
 
     ) #Switch end
@@ -142,7 +144,10 @@ fs_lmm = function(data,
   data = data %>% dplyr::filter(N %in% FS_data$N)
 
   if("Age" %in% numeric.var){
-    FS_data = FS_data %>% dplyr::group_by(ID) %>% dplyr::mutate(Age=dplyr::first(Age)) %>% as.data.frame()
+    FS_data = FS_data %>%
+      dplyr::group_by(ID) %>%
+      dplyr::mutate(Age=dplyr::first(Age)) %>%
+      as.data.frame()
     warning("'Age' is set to base-line constant, to avoid colinearity with 'time'")
   }
 
@@ -159,7 +164,8 @@ fs_lmm = function(data,
   FS_data = FS_data %>% dplyr::group_by(ID) %>%
     dplyr::mutate(time = dplyr::first(Age_orig)) %>%
     dplyr::mutate(time = Age_orig-time) %>%
-    as.data.frame() %>% select(-Age_orig,-N)
+    as.data.frame() %>%
+    select(-Age_orig,-N)
 
   #Rename column two to what Freesurfer wants it to be.
   FS_data = FS_data %>%
