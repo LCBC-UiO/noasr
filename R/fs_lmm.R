@@ -43,6 +43,8 @@ fs_lmm = function(data,
                   keep = "long",
                   file){
 
+  orig_data=data
+
   if(missing(grouping.var) | missing(numeric.var)){
     stop("Both grouping and numeric variables must be supplied.")
   }
@@ -73,19 +75,20 @@ fs_lmm = function(data,
     stop(paste0("Unrecognised option '",missing.action,"' for missing.action. Options are: 'mean','first','all','delete'"))
   }
 
-  data = cbind.data.frame(data,N=1:nrow(data))
+  data = cbind.data.frame(orig_data,N=1:nrow(orig_data))
 
   # Decide which data to keep from double/triple scans
   data = data %>% MOAS::site_keeper(keep, quiet=T)
 
   data = data %>% dplyr::filter(!is.na(get(dt)))
-  print("c'mon!")
 
   data = data %>%
     dplyr::mutate_at(dplyr::vars(Folder,Site_Number,Site_Name),
                      dplyr::all_vars(as.character(.))) %>%
     dplyr::ungroup()
   names(data)[1] = "ID"
+
+  print("c'mon!")
 
   FS_data = data %>%
     dplyr::transmute(N=N,
