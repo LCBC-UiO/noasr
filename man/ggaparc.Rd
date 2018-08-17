@@ -33,3 +33,6 @@ aparc areas.
 \seealso{
 [ggplot()], [aes()], [geom_polygon()], [coord_fixed()] from the ggplot2 package
 }
+\author{
+Athanasia Mowinckel and Didac Pineiro
+}

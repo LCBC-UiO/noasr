@@ -1,0 +1,93 @@
+---
+title: "Plotting Freesurfers aparc areas"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotting Freesurfers aparc areas}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(eval=T)
+```
+
+## Introduction
+Plotting aparc areas from Freesurfers segmentations using ggplot2 is a handy way of displaying results or grouping of aparc data.
+
+## Basic use
+The function `ggaparc()` comes with the `MOAS` package for LCBC in-house use, but it is not limited in it's use to LCBC data, it can
+be used in many different ways.
+As it is based in the ggplot2 format, it is recommended to get a little familiarized with with [plotting data with ggplot2](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html). 
+
+Out-of-the-box, ggaparc() works without supplying any extra information. 
+It will create a base plot of the aparc brain segmentations.
+
+```{r start}
+library(MOAS)
+ggaparc()
+```
+
+The plot is kept as simple as possible, with as little extra information to ggplot as possible. 
+This is done for it to be easy to extend the plot with the many ggplot options available.
+For instance, you might want to only see the brain and it's segments, without any grid or axis information.
+You can add ggplot2's `theme_void` to achieve this.
+
+```{r void}
+ggaparc() + theme_void()
+```
+
+You can supply some extra options to ggaparc, to alter the plot as you wish.
+Maybe you want each area to have a different colour. 
+ggaparc has a built column called `area` wich you can use as fill to achieve this.
+**Note:** unlike other ggplots, before using `aes` you must indicate `mapping=aes`.
+
+```{r fill}
+ggaparc(mapping=aes(fill=area)) +
+  theme_void()
+```
+
+Maybe you also want the contour lines to be black rather than white, and also a little thicker?
+
+```{r fill2}
+ggaparc(colour="black", size=.7, mapping=aes(fill=area)) +
+  theme_void()
+```
+
+You can also zoom in on a single area and plot it alone.
+
+```{r plot.area}
+ggaparc(plot.area="transverse") +
+  theme_void()
+```
+
+Or you can plot several of them, despite not making much sense.
+
+```{r plot.area2}
+ggaparc(plot.area=c("transverse", "smn","loc","spc")) +
+  theme_void()
+```
+
+If you want to plot the entire brain, but hightlight specific areas with colour, you will need to provide the function with some data.
+The data **must** include a column names `area`, with area names corresponding to that of the aparc segmentations.
+Here we create some data with 4 rows, and an `area` and `p` column. We provide the `p` column as the column
+that dictates the colour of the area.
+
+```{r datasupp}
+someData = list(area=c("transverse", "smn","loc","spc"), p=sample(seq(0,.5,.001), 4)) %>% 
+  as.data.frame(stringsAsFactors=F)
+
+ggaparc(data=someData, mapping=aes(fill=p))
+
+```
+
+We can also change how this looks, by various ggplot functions
+```{r datasupp2}
+someData = list(area=c("transverse", "smn","loc","spc"), p=sample(seq(0,.5,.001), 4)) %>% 
+  as.data.frame(stringsAsFactors=F)
+
+ggaparc(data=someData, mapping=aes(fill=p)) +
+  theme_void() +
+  scale_fill_gradient(low="firebrick",high="goldenrod") +
+  labs(title="Aparc plots rule")
+
+```

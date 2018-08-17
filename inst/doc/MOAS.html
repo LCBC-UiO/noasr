@@ -80,8 +80,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="basic-usage" class="section level3">
 <h3>Basic usage</h3>
 <p>After the package is installed, the package needs to be called in every script or R instance to make it’s functions available.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MOAS)
-<span class="kw">library</span>(tidyverse) <span class="co">#Recommended</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MOAS)</code></pre></div>
 <p>The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. The MOAS may be found in the MOAS data-foler in the Lagringshotell: <code>LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData</code></p>
 <p>Each project contained in the MOAS also has it’s own MOAS-derived files at the top level of their data folder, in this type of format: <code>LCBC/Projects/11_MemP/Data/11_MemP_Imaging_Long.RData</code> These types of files are compatible with all functions in the package.</p>
 <div id="loading-the-moas-or-moas-derived-files" class="section level4">

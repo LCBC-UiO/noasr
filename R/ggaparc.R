@@ -2,6 +2,7 @@
 #'
 #' \code{ggaparc} plots and returns a ggplot object of plotted
 #' aparc areas.
+#' @author Athanasia Mowinckel and Didac Pineiro
 #'
 #' @param data A data.frame to use for plot aesthetics. Must include a
 #' column called "area" corresponding to aparc areas.

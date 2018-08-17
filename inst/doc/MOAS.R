@@ -3,8 +3,6 @@ knitr::opts_chunk$set(eval=F)
 
 ## ----"library", eval=TRUE, warning=F, error=F----------------------------
 library(MOAS)
-library(tidyverse) #Recommended
-
 
 ## ----"Load RData"--------------------------------------------------------
 #  # Loads in the data, and also stores the name of the data.frame in the object `nm`
