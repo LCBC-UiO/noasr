@@ -9,6 +9,7 @@
 #'
 #' @param plot.areas Character vector, plots only areas specified in the vector.
 #' @param mapping ggplot2 aethetics (cannot include x and y aethetics)
+#' @param na.fill string or HEX code for the fill of the area without values
 #' @param colour string or HEX code for the colour of the outlines of each area
 #' @param size Numeric, size of the line outlining each area
 #' @param show.legend logical, toggle on or off legend.
@@ -22,7 +23,8 @@
 #'
 #' @export
 ggaparc = function(data = NULL, plot.areas=NULL, mapping = NULL,
-                   colour="white", size=.3, show.legend = NA,...){
+                   colour="white", size=.3, show.legend = NA,
+                   na.fill="grey",...){
 
   fileLoc = paste0(system.file("data","geobrain", package = "MOAS"),"/geobrain.RData")
   load(fileLoc)
@@ -37,10 +39,14 @@ ggaparc = function(data = NULL, plot.areas=NULL, mapping = NULL,
   geoData = if(is.null(data)){
     geobrain
   }else{
-    geobrain %>% dplyr::left_join(data, by="area")
+    geobrain %>% dplyr::left_join(data, by="area") %>% na.omit()
   }
 
   ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=area)) +
+    ggplot2::geom_polygon(
+      size=size,
+      colour=colour,
+      fill=na.fill) +
     ggplot2::geom_polygon(
       data=geoData,
       mapping=mapping,

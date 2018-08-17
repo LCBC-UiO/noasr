@@ -15,7 +15,8 @@ Imports: magrittr,
     stringi,
     tidyr,
     dplyr,
-    purrr
+    purrr,
+    ggplot2
 Suggests: knitr,
     rmarkdown,
     tidyverse

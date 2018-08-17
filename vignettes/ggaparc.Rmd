@@ -93,3 +93,34 @@ ggaparc(data=someData, mapping=aes(fill=p)) +
   labs(title="Aparc plots rule")
 
 ```
+
+
+If your data has different statistics for different groups, and you want to plot them all, we can use ggplot's `facet_wrap` or `facet_grid` for that.
+The data needs to be in long format for this to work, like ggplot likes it.
+
+```{r datasupp3}
+someData = list(area=rep(c("transverse", "smn","loc","spc"),2), 
+                p=sample(seq(0,.5,.001), 8),
+                AgeG = c(rep("Young",4), rep("Old",4))
+                ) %>% 
+  as.data.frame(stringsAsFactors=F)
+
+ggaparc(data=someData, mapping=aes(fill=p)) +
+  facet_wrap(~AgeG) +
+  theme(legend.position = "bottom")
+
+```
+
+We can change how this looks quite a bit. Maybe you want it on a dark background, and the areas without any data to be transparent?
+
+```{r datasupp4}
+
+ggaparc(data=someData, na.fill = "transparent",mapping=aes(fill=p)) +
+  facet_wrap(~AgeG) +
+  theme_dark() +
+  theme(legend.position = "bottom",
+        axis.text = element_blank(),
+        axis.title = element_blank()
+        )
+
+```

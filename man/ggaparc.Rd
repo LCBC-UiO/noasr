@@ -5,7 +5,8 @@
 \title{Plot Freesurfer aparc areas}
 \usage{
 ggaparc(data = NULL, plot.areas = NULL, mapping = NULL,
-  colour = "white", size = 0.3, show.legend = NA, ...)
+  colour = "white", size = 0.3, show.legend = NA, na.fill = "grey",
+  ...)
 }
 \arguments{
 \item{data}{A data.frame to use for plot aesthetics. Must include a
@@ -20,6 +21,8 @@ column called "area" corresponding to aparc areas.}
 \item{size}{Numeric, size of the line outlining each area}
 
 \item{show.legend}{logical, toggle on or off legend.}
+
+\item{na.fill}{string or HEX code for the fill of the area without values}
 
 \item{...}{}
 }
