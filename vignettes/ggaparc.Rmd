@@ -24,6 +24,7 @@ It will create a base plot of the aparc brain segmentations.
 
 ```{r start}
 library(MOAS)
+library(tidyverse)
 ggaparc()
 ```
 
