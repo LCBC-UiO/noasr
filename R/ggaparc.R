@@ -33,7 +33,7 @@
 #' @export
 ggaparc = function(data = NULL, plot.areas=NULL,
                    hemisphere = c("rh","lh"),
-                   mapping = NULL, alpha = .9,
+                   mapping = NULL, alpha=NA,
                    colour="white", size=.3, show.legend = NA,
                    na.fill="grey",...){
 
@@ -46,7 +46,6 @@ ggaparc = function(data = NULL, plot.areas=NULL,
                   area=ifelse(grepl("medialwall",area),NA,area))
 
 
-
   if(!is.null(plot.areas)){
     if(any(!plot.areas %in% geobrain$area)){
       stop(paste("There is no", plot.areas, "in aparc data. Check spelling. Options are:",paste0(geobrain$area %>% unique,collapse=", ")))
@@ -55,15 +54,15 @@ ggaparc = function(data = NULL, plot.areas=NULL,
   }
 
   geoData = if(!is.null(data)){
-     geobrain %>%
-      dplyr::left_join(data) %>%
-      stats::na.omit()
+    geobrain %>%
+      dplyr::left_join(data)
   }else{
     geobrain
-  }
+  } %>%
+    stats::na.omit()
 
   if(is.null(mapping)){
-    mapping=ggplot2::aes(alpha=.0)
+    mapping=ggplot2::aes(fill="transparent")
     show.legend=F
   }
 
@@ -77,9 +76,10 @@ ggaparc = function(data = NULL, plot.areas=NULL,
       data=geoData,
       mapping=mapping,
       size=size,
+      na.rm=T,
       colour=colour,
       show.legend = show.legend)+
-      ggplot2::coord_fixed()
+    ggplot2::coord_fixed()
 
 }
 
