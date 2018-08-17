@@ -19,6 +19,11 @@
 #'
 #' @importFrom ggplot2 ggplot aes geom_polygon coord_fixed
 #'
+#' @examples
+#' ggaparc()
+#' ggaparc(na.fill = "transparent",mapping=aes(fill=area))
+#' ggaparc(colour="black", size=.7, mapping=aes(fill=area)) + theme_void()
+
 #' @seealso [ggplot()], [aes()], [geom_polygon()], [coord_fixed()] from the ggplot2 package
 #'
 #' @export
