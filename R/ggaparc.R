@@ -2,7 +2,7 @@
 
 ggaparc = function(data,...){
 
-  fileLoc = paste0(system.file("data","geobrain", package = "MOAS"),"geobrain.RData")
+  fileLoc = paste0(system.file("data","geobrain", package = "MOAS"),"/geobrain.RData")
   load(fileLoc)
 
   ggplot2::ggplot(data = geobrain2) +
