@@ -31,14 +31,9 @@ ggaparc = function(data = NULL, plot.areas=NULL, mapping = NULL,
                    colour="white", size=.3, show.legend = NA,
                    na.fill="grey",...){
 
-  fileLoc = paste0(system.file("data","geobrain", package = "MOAS"),"/geobrain.RData")
-  load(fileLoc)
-
-  tt=c("bankssts","caudalanteriorcingulate","caudalmiddlefrontal","cuneus","entorhinal","fusiform","inferiorparietal",
-    "inferiortemporal","isthmuscingulate","lateraloccipital","lateralorbitofrontal","lingual","medialorbitofrontal","middletemporal",
-    "parahippocampal","paracentral","parsopercularis","parsorbitalis","parstriangularis","pericalcarine","postcentral","posteriorcingulate",
-    "precentral","precuneus","rostralanteriorcingulate","rostralmiddlefrontal","superiorfrontal","superiorparietal","superiortemporal",
-    "supramarginal","frontalpole","temporalpole","transversetemporal","insula","WhiteSurfArea")
+  fileLoc = system.file("data","geobrain", package = "MOAS")
+  nn = load(paste0(fileLoc,"/geobrain.bilateral.Rda"))
+  geobrain = get(nn) %>% separate(aparc, c("hemisphere","area"),remove = F,convert = T)
 
   if(!is.null(plot.areas)){
     if(any(!plot.areas %in% geobrain$area)){
@@ -53,7 +48,7 @@ ggaparc = function(data = NULL, plot.areas=NULL, mapping = NULL,
     geobrain %>% dplyr::left_join(data, by="area") %>% na.omit()
   }
 
-  ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=area)) +
+  ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=id)) +
     ggplot2::geom_polygon(
       size=size,
       colour=colour,

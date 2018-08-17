@@ -58,14 +58,14 @@ ggaparc(colour="black", size=.7, mapping=aes(fill=area)) +
 You can also zoom in on a single area and plot it alone.
 
 ```{r plot.area}
-ggaparc(plot.area="transverse") +
+ggaparc(plot.area="transversetemporal") +
   theme_void()
 ```
 
 Or you can plot several of them, despite not making much sense.
 
 ```{r plot.area2}
-ggaparc(plot.area=c("transverse", "smn","loc","spc")) +
+ggaparc(plot.area=c("transversetemporal", "insula","precentral","spc")) +
   theme_void()
 ```
 
