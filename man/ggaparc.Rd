@@ -4,9 +4,9 @@
 \alias{ggaparc}
 \title{Plot Freesurfer aparc areas}
 \usage{
-ggaparc(data = NULL, plot.areas = NULL, mapping = NULL,
-  colour = "white", size = 0.3, show.legend = NA, na.fill = "grey",
-  ...)
+ggaparc(data = NULL, plot.areas = NULL, hemisphere = c("rh", "lh"),
+  mapping = NULL, alpha = 0.9, colour = "white", size = 0.3,
+  show.legend = NA, na.fill = "grey", ...)
 }
 \arguments{
 \item{data}{A data.frame to use for plot aesthetics. Must include a
@@ -14,15 +14,17 @@ column called "area" corresponding to aparc areas.}
 
 \item{plot.areas}{Character vector, plots only areas specified in the vector.}
 
+\item{hemisphere}{String to choose hemisphere to plot. Any of c("lh","rh")[default].}
+
 \item{mapping}{ggplot2 aethetics (cannot include x and y aethetics)}
 
-\item{colour}{string or HEX code for the colour of the outlines of each area}
+\item{colour}{String or HEX code for the colour of the outlines of each area}
 
 \item{size}{Numeric, size of the line outlining each area}
 
 \item{show.legend}{logical, toggle on or off legend.}
 
-\item{na.fill}{string or HEX code for the fill of the area without values}
+\item{na.fill}{String or HEX code for the fill of the area without values}
 
 \item{...}{}
 }
