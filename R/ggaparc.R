@@ -34,6 +34,12 @@ ggaparc = function(data = NULL, plot.areas=NULL, mapping = NULL,
   fileLoc = paste0(system.file("data","geobrain", package = "MOAS"),"/geobrain.RData")
   load(fileLoc)
 
+  tt=c("bankssts","caudalanteriorcingulate","caudalmiddlefrontal","cuneus","entorhinal","fusiform","inferiorparietal",
+    "inferiortemporal","isthmuscingulate","lateraloccipital","lateralorbitofrontal","lingual","medialorbitofrontal","middletemporal",
+    "parahippocampal","paracentral","parsopercularis","parsorbitalis","parstriangularis","pericalcarine","postcentral","posteriorcingulate",
+    "precentral","precuneus","rostralanteriorcingulate","rostralmiddlefrontal","superiorfrontal","superiorparietal","superiortemporal",
+    "supramarginal","frontalpole","temporalpole","transversetemporal","insula","WhiteSurfArea")
+
   if(!is.null(plot.areas)){
     if(any(!plot.areas %in% geobrain$area)){
       stop(paste("There is no", plot.areas, "in aparc data. Check spelling. Options are:",paste0(geobrain$area %>% unique,collapse=", ")))
