@@ -39,6 +39,13 @@ ggaparc() + theme_void()
 ```
 
 You can supply some extra options to ggaparc, to alter the plot as you wish.
+
+You can stack the hemispheres if you want
+```{r stacked}
+ggaparc(position="stacked") +
+  theme_void()
+```
+
 Maybe you want each area to have a different colour. 
 ggaparc has a built column called `area` wich you can use as fill to achieve this.
 **Note:** unlike other ggplots, before using `aes` you must indicate `mapping=aes`.

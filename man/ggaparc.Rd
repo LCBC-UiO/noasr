@@ -4,9 +4,10 @@
 \alias{ggaparc}
 \title{Plot Freesurfer aparc areas}
 \usage{
-ggaparc(data = NULL, plot.areas = NULL, hemisphere = c("rh", "lh"),
-  mapping = NULL, alpha = 0.9, colour = "white", size = 0.3,
-  show.legend = NA, na.fill = "grey", ...)
+ggaparc(data = NULL, plot.areas = NULL, position = "dispersed",
+  hemisphere = c("rh", "lh"), mapping = NULL, alpha = NA,
+  colour = "white", size = 0.3, show.legend = NA, na.fill = "grey",
+  ...)
 }
 \arguments{
 \item{data}{A data.frame to use for plot aesthetics. Must include a

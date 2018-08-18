@@ -32,6 +32,7 @@
 #'
 #' @export
 ggaparc = function(data = NULL, plot.areas=NULL,
+                   position="dispersed",
                    hemisphere = c("rh","lh"),
                    mapping = NULL, alpha=NA,
                    colour="white", size=.3, show.legend = NA,
@@ -44,6 +45,20 @@ ggaparc = function(data = NULL, plot.areas=NULL,
     dplyr::filter(hemi %in% hemisphere) %>%
     dplyr::mutate(aparc=ifelse(grepl("medialwall",aparc),NA,aparc),
                   area=ifelse(grepl("medialwall",area),NA,area))
+
+  if(position=="stacked"){
+    stack = geobrain %>%
+      filter(hemi %in% "rh") %>%
+      summarise(ymax=max(lat),xmax=max(long)) %>%
+      round(0)+1
+
+    geobrain = geobrain %>%
+      mutate(lat=ifelse(hemi %in% "lh",
+                        lat + stack$ymax, lat),
+             long=ifelse(hemi %in% "lh",
+                         long - stack$xmax, long)
+      )
+  }
 
 
   if(!is.null(plot.areas)){
@@ -61,25 +76,25 @@ ggaparc = function(data = NULL, plot.areas=NULL,
   } %>%
     stats::na.omit()
 
-  if(is.null(mapping)){
-    mapping=ggplot2::aes(fill="transparent")
-    show.legend=F
-  }
 
-  ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=id)) +
+  gg = ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=id)) +
     ggplot2::geom_polygon(
       size=size,
       colour=colour,
       fill=na.fill,
-      alpha=alpha) +
-    ggplot2::geom_polygon(
-      data=geoData,
-      mapping=mapping,
-      size=size,
-      na.rm=T,
-      colour=colour,
-      show.legend = show.legend)+
-    ggplot2::coord_fixed()
+      alpha=alpha)
+
+  if(!is.null(mapping)){
+    gg = gg +
+      ggplot2::geom_polygon(
+        data=geoData,
+        mapping=mapping,
+        size=size,
+        colour=colour,
+        show.legend = show.legend)
+  }
+
+  gg + ggplot2::coord_fixed()
 
 }
 
