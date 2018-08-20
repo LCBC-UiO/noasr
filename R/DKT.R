@@ -4,7 +4,7 @@
 #' with 40 regions in on the cortical surface of the brain.
 #'
 #' @docType data
-#'
+#' @name DKT
 #' @usage data(DKT)
 #'
 #' @format A data.frame with columns for area, hemisphere (left, right) and view (lateral, medial)
@@ -14,7 +14,14 @@
 #' @references Fischl et al. (2004) Cerebral Cortex 14:11-22
 #' (\href{https://academic.oup.com/cercor/article/14/1/11/433466}{PubMed})
 #'
+#' \describe{
+#'   \item{lat}{coordinates for the x-axis}
+#'   \item{long}{coordinates for the y-axis}
+#'   \item{area}{description of Col1}
+#'   \item{hemi}{name of the hemisphere (left, right)}
+#'   \item{side}{which side to view (medial, lateral)}
+#' }
 #'
 #' @examples
 #' data(DKT)
-
+"DKT"

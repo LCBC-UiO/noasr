@@ -18,19 +18,20 @@
 #'
 #' @return a ggplot object
 #'
-#' @importFrom dplyr filter left_join
-#' @importFrom ggplot2 ggplot aes geom_polygon coord_fixed
+#' @importFrom dplyr filter summarise mutate left_join group_by
+#' @importFrom ggplot2 ggplot aes geom_polygon coord_fixed scale_y_continuous scale_x_continuous labs
 #' @importFrom stats na.omit
-#' @importFrom tidyr separate
+#' @importFrom tidyr gather spread
 #'
 #' @examples
 #' ggaparc()
 #' ggaparc(na.fill = "transparent",mapping=aes(fill=area))
 #' ggaparc(colour="black", size=.7, mapping=aes(fill=area)) + theme_void()
-
+#'
 #' @seealso [ggplot()], [aes()], [geom_polygon()], [coord_fixed()] from the ggplot2 package
 #'
 #' @export
+
 ggbrain = function(data = NULL, plot.areas=NULL,
                    position="dispersed",
                    atlas="DKT", view=c("lateral","medial"),
@@ -40,37 +41,34 @@ ggbrain = function(data = NULL, plot.areas=NULL,
                    na.fill="grey",...){
 
   # Load the segmentation to use
-  fileLoc = system.file("data","geobrain", package = "MOAS")
-  file=list.files(fileLoc, pattern=atlas,full.names = T)
-  nn = load(file)
-  geobrain = get(nn) %>%
+  geobrain = get(atlas) %>%
     dplyr::filter(hemi %in% hemisphere) %>%
     dplyr::filter(side %in% view)
 
   if(position=="stacked"){
     # Alter coordinates of the left side to stack ontop of right side
     stack = geobrain %>%
-      filter(hemi %in% "right") %>%
-      summarise(ymax=max(lat),xmax=max(long)) %>%
+      dplyr::filter(hemi %in% "right") %>%
+      dplyr::summarise(ymax=max(lat),xmax=max(long)) %>%
       round(0)+1
 
     geobrain = geobrain %>%
-      mutate(lat=ifelse(hemi %in% "left",
+      dplyr::mutate(lat=ifelse(hemi %in% "left",
                         lat + stack$ymax, lat),
              long=ifelse(hemi %in% "left",
                          long - stack$xmax, long)
       ) %>%
-      mutate(lat=scale(lat), long=scale(long))
+      dplyr::mutate(lat=scale(lat), long=scale(long))
 
     # If stacked, and lateral view only, change coordinates some more for stacking.
     if(length(view)==1){
       stack = geobrain %>%
-        filter(hemi %in% "left") %>%
-        summarise(xmin=min(long)) %>%
+        dplyr::filter(hemi %in% "left") %>%
+        dplyr::summarise(xmin=min(long)) %>%
         round(0)
 
       geobrain = geobrain %>%
-        mutate(long=ifelse(hemi %in% "left",
+        dplyr::mutate(long=ifelse(hemi %in% "left",
                            long - stack$xmin, long)
         )
     }
@@ -113,27 +111,27 @@ ggbrain = function(data = NULL, plot.areas=NULL,
 
 
   pos = geobrain %>%
-    group_by(hemi,side) %>%
-    summarise(y=mean(lat), x=mean(long)) %>%
-    gather(key,val, -c(1:2)) %>%
-    group_by(hemi,key) %>%
-    summarise(m=mean(val)) %>%
-    spread(key,m)
+    dplyr::group_by(hemi,side) %>%
+    dplyr::summarise(y=mean(lat), x=mean(long)) %>%
+    tidyr::gather(key,val, -c(1:2)) %>%
+    dplyr::group_by(hemi,key) %>%
+    dplyr::summarise(m=mean(val)) %>%
+    tidyr::spread(key,m)
 
   if(position == "stacked"){
     gg = gg +
-      scale_y_continuous(
+      ggplot2::scale_y_continuous(
         breaks=pos$y,
         labels=pos$hemi) +
-      scale_x_continuous(breaks=NULL) +
-      labs(x=NULL, y="Hemisphere")
+      ggplot2::scale_x_continuous(breaks=NULL) +
+      ggplot2::labs(x=NULL, y="Hemisphere")
   }else{
    gg = gg +
-     scale_x_continuous(
+     ggplot2::scale_x_continuous(
      breaks=pos$x,
      labels=pos$hemi) +
-     scale_y_continuous(breaks=NULL)+
-     labs(y=NULL, x="Hemisphere")
+     ggplot2::scale_y_continuous(breaks=NULL)+
+     ggplot2::labs(y=NULL, x="Hemisphere")
   }
 
   gg + theme_brain()
