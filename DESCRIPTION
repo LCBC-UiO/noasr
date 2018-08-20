@@ -6,6 +6,7 @@ Description: Functions created to work well with LCBC's Mother of All Spreadshee
 License: MIT
 Encoding: UTF-8
 RoxygenNote: 6.1.0
+LazyData: true
 Imports: magrittr,
     stringr,
     utils,

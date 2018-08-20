@@ -1,13 +1,13 @@
 #' ggbrain plot theme
 #'
 #' @description a set of themes created for the ggbrain plots. Use ggplot2::theme() to tweak.
-#' @author Athanasia Mowinckel 
+#' @author Athanasia Mowinckel
 #'
 #' @details
 #' \describe{
 #'
 #' \item{`theme_brain`}{
-#' Default theme for ggbrain. Transparent background, no axis lines, and no grid}
+#' Default theme for ggbrain. Transparent background, no axis lines, and no grid.}
 #'
 #' \item{`theme_darkbrain`}{
 #' Dark equivalent to theme_brain, with black background, and light text.}
@@ -20,19 +20,19 @@
 #' @export
 #' @rdname ggtheme
 theme_brain = function(){
-  
+
   theme(
     axis.ticks = element_blank(),
     panel.grid = element_blank(),
     panel.background = element_blank(),
-    plot.background = element_blank(),
+    plot.background = element_blank()
   )
 }
 
 #' @export
 #' @rdname ggtheme
 theme_darkbrain = function(){
-  
+
   theme(
     axis.ticks = element_blank(),
     panel.grid = element_blank(),
@@ -41,5 +41,5 @@ theme_darkbrain = function(){
     text = element_text(colour="lightgrey"),
     axis.text = element_text(colour="lightgrey")
   )
-  
+
 }

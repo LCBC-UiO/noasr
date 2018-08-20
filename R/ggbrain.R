@@ -36,7 +36,7 @@ ggbrain = function(data = NULL, plot.areas=NULL,
                    atlas="DKT", view=c("lateral","medial"),
                    hemisphere = c("right","left"),
                    mapping = NULL, alpha=NA,
-                   colour="white", size=.3, show.legend = NA,
+                   colour="white", size=.5, show.legend = NA,
                    na.fill="grey",...){
 
   # Load the segmentation to use
@@ -59,10 +59,11 @@ ggbrain = function(data = NULL, plot.areas=NULL,
                         lat + stack$ymax, lat),
              long=ifelse(hemi %in% "left",
                          long - stack$xmax, long)
-      )
+      ) %>%
+      mutate(lat=scale(lat), long=scale(long))
 
     # If stacked, and lateral view only, change coordinates some more for stacking.
-    if(view=="lateral"){
+    if(length(view)==1){
       stack = geobrain %>%
         filter(hemi %in% "left") %>%
         summarise(xmin=min(long)) %>%
