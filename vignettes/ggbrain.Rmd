@@ -15,18 +15,18 @@ knitr::opts_chunk$set(eval=T)
 Plotting aparc areas from Freesurfers segmentations using ggplot2 is a handy way of displaying results or grouping of aparc data.
 
 ## Basic use
-The function `ggaparc()` comes with the `MOAS` package for LCBC in-house use, but it is not limited in it's use to LCBC data, it can
+The function `ggbrain()` comes with the `MOAS` package for LCBC in-house use, but it is not limited in it's use to LCBC data, it can
 be used in many different ways.
 As it is based in the ggplot2 format, it is recommended to get a little familiarized with with [plotting data with ggplot2](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html). 
 
-Out-of-the-box, ggaparc() works without supplying any extra information. 
+Out-of-the-box, ggbrain() works without supplying any extra information. 
 It will create a base plot of the aparc brain segmentations.
 
 ```{r start}
 library(MOAS)
 library(tidyverse)
 library(ggplot2)
-ggaparc()
+ggbrain()
 ```
 
 The plot is kept as simple as possible, with as little extra information to ggplot as possible. 
@@ -35,50 +35,50 @@ For instance, you might want to only see the brain and it's segments, without an
 You can add ggplot2's `theme_void` to achieve this.
 
 ```{r void}
-ggaparc() + theme_void()
+ggbrain() + theme_void()
 ```
 
-You can supply some extra options to ggaparc, to alter the plot as you wish.
+You can supply some extra options to ggbrain, to alter the plot as you wish.
 
 You can stack the hemispheres if you want
 ```{r stacked}
-ggaparc(position="stacked") +
+ggbrain(position="stacked") +
   theme_void()
 ```
 
 Maybe you want each area to have a different colour. 
-ggaparc has a built column called `area` wich you can use as fill to achieve this.
+ggbrain has a built column called `area` wich you can use as fill to achieve this.
 **Note:** unlike other ggplots, before using `aes` you must indicate `mapping=aes`.
 
 ```{r fill}
-ggaparc(mapping=aes(fill=area)) +
+ggbrain(mapping=aes(fill=area)) +
   theme_void()
 ```
 
 Maybe you also want the contour lines to be black rather than white, and also a little thicker?
 
 ```{r fill2}
-ggaparc(colour="black", size=.7, mapping=aes(fill=area)) +
+ggbrain(colour="black", size=.7, mapping=aes(fill=area)) +
   theme_void()
 ```
 
 You can also zoom in on a single area and plot it alone.
 
 ```{r plot.area}
-ggaparc(plot.area="transversetemporal") +
+ggbrain(plot.area="transversetemporal") +
   theme_void()
 ```
 
 Or you can plot several of them, despite not making much sense.
 
 ```{r plot.area2}
-ggaparc(plot.area=c("transversetemporal", "insula","precentral","superiorparietal")) +
+ggbrain(plot.area=c("transversetemporal", "insula","precentral","superiorparietal")) +
   theme_void()
 ```
 
 You can also choose to only view one of the hespheres by adding the `hemisphere` option
 ```{r hemisphere}
-ggaparc(hemisphere="rh") +
+ggbrain(hemisphere="rh") +
   theme_void()
 ```
 
@@ -92,7 +92,7 @@ someData = list(area=c("transversetemporal", "insula","precentral","superiorpari
                 p=sample(seq(0,.5,.001), 4)) %>% 
   as.data.frame(stringsAsFactors=F)
 
-ggaparc(data=someData, mapping=aes(fill=p))
+ggbrain(data=someData, mapping=aes(fill=p))
 
 ```
 
@@ -102,7 +102,7 @@ someData = list(area=c("transversetemporal", "insula","precentral","superiorpari
                 p=sample(seq(0,.5,.001), 4)) %>% 
   as.data.frame(stringsAsFactors=F)
 
-ggaparc(data=someData, mapping=aes(fill=p)) +
+ggbrain(data=someData, mapping=aes(fill=p)) +
   theme_void() +
   scale_fill_gradient(low="firebrick",high="goldenrod") +
   labs(title="Aparc plots rule")
@@ -117,7 +117,7 @@ someData = list(area=c("transversetemporal", "insula","precentral","superiorpari
                 hemi="rh") %>% 
   as.data.frame(stringsAsFactors=F)
 
-ggaparc(data=someData, mapping=aes(fill=p)) +
+ggbrain(data=someData, mapping=aes(fill=p)) +
   theme_void() +
   scale_fill_gradient(low="firebrick",high="goldenrod") +
   labs(title="Aparc plots rule")
@@ -135,7 +135,7 @@ someData = list(area=rep(c("transversetemporal", "insula","precentral","superior
                 ) %>% 
   as.data.frame(stringsAsFactors=F)
 
-ggaparc(data=someData, mapping=aes(fill=p)) +
+ggbrain(data=someData, mapping=aes(fill=p)) +
   facet_wrap(~AgeG, ncol=1) +
   theme(legend.position = "bottom")
 
@@ -145,7 +145,7 @@ We can change how this looks quite a bit. Maybe you want it on a dark background
 
 ```{r datasupp4}
 
-ggaparc(data=someData, na.fill = "transparent",mapping=aes(fill=p)) +
+ggbrain(data=someData, na.fill = "transparent",mapping=aes(fill=p)) +
   facet_wrap(~AgeG, ncol=1) +
   theme_dark() +
   theme(legend.position = "bottom",
