@@ -11,10 +11,8 @@
 #'
 #' \item{`theme_darkbrain`}{
 #' Dark equivalent to theme_brain, with black background, and light text.}
+#' }
 #'
-#' @examples
-
-
 #' @seealso [ggplot()], [aes()], [geom_polygon()], [coord_fixed()] from the ggplot2 package
 #'
 #' @export

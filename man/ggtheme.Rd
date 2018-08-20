@@ -12,6 +12,16 @@ theme_darkbrain()
 \description{
 a set of themes created for the ggbrain plots. Use ggplot2::theme() to tweak.
 }
+\details{
+\describe{
+
+\item{`theme_brain`}{
+Default theme for ggbrain. Transparent background, no axis lines, and no grid.}
+
+\item{`theme_darkbrain`}{
+Dark equivalent to theme_brain, with black background, and light text.}
+}
+}
 \seealso{
 [ggplot()], [aes()], [geom_polygon()], [coord_fixed()] from the ggplot2 package
 }
