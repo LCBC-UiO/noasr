@@ -16,7 +16,13 @@ column called "area" corresponding to aparc areas.}
 
 \item{plot.areas}{Character vector, plots only areas specified in the vector.}
 
-\item{hemisphere}{String to choose hemisphere to plot. Any of c("lh","rh")[default].}
+\item{position}{String choosing how to view the data. Either "dispersed"[default] or "stacked".}
+
+\item{atlas}{Choose atlas for plotting.}
+
+\item{view}{String to choose view of the data. Any of c("lateral","medial")[default].}
+
+\item{hemisphere}{String to choose hemisphere to plot. Any of c("left","right")[default].}
 
 \item{mapping}{ggplot2 aethetics (cannot include x and y aethetics)}
 
@@ -36,6 +42,19 @@ a ggplot object
 \description{
 \code{ggaparc} plots and returns a ggplot object of plotted
 aparc areas.
+}
+\details{
+\describe{
+
+\item{`DKT`}{
+The Desikan-Killiany Cortical Atlas [default]. Part of Freesurfer segmentations.}
+
+\item{`Yeo7`}{
+Seven resting-state networks from Yeo et al. 2011, J. Neurophysiology}
+
+\item{`Yeo17`}{
+Seventeen resting-state networks from Yeo et al. 2011, J. Neurophysiology}
+}
 }
 \examples{
 ggaparc()

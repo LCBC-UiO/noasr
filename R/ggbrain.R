@@ -7,14 +7,31 @@
 #' @param data A data.frame to use for plot aesthetics. Must include a
 #' column called "area" corresponding to aparc areas.
 #'
+#' @param atlas Choose atlas for plotting.
 #' @param plot.areas Character vector, plots only areas specified in the vector.
 #' @param mapping ggplot2 aethetics (cannot include x and y aethetics)
-#' @param hemisphere String to choose hemisphere to plot. Any of c("lh","rh")[default].
+#' @param hemisphere String to choose hemisphere to plot. Any of c("left","right")[default].
+#' @param view String to choose view of the data. Any of c("lateral","medial")[default].
+#' @param position String choosing how to view the data. Either "dispersed"[default] or "stacked".
 #' @param na.fill String or HEX code for the fill of the area without values
 #' @param colour String or HEX code for the colour of the outlines of each area
 #' @param size Numeric, size of the line outlining each area
 #' @param show.legend logical, toggle on or off legend.
 #' @param ...
+#'
+#' @details
+#' \describe{
+#'
+#' \item{`DKT`}{
+#' The Desikan-Killiany Cortical Atlas [default]. Part of Freesurfer segmentations.}
+#'
+#' \item{`Yeo7`}{
+#' Seven resting-state networks from Yeo et al. 2011, J. Neurophysiology}
+#'
+#' \item{`Yeo17`}{
+#' Seventeen resting-state networks from Yeo et al. 2011, J. Neurophysiology}
+#' }
+#'
 #'
 #' @return a ggplot object
 #'
