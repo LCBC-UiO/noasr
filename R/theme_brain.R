@@ -11,6 +11,10 @@
 #'
 #' \item{`theme_darkbrain`}{
 #' Dark equivalent to theme_brain, with black background, and light text.}
+#'
+#' \item{`theme_custombrain`}{
+#' Theme for easy customisation of the brain themes.}
+#'
 #' }
 #'
 #' @seealso [ggplot()], [aes()], [geom_polygon()], [coord_fixed()] from the ggplot2 package
@@ -19,11 +23,12 @@
 #' @rdname ggtheme
 theme_brain = function(){
 
-  theme(
-    axis.ticks = element_blank(),
-    panel.grid = element_blank(),
-    panel.background = element_blank(),
-    plot.background = element_blank()
+  ggplot2::theme(
+    axis.ticks = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_blank(),
+    panel.background = ggplot2::element_blank(),
+    plot.background = ggplot2::element_blank(),
+    legend.background = element_blank(),
   )
 }
 
@@ -31,13 +36,37 @@ theme_brain = function(){
 #' @rdname ggtheme
 theme_darkbrain = function(){
 
-  theme(
-    axis.ticks = element_blank(),
-    panel.grid = element_blank(),
-    panel.background = element_blank(),
-    plot.background = element_rect(fill="black"),
-    text = element_text(colour="lightgrey"),
-    axis.text = element_text(colour="lightgrey")
+  ggplot2::theme(
+    axis.ticks = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_blank(),
+    panel.background = ggplot2::element_rect(fill="black"),
+    plot.background = ggplot2::element_blank(),
+    legend.background = element_blank(),
+    text = ggplot2::element_text(colour="lightgrey"),
+    axis.text = ggplot2::element_text(colour="lightgrey")
+  )
+
+}
+
+#' @export
+#' @rdname ggtheme
+theme_custombrain = function(plot.background="white",
+                             text.colour="darkgrey",
+                             text.size=12,
+                             text.family="Arial"){
+
+  ggplot2::theme(
+    axis.ticks = ggplot2::element_blank(),
+    panel.grid = ggplot2::element_blank(),
+    panel.background = ggplot2::element_rect(fill=bg.fill),
+    plot.background = ggplot2::element_blank(),
+    legend.background = element_blank(),
+    text = ggplot2::element_text(colour=text.colour,
+                                 family=text.family,
+                                 size=text.size),
+    axis.text = ggplot2::element_text(colour=text.colour,
+                                      family=text.family,
+                                      size=text.size)
   )
 
 }

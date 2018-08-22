@@ -54,89 +54,102 @@ ggbrain = function(data = NULL, plot.areas=NULL,
 
     geobrain = geobrain %>%
       dplyr::mutate(lat=ifelse(hemi %in% "left",
-                        lat + stack$ymax, lat),
-             long=ifelse(hemi %in% "left",
-                         long - stack$xmax, long)
-      ) %>%
-      dplyr::mutate(lat=scale(lat), long=scale(long))
+                               lat + stack$ymax, lat),
+                    long=ifelse(hemi %in% "left",
+                                long - stack$xmax, long)
+      )
 
     # If stacked, and lateral view only, change coordinates some more for stacking.
     if(length(view)==1){
-      stack = geobrain %>%
-        dplyr::filter(hemi %in% "left") %>%
-        dplyr::summarise(xmin=min(long)) %>%
-        round(0)
+      if(view=="lateral"){
+        stack = geobrain %>%
+          dplyr::filter(hemi %in% "left") %>%
+          dplyr::summarise(xmin=min(long)) %>%
+          round(0)
 
-      geobrain = geobrain %>%
-        dplyr::mutate(long=ifelse(hemi %in% "left",
-                           long - stack$xmin, long)
-        )
+        geobrain = geobrain %>%
+          dplyr::mutate(long=ifelse(hemi %in% "left",
+                                    long - stack$xmin, long)
+          )
+      }else if(view=="medial"){
+        stack = geobrain %>%
+          dplyr::filter(hemi %in% "left") %>%
+          dplyr::summarise(xmax=max(long)) %>%
+          round(0)
+
+        geobrain = geobrain %>%
+          dplyr::mutate(long=ifelse(hemi %in% "left",
+                                    long + stack$xmax, long)
+          )
+
+      } # which view
+    } # if view
+  } # If stacked
+
+
+    # Filter data to single area if that is all you want.
+    if(!is.null(plot.areas)){
+      if(any(!plot.areas %in% geobrain$area)){
+        stop(paste("There is no", plot.areas,
+                   "in", atlas,"data. Check spelling. Options are:",
+                   paste0(geobrain$area %>% unique,collapse=", ")))
+      }
+      geobrain = geobrain %>% dplyr::filter(area %in% plot.areas)
     }
-  }
-
-  # Filter data to single area if that is all you want.
-  if(!is.null(plot.areas)){
-    if(any(!plot.areas %in% geobrain$area)){
-      stop(paste("There is no", plot.areas,
-                 "in", atlas,"data. Check spelling. Options are:",
-                 paste0(geobrain$area %>% unique,collapse=", ")))
-    }
-    geobrain = geobrain %>% dplyr::filter(area %in% plot.areas)
-  }
 
 
-  gg = ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=id)) +
-    ggplot2::geom_polygon(
-      size=size,
-      colour=colour,
-      fill=na.fill,
-      alpha=alpha) +
-    ggplot2::coord_fixed()
-
-  if(!is.null(mapping)){
-
-    geoData = geobrain
-    if(!is.null(data))
-      geoData = geoData %>%
-        dplyr::left_join(data)
-
-    gg = gg +
+    gg = ggplot2::ggplot(data = geobrain, ggplot2::aes(x=long, y=lat, group=id)) +
       ggplot2::geom_polygon(
-        data=geoData %>% stats::na.omit(),
-        mapping=mapping,
         size=size,
         colour=colour,
-        show.legend = show.legend)
+        fill=na.fill,
+        alpha=alpha) +
+      ggplot2::coord_fixed()
+
+    if(!is.null(mapping)){
+
+      geoData = geobrain
+      if(!is.null(data))
+        geoData = geoData %>%
+          dplyr::left_join(data)
+
+      gg = gg +
+        ggplot2::geom_polygon(
+          data=geoData %>% stats::na.omit(),
+          mapping=mapping,
+          size=size,
+          colour=colour,
+          show.legend = show.legend)
+    }
+
+
+    pos = geobrain %>%
+      dplyr::group_by(hemi,side) %>%
+      dplyr::summarise(y=mean(lat), x=mean(long)) %>%
+      tidyr::gather(key,val, -c(1:2)) %>%
+      dplyr::group_by(hemi,key) %>%
+      dplyr::summarise(m=mean(val)) %>%
+      tidyr::spread(key,m)
+
+    if(position == "stacked"){
+      gg = gg +
+        ggplot2::scale_y_continuous(
+          breaks=pos$y,
+          labels=pos$hemi) +
+        ggplot2::scale_x_continuous(breaks=NULL) +
+        ggplot2::labs(x=NULL, y="Hemisphere")
+    }else{
+      gg = gg +
+        ggplot2::scale_x_continuous(
+          breaks=pos$x,
+          labels=pos$hemi) +
+        ggplot2::scale_y_continuous(breaks=NULL)+
+        ggplot2::labs(y=NULL, x="Hemisphere")
+    }
+
+    gg + theme_brain()
+
   }
-
-
-  pos = geobrain %>%
-    dplyr::group_by(hemi,side) %>%
-    dplyr::summarise(y=mean(lat), x=mean(long)) %>%
-    tidyr::gather(key,val, -c(1:2)) %>%
-    dplyr::group_by(hemi,key) %>%
-    dplyr::summarise(m=mean(val)) %>%
-    tidyr::spread(key,m)
-
-  if(position == "stacked"){
-    gg = gg +
-      ggplot2::scale_y_continuous(
-        breaks=pos$y,
-        labels=pos$hemi) +
-      ggplot2::scale_x_continuous(breaks=NULL) +
-      ggplot2::labs(x=NULL, y="Hemisphere")
-  }else{
-   gg = gg +
-     ggplot2::scale_x_continuous(
-     breaks=pos$x,
-     labels=pos$hemi) +
-     ggplot2::scale_y_continuous(breaks=NULL)+
-     ggplot2::labs(y=NULL, x="Hemisphere")
-  }
-
-  gg + theme_brain()
-
-}
 
 
 

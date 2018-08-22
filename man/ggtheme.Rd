@@ -3,11 +3,15 @@
 \name{theme_brain}
 \alias{theme_brain}
 \alias{theme_darkbrain}
+\alias{theme_custombrain}
 \title{ggbrain plot theme}
 \usage{
 theme_brain()
 
 theme_darkbrain()
+
+theme_custombrain(plot.background = "white", text.colour = "darkgrey",
+  text.size = 12, text.family = "Arial")
 }
 \description{
 a set of themes created for the ggbrain plots. Use ggplot2::theme() to tweak.
@@ -20,6 +24,10 @@ Default theme for ggbrain. Transparent background, no axis lines, and no grid.}
 
 \item{`theme_darkbrain`}{
 Dark equivalent to theme_brain, with black background, and light text.}
+
+\item{`theme_custombrain`}{
+Theme for easy customisation of the brain themes.}
+
 }
 }
 \seealso{
