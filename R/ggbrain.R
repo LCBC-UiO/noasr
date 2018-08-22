@@ -39,6 +39,7 @@
 #' @importFrom ggplot2 ggplot aes geom_polygon coord_fixed scale_y_continuous scale_x_continuous labs
 #' @importFrom stats na.omit
 #' @importFrom tidyr gather spread
+#' @importFrom magrittr "%>%"
 #'
 #' @examples
 #' ggaparc()
@@ -49,16 +50,17 @@
 #'
 #' @export
 
-ggbrain = function(data = NULL, plot.areas=NULL,
+ggbrain = function(data = NULL,atlas="DKT",
+                   plot.areas=NULL,
                    position="dispersed",
-                   atlas="DKT", view=c("lateral","medial"),
+                   view=c("lateral","medial"),
                    hemisphere = c("right","left"),
                    mapping = NULL, alpha=NA,
                    colour="white", size=.5, show.legend = NA,
                    na.fill="grey",...){
 
   # Load the segmentation to use
-  geobrain = get(atlas) %>%
+  geobrain = eval(as.name(atlas)) %>%
     dplyr::filter(hemi %in% hemisphere) %>%
     dplyr::filter(side %in% view)
 
@@ -127,8 +129,10 @@ ggbrain = function(data = NULL, plot.areas=NULL,
 
       geoData = geobrain
       if(!is.null(data))
-        geoData = geoData %>%
+        suppressWarnings(
+          geoData = geoData %>%
           dplyr::left_join(data)
+        )
 
       gg = gg +
         ggplot2::geom_polygon(
