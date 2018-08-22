@@ -22,13 +22,13 @@
 #' @details
 #' \describe{
 #'
-#' \item{`DKT`}{
+#' \item{`dkt`}{
 #' The Desikan-Killiany Cortical Atlas [default]. Part of Freesurfer segmentations.}
 #'
-#' \item{`Yeo7`}{
+#' \item{`yeo7`}{
 #' Seven resting-state networks from Yeo et al. 2011, J. Neurophysiology}
 #'
-#' \item{`Yeo17`}{
+#' \item{`yeo17`}{
 #' Seventeen resting-state networks from Yeo et al. 2011, J. Neurophysiology}
 #' }
 #'
@@ -50,7 +50,7 @@
 #'
 #' @export
 
-ggbrain = function(data = NULL,atlas="DKT",
+ggbrain = function(data = NULL,atlas="dkt",
                    plot.areas=NULL,
                    position="dispersed",
                    view=c("lateral","medial"),
@@ -129,8 +129,7 @@ ggbrain = function(data = NULL,atlas="DKT",
 
       geoData = geobrain
       if(!is.null(data))
-        suppressWarnings(
-          geoData = geoData %>%
+          geoData = suppressMessages(geoData %>%
           dplyr::left_join(data)
         )
 
