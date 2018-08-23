@@ -22,3 +22,4 @@ Suggests: knitr,
     rmarkdown,
     tidyverse
 VignetteBuilder: knitr
+Remotes: LCBC-UiO/ggbrain
