@@ -44,7 +44,7 @@ site_keeper = function(data, keep = "long", quiet = F) {
 
   # Decide which data to keep from double/triple scans
   if(keep %in% "long"){
-    data = data %>%
+    data2 = data %>%
       dplyr::group_by(CrossProject_ID, Site_Name) %>%
       dplyr::add_tally() %>%
       dplyr::ungroup() %>%
@@ -52,14 +52,16 @@ site_keeper = function(data, keep = "long", quiet = F) {
       dplyr::filter(max(n)==n) %>%
       dplyr::select(-n)
 
+    # If there is a tie in number of scanners, grab the first
+    data2[!duplicated(data2 %>% dplyr::select(CrossProject_ID, Subject_Timepoint)),]
+
   }else{
 
-    data = data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
+    data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
       dplyr::add_tally() %>%
       dplyr::ungroup() %>%
       dplyr::mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
       dplyr::filter(Keep) %>%
       dplyr::select(-n, -Keep)
   }
-  return(data)
 }
