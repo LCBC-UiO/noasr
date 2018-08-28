@@ -15,7 +15,6 @@
 #' @examples
 #' calc_ages(data)
 #'
-#' @importFrom magrittr "%>%"
 #' @importFrom stats ave na.omit time
 #' @importFrom dplyr select group_by summarise rename filter mutate lag first left_join arrange
 #' @importFrom magrittr "%>%"

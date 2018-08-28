@@ -9,10 +9,10 @@ widen(data, by, ColumnList)
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
 
-\item{by}{Column which to widen by. Options are: 'Subject_Timepoint','Project_Wave','Site_Name', or 'Site_Number'.}
+\item{by}{Column which to widen by. Options are: "Subject_Timepoint","Project_Wave","Site_Name", or "Site_Number".}
 }
 \value{
-A MOAS type file widened by selected column, prefixed with columns specifications
+A MOAS type file widened by dplyr::selected column, prefixed with columns specifications
 }
 \description{
 \code{widen} returns a widened data.frame by the columns specified
@@ -23,15 +23,15 @@ Widening of the data is necessary for performing ANOVAs and
 other statistical analysis, particularly if intending to run
 in SPSS.
 
-For MOAS which inclused double/triple scans, by='Site_Name',
-must be run prior to by='Project_Wave'.
+For MOAS which inclused double/triple scans, by="Site_Name",
+must be run prior to by="Project_Wave".
 }
 \examples{
-widen(MOAS, by='Site_Name')
-widen(MOAS, by='Project_Wave')
+widen(MOAS, by="Site_Name")
+widen(MOAS, by="Project_Wave")
 
 # Data with double/triple scans must be widened in a two-stage process
-dt = widen(MOAS, by='Site_Name')
-df = widen(dt, by='Project_Wave')
+dt = widen(MOAS, by="Site_Name")
+df = widen(dt, by="Project_Wave")
 
 }
