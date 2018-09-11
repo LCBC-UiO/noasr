@@ -11,6 +11,7 @@
 #'
 #' @param data The MOAS or a MOAS generated file.
 #' @param keep A string specifying which data from double/triple scans to keep.
+#' @param quiet logical, TRUE sets it to verbose
 #' Available options are:
 #' 'long' - keep data from scanner with most data (default),
 #' 'ousAvanto' = keep 'ousAvanto',

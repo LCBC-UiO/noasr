@@ -9,7 +9,9 @@ site_keeper(data, keep = "long", quiet = F)
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
 
-\item{keep}{A string specifying which data from double/triple scans to keep.
+\item{keep}{A string specifying which data from double/triple scans to keep.}
+
+\item{quiet}{logical, TRUE sets it to verbose
 Available options are:
 'long' - keep data from scanner with most data (default),
 'ousAvanto' = keep 'ousAvanto',

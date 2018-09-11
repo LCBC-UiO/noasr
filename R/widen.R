@@ -28,10 +28,10 @@
 #' @importFrom tidyr gather unite spread drop_na_
 #' @importFrom magrittr "%>%"
 #' @export
-widen = function(data, by, ColumnList){
-  
+widen = function(data, by){
+
   if(missing(ColumnList)) ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
-  
+
   SEP = switch(by,
                "none" = "skip",
                "Subject_Timepoint" = "tp",
@@ -39,109 +39,109 @@ widen = function(data, by, ColumnList){
                "Site_Name"         = "S",
                "Site_Number"       = "S"
   )
-  
+
   if(purrr::is_empty(SEP)) print(paste("There is no way to make wide by '", by, "'", sep=""))
-  
-  
+
+
   if(SEP=="skip"){
     #Does nothing...
     DATA3 = data
   }else if(SEP %in% c("W","tp")){  #If going by wave
-    
+
     #Reorder columns so we can start manipulating the data.frame
     DATA2 = data %>%
       dplyr::select(CrossProject_ID, Birth_Date, Sex, by, dplyr::everything())
-    
+
     DATA2 = DATA2 %>%
       tidyr::gather(variable, val, -(1:4), na.rm=T)  %>%
       dplyr::distinct() %>%
       dplyr::arrange_("CrossProject_ID",by)
-    
+
     # Paste separator infront of the by
     DATA2[,4] = paste0(SEP,DATA2[,4] %>% unlist)
-    
-    DATA4 = DATA2 %>% 
+
+    DATA4 = DATA2 %>%
       dplyr::arrange(variable) %>%
-      tidyr::unite(temp, c(4, variable) ) %>% 
+      tidyr::unite(temp, c(4, variable) ) %>%
       dplyr::distinct()
-    
+
     # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age
     tmp = DATA4 %>%
       dplyr::filter(CrossProject_ID > 9000000 & temp %in% paste0(SEP,"4_Age")) %>%
       dplyr::group_by(CrossProject_ID,Birth_Date,Sex, temp) %>%
       dplyr::summarise(val=as.character(mean(as.numeric(val)))) %>% as.data.frame() %>% stats::na.omit()
-    
+
     DATA4 = DATA4 %>%
       dplyr::anti_join(tmp, by=c("CrossProject_ID","Birth_Date","Sex", "temp")) %>%
-      rbind.data.frame(tmp) %>% 
-      stats::na.omit() %>% 
+      rbind.data.frame(tmp) %>%
+      stats::na.omit() %>%
       dplyr::distinct()
-    
+
     # If this data does not contain anything to widen
     if(!"temp" %in% names(DATA4)){
       stop(paste("This data has nothing to widen by", by))
     }
-    
+
     ### This is where it usually goes wrong if there's something odd with the data
-    DATA3 = DATA4 %>% 
+    DATA3 = DATA4 %>%
       tidyr::spread(temp, val, convert = TRUE)
     ###
-    
-    DATA3 = DATA3 %>% 
+
+    DATA3 = DATA3 %>%
       dplyr::select(1:3,DATA4$temp %>% unique)
-    
+
     #Else if going by site
   }else if(any(SEP %in% c("S","T"))){
-    
+
     #Create a data.frame with only cognitive stuff and PET (i.e. things measured only once pr TP)
-    DATAX = data %>% 
-      dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>% 
-      dplyr::select(CrossProject_ID, by, everything()) %>% 
-      dplyr::distinct() %>% 
+    DATAX = data %>%
+      dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>%
+      dplyr::select(CrossProject_ID, by, everything()) %>%
+      dplyr::distinct() %>%
       tidyr::drop_na_("CrossProject_ID")
-    
+
     # Create a widened data frame
-    DATA2 = data %>% 
-      dplyr::select(-one_of(names(DATAX)[-c(1:2)])) %>% 
-      dplyr::select(CrossProject_ID,by,dplyr::everything()) %>% 
-      tidyr::drop_na_("CrossProject_ID") %>% 
+    DATA2 = data %>%
+      dplyr::select(-one_of(names(DATAX)[-c(1:2)])) %>%
+      dplyr::select(CrossProject_ID,by,dplyr::everything()) %>%
+      tidyr::drop_na_("CrossProject_ID") %>%
       dplyr::distinct() %>%
       tidyr::gather(temp, val, -(1:2)) %>%
       stats::na.omit() %>%
-      dplyr::distinct() 
-    
+      dplyr::distinct()
+
     # If this data does not contain anything to widen
     if(!"temp" %in% names(DATA2)){
       stop(paste("This data has nothing to widen by", by))
     }
-    
+
     DATA2 = DATA2 %>% dplyr::arrange(temp)
-    
+
     DATA2[,2] = paste(SEP,DATA2[,2] %>% unlist(),sep="")
     DATA2 = DATA2 %>%
       tidyr::unite(temp, c(temp,by))
-    
+
     ### This is where it usually goes wrong if there's something odd with the data
     DATA4 = DATA2 %>%
       tidyr::spread(temp, val, convert = TRUE)
     ###
-    
+
     DATA3 = DATAX %>% merge(DATA4, all=T, by = c("CrossProject_ID", "Subject_Timepoint")) %>%
       dplyr::arrange(CrossProject_ID, Subject_Timepoint)
-    
+
     DATA3 = DATA3 %>%
       dplyr::group_by(CrossProject_ID,Subject_Timepoint) %>%
       dplyr::mutate(N_Scans=sum(N_Scans)) %>% as.data.frame() %>%
       tidyr::drop_na_("CrossProject_ID")
     names(DATA3) = gsub("_tmp","",names(DATA3)) #Needed weird workaround for strange appendage to column names
-    
+
   }
-  
+
   #Order columns more nicely
   DATA3 = DATA3 %>%
-    dplyr::select(dplyr::one_of(ColumnList[ColumnList %in% names(DATA3)]), 
-                  dplyr::everything()) %>% 
+    dplyr::select(dplyr::one_of(ColumnList[ColumnList %in% names(DATA3)]),
+                  dplyr::everything()) %>%
     na.col.rm()
-  
+
   return(DATA3)
 }
