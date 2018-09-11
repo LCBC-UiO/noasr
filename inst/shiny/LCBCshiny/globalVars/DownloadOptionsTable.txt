@@ -1,0 +1,13 @@
+csv
+csv2
+tsv
+psv
+rda
+xlsx
+json
+sas7bdat
+dta
+mat
+ods
+feather
+fwf
