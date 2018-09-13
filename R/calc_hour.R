@@ -20,7 +20,7 @@ calc_hour = function(data) {
     DATA2 = data.frame(matrix(nrow = length(tmp), ncol = 3))
 
     for (i in 1:length(tmp)) {
-        n = (data[i] %>% MOAS::count_chars(":", .)) + 1
+        n = (data[i] %>% stringr::str_count( .,":")) + 1
 
         if (n < ncol(DATA2))
             tmp[[i]] = c(tmp[[i]], "")
