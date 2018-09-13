@@ -36,7 +36,7 @@ tsdify = function(data, reverse = F) {
         # NCPs in resting condition
         NCPs = tmp %>%
           dplyr::filter(as.numeric(Project_Wave) %in% 0) %>%
-          dplyr::distinct %>%
+          dplyr::distinct() %>%
           dplyr::select(CrossProject_ID)
 
         tmp = tmp %>%
