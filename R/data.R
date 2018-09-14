@@ -11,3 +11,29 @@
 #' @examples
 #' data(baseCols)
 "baseCols"
+
+#' MOAS Projects
+#'
+#' data frame of LCBC projects in the MOAS
+#'
+#' @docType data
+#' @name Projects
+#' @usage data(Projects)
+#' @keywords datasets
+#'
+#' @examples
+#' data(Projects)
+"Projects"
+
+#' MOAS sites
+#'
+#' a data frame with information on LCBC sites
+#'
+#' @docType data
+#' @name Sites
+#' @usage data(Sites)
+#' @keywords datasets
+#'
+#' @examples
+#' data(Sites)
+"Sites"
