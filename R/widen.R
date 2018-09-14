@@ -30,7 +30,7 @@
 #' @export
 widen = function(data, by){
 
-  if(missing(ColumnList)) ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
+  ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
 
   SEP = switch(by,
                "none" = "skip",

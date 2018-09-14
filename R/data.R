@@ -37,3 +37,17 @@
 #' @examples
 #' data(Sites)
 "Sites"
+
+#' MOAS variables
+#'
+#' a data frame with information on the different MOAS variables and
+#' their content and types
+#'
+#' @docType data
+#' @name variables
+#' @usage data(variables)
+#' @keywords datasets
+#'
+#' @examples
+#' data(variables)
+"variables"

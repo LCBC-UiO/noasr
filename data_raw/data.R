@@ -16,5 +16,9 @@ baseCols = c("Folder","CrossProject_ID","Sex","Birth_Date",
              "SIte_Name","Site_Number", "Site_Tesla","N_Scans",
              "Age","Interval_FirstVisit")
 
-save(baseCols,Sites,Projects,
+# Only works on lagringshotel
+variables = rio::import("../../../../Documentation/Project_Harmonization.xlsx") %>%
+  select(1:5)
+
+save(baseCols, Sites, Projects, variables,
      file="data/data.RData")
