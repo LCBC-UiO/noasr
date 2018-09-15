@@ -40,17 +40,20 @@ widen = function(data, by){
                "Site_Number"       = "S"
   )
 
-  if(purrr::is_empty(SEP)) print(paste("There is no way to make wide by '", by, "'", sep=""))
+  if(purrr::is_empty(SEP)) stop(paste("There is no way to make wide by '", by, "'", sep=""))
 
-
+  BY = data %>% select_(by)
+  
   if(SEP=="skip"){
     #Does nothing...
     DATA3 = data
   }else if(SEP %in% c("W","tp")){  #If going by wave
 
-    #Reorder columns so we can start manipulating the data.frame
+    COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
+    
+    # Reorder columns so we can start manipulating the data.frame
     DATA2 = data %>%
-      dplyr::select(CrossProject_ID, Birth_Date, Sex, by, dplyr::everything())
+      dplyr::select(one_of(COLS), by, dplyr::everything())
 
     DATA2 = DATA2 %>%
       tidyr::gather(variable, val, -(1:4), na.rm=T)  %>%
@@ -58,11 +61,11 @@ widen = function(data, by){
       dplyr::arrange_("CrossProject_ID",by)
 
     # Paste separator infront of the by
-    DATA2[,4] = paste0(SEP,DATA2[,4] %>% unlist)
+    DATA2[,by] = paste0(SEP,DATA2[,by] %>% unlist)
 
     DATA4 = DATA2 %>%
       dplyr::arrange(variable) %>%
-      tidyr::unite(temp, c(4, variable) ) %>%
+      tidyr::unite_("temp", c(by, "variable") ) %>%
       dplyr::distinct()
 
     # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age
@@ -92,32 +95,33 @@ widen = function(data, by){
 
     #Else if going by site
   }else if(any(SEP %in% c("S","T"))){
-
+    # Define key columns that must stay in
+    COLS = c("CrossProject_ID", "Project_Name", "Project_Wave", "Project_Wave_ID", "Subject_Timepoint")
+    
     #Create a data.frame with only cognitive stuff and PET (i.e. things measured only once pr TP)
     DATAX = data %>%
-      dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>%
-      dplyr::select(CrossProject_ID, by, everything()) %>%
+      dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>% 
+      dplyr::select(one_of(COLS), dplyr::everything()) %>%
       dplyr::distinct() %>%
       tidyr::drop_na_("CrossProject_ID")
 
     # Create a widened data frame
     DATA2 = data %>%
-      dplyr::select(-one_of(names(DATAX)[-c(1:2)])) %>%
-      dplyr::select(CrossProject_ID,by,dplyr::everything()) %>%
+      dplyr::select(-one_of(names(DATAX)[!grepl(paste(COLS,collapse="|"), names(DATAX))])) %>%
+      dplyr::select(one_of(COLS),by, dplyr::everything()) %>%
       tidyr::drop_na_("CrossProject_ID") %>%
       dplyr::distinct() %>%
-      tidyr::gather(temp, val, -(1:2)) %>%
+      tidyr::gather(temp, val, -one_of(c(COLS,by))) %>%
       stats::na.omit() %>%
-      dplyr::distinct()
+      dplyr::distinct() %>% 
+      dplyr::arrange(temp)
 
     # If this data does not contain anything to widen
-    if(!"temp" %in% names(DATA2)){
+    if(!exists("DATA2")){
       stop(paste("This data has nothing to widen by", by))
     }
 
-    DATA2 = DATA2 %>% dplyr::arrange(temp)
-
-    DATA2[,2] = paste(SEP,DATA2[,2] %>% unlist(),sep="")
+    DATA2[,by] = paste(SEP,DATA2[,by] %>% unlist(),sep="")
     DATA2 = DATA2 %>%
       tidyr::unite(temp, c(temp,by))
 
@@ -126,22 +130,19 @@ widen = function(data, by){
       tidyr::spread(temp, val, convert = TRUE)
     ###
 
-    DATA3 = DATAX %>% merge(DATA4, all=T, by = c("CrossProject_ID", "Subject_Timepoint")) %>%
+    DATA3 = DATAX %>% 
+      merge(DATA4, all=T, by = COLS) %>%
       dplyr::arrange(CrossProject_ID, Subject_Timepoint)
 
     DATA3 = DATA3 %>%
       dplyr::group_by(CrossProject_ID,Subject_Timepoint) %>%
       dplyr::mutate(N_Scans=sum(N_Scans)) %>% as.data.frame() %>%
       tidyr::drop_na_("CrossProject_ID")
-    names(DATA3) = gsub("_tmp","",names(DATA3)) #Needed weird workaround for strange appendage to column names
-
   }
 
   #Order columns more nicely
-  DATA3 = DATA3 %>%
+  DATA3 %>%
     dplyr::select(dplyr::one_of(ColumnList[ColumnList %in% names(DATA3)]),
                   dplyr::everything()) %>%
     na.col.rm()
-
-  return(DATA3)
 }
