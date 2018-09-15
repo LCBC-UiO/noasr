@@ -52,13 +52,17 @@ library(MOAS)
 #    site_keeper("ousPrisma") %>%
 #    widen("Project_Wave")
 
+## ----data, echo=T, eval=T------------------------------------------------
+Sites
+
+Projects
+
+## ----variables, echo=T, eval=T-------------------------------------------
+# reduced to just to 5 first for this vignette
+head(variables, 5)
+
 ## ----"na.col.rm"---------------------------------------------------------
 #  data2 = data %>% filter(Project_Name %in% "NCP") %>% na.col.rm()
-
-## ----"count_chars", eval=F-----------------------------------------------
-#  strings = c("This is a vector","containing two strings")
-#  strings %>% count_chars()
-#  
 
 ## ----"factor_times", eval=T, warning=F-----------------------------------
 times_hhmm = c("22:40","19:30","08:21","02:47","11:45","13:12")

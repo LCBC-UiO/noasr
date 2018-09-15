@@ -81,7 +81,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3>Basic usage</h3>
 <p>After the package is installed, the package needs to be called in every script or R instance to make it’s functions available.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MOAS)</code></pre></div>
-<p>The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. The MOAS may be found in the MOAS data-foler in the Lagringshotell: <code>LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData</code></p>
+<p>The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. The MOAS may be found in the MOAS data-folder in the Lagringshotell: <code>LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData</code></p>
 <p>Each project contained in the MOAS also has it’s own MOAS-derived files at the top level of their data folder, in this type of format: <code>LCBC/Projects/11_MemP/Data/11_MemP_Imaging_Long.RData</code> These types of files are compatible with all functions in the package.</p>
 <div id="loading-the-moas-or-moas-derived-files" class="section level4">
 <h4>Loading the MOAS or MOAS-derived files</h4>
@@ -146,7 +146,7 @@ simple_data =<span class="st"> </span><span class="kw">site_keeper</span>(data, 
 <p><code>grouping.var</code> - a vector of strings with the names of the columns for your categorical groups. Usually, “Sex” and “Site_Name” are added here, like so: <code>grouping.var = c(&quot;Sex&quot;,&quot;Site_Name&quot;).</code>numeric.var<code>- a vector of strings with the names of the columns for you numeric covariates. Here we often add cognitive scores like:</code>numeric.var = “CVLT_A_Total`.</p>
 <p>Example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fs_lmm</span>(data, <span class="dt">grouping.var =</span> <span class="kw">c</span>(<span class="st">&quot;Sex&quot;</span>,<span class="st">&quot;Site_Name&quot;</span>), <span class="dt">numeric.var=</span><span class="st">&quot;CVLT_A_Total&quot;</span>)</code></pre></div>
-<p>There are several other options to help you do different things. the <code>keep</code> option is passed to the <a href="#site_keeper"><code>site_keeper()</code></a> function to handle double and triple scanned data.</p>
+<p>There are several other options to help you do different things. the <code>keep</code> option is passed to the <a href="#site_keeper"><code>site_keeper()</code></a> function to handle double and triple scanned data. By default is uses the value “long”, which will choose the scanner from a subject with the most data (in case of a tie, it picks the Skyra).</p>
 <p>Please see the documentation of this function for more options:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?fs_lmm</code></pre></div>
 </div>
@@ -159,6 +159,42 @@ simple_data =<span class="st"> </span><span class="kw">site_keeper</span>(data, 
 <span class="st">  </span><span class="kw">site_keeper</span>(<span class="st">&quot;ousPrisma&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">widen</span>(<span class="st">&quot;Project_Wave&quot;</span>)</code></pre></div>
 </div>
+<div id="built-in-data" class="section level3">
+<h3>Built in data</h3>
+<p>There are certain variables easily accessible after loading the MOAS package, to help you navigate the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Sites</code></pre></div>
+<pre><code>##   Site_Number    Site_Name Site_Tesla
+## 1          11    ousAvanto        1.5
+## 2          12     ousSkyra        3.0
+## 3          13    ousPrisma        3.0
+## 4          20   ntnuAvanto        1.5
+## 5          21 curatoAvanto        1.5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Projects</code></pre></div>
+<pre><code>##   Project_Number Project_Name
+## 1             10         NDev
+## 2             11         MemP
+## 3             12          NCP
+## 4             13         MoBa
+## 5             14         Loci
+## 6             15         MemC
+## 7             16         ACon
+## 8             17          S2C</code></pre>
+<p>The most useful is likely the <code>variables</code> data.frame is the most useful, which gives you a table of all the non-imaging variables in the MOAS, with some information about their content and types. The <code>Values</code> column in this data.frame denotes the allowed values in the column. For numeric data it denotes the min and max values, while for factors it should provide the factor levels and labels.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reduced to just to 5 first for this vignette</span>
+<span class="kw">head</span>(variables, <span class="dv">5</span>)</code></pre></div>
+<pre><code>##                MOAS                             Label     Type   Class
+## 1   CrossProject_ID                Subject identifier Constant integer
+## 2        Birth_Date                     Date of Birth Constant    Date
+## 3               Sex                    Biological sex Constant  factor
+## 4 Subject_Timepoint Sequential participant time point Variable integer
+## 5      Project_Wave             Project – Wave number Variable integer
+##              Values
+## 1 1000000 ; 9999999
+## 2              &lt;NA&gt;
+## 3 1=Female ; 2=Male
+## 4            1 ; 10
+## 5            1 ; 10</code></pre>
+</div>
 <div id="utility-functions" class="section level3">
 <h3>Utility functions</h3>
 <p>Some functions in the MOAS package are what we call utility functions. They do not exclusively work on MOAS data, they will work well on other data.frames or vectors. These funtions perform operations to help clean up data or perform simple and useful operations.</p>
@@ -166,12 +202,6 @@ simple_data =<span class="st"> </span><span class="kw">site_keeper</span>(data, 
 <h4>The <code>na.col.rm()</code> function</h4>
 <p>This function locates any column in a data.frame that has no observations (only contains <code>NA</code> or <code>NaN</code>), and removes it from the data.frame. This particularly convenient if you have subsetted the rows of data to specific observations, and want to quickly remove any columns that no longer are of consequence for the data you have.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data2 =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Project_Name <span class="op">%in%</span><span class="st"> &quot;NCP&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na.col.rm</span>()</code></pre></div>
-</div>
-<div id="count_chars" class="section level4">
-<h4>The <code>count_chars()</code> function</h4>
-<p>You might want to count the number of times a specific character appears in a string variable, <code>count_chars()</code> can help you do this.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strings =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;This is a vector&quot;</span>,<span class="st">&quot;containing two strings&quot;</span>)
-strings <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count_chars</span>()</code></pre></div>
 </div>
 <div id="factor_times" class="section level4">
 <h4>The <code>factor_times()</code> function</h4>

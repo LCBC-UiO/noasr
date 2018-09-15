@@ -10,11 +10,10 @@ is.hms(data)
 \item{data}{a data.frame}
 }
 \value{
-a data frame with no empty columns
+logical vector of length==ncol(data)
 }
 \description{
-\code{is.hms} Removes columns from the
-data frame that does not contain any data.
+\code{is.hms} locates columns that are time (hms) classes
 }
 \examples{
 is.hms(data)
