@@ -4,7 +4,7 @@
 \alias{widen}
 \title{Widen the MOAS data.frame}
 \usage{
-widen(data, by)
+widen(data, by, keep = NA)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}

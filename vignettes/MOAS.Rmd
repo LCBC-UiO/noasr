@@ -103,11 +103,15 @@ widened_data = widen(data, by="Site_Name")
 ```
 
 Using `by="Subject_Timepoint"` or `by="Project_Wave"` the data must have only _one line per participant and timepoint_. For double and triple scanned, this is not the case. 
-In order to widen by these two options, you need to either run `widen()` with `by="Site_Name"` or `by="Site_Number"` first, or run the [`site_keeper()`](#site_keeper) function.
+In order to widen by these two options, you need to either run `widen()` with `by="Site_Name"` or `by="Site_Number"` first, run the [`site_keeper()`](#site_keeper) function, or provide `widen()` with the `keep` argument which will feed it to `site_keeper` for you.
 
 ```{r "widen examplel2"}
 widened_data1 = widen(data, by="Site_Name")
 widened_data2 = widen(widened_data1, by="Project_Wave")
+
+widened_data1 = widen(data, by="Site_Name", keep="ousAvanto")
+
+
 ```
 
 
@@ -118,9 +122,9 @@ To run the function, you must choose which scanner you wish to keep data from.
 
 There are four options:  
 1. "long" - finds which scanner there is most data from, and keeps those (default) 
-1. "ousAvanto" - keeps Avanto data  
-1. "ousSkyra" - keeps Skyra data  
-1. "ourPrisma" - keeps Prisma data  
+2. "ousAvanto" - keeps Avanto data  
+3. "ousSkyra" - keeps Skyra data  
+4. "ourPrisma" - keeps Prisma data  
 
 **Note**: the operation only affects double and triple scan timepoints.
 All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.

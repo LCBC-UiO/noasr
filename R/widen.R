@@ -28,7 +28,7 @@
 #' @importFrom tidyr gather unite spread drop_na_
 #' @importFrom magrittr "%>%"
 #' @export
-widen = function(data, by){
+widen = function(data, by, keep=NA){
 
   ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
 
@@ -40,17 +40,22 @@ widen = function(data, by){
                "Site_Number"       = "S"
   )
 
+  if(!is.na(keep)){
+    data = data %>%
+      site_keeper(keep=keep)
+  }
+
   if(purrr::is_empty(SEP)) stop(paste("There is no way to make wide by '", by, "'", sep=""))
 
   BY = data %>% select_(by)
-  
+
   if(SEP=="skip"){
     #Does nothing...
     DATA3 = data
   }else if(SEP %in% c("W","tp")){  #If going by wave
 
     COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
-    
+
     # Reorder columns so we can start manipulating the data.frame
     DATA2 = data %>%
       dplyr::select(one_of(COLS), by, dplyr::everything())
@@ -97,10 +102,10 @@ widen = function(data, by){
   }else if(any(SEP %in% c("S","T"))){
     # Define key columns that must stay in
     COLS = c("CrossProject_ID", "Project_Name", "Project_Wave", "Project_Wave_ID", "Subject_Timepoint")
-    
+
     #Create a data.frame with only cognitive stuff and PET (i.e. things measured only once pr TP)
     DATAX = data %>%
-      dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>% 
+      dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>%
       dplyr::select(one_of(COLS), dplyr::everything()) %>%
       dplyr::distinct() %>%
       tidyr::drop_na_("CrossProject_ID")
@@ -113,7 +118,7 @@ widen = function(data, by){
       dplyr::distinct() %>%
       tidyr::gather(temp, val, -one_of(c(COLS,by))) %>%
       stats::na.omit() %>%
-      dplyr::distinct() %>% 
+      dplyr::distinct() %>%
       dplyr::arrange(temp)
 
     # If this data does not contain anything to widen
@@ -130,7 +135,7 @@ widen = function(data, by){
       tidyr::spread(temp, val, convert = TRUE)
     ###
 
-    DATA3 = DATAX %>% 
+    DATA3 = DATAX %>%
       merge(DATA4, all=T, by = COLS) %>%
       dplyr::arrange(CrossProject_ID, Subject_Timepoint)
 
