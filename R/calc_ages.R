@@ -16,7 +16,7 @@
 #' calc_ages(data)
 #'
 #' @importFrom stats ave na.omit time
-#' @importFrom dplyr select group_by summarise rename filter mutate lag first left_join arrange mutate_
+#' @importFrom dplyr select group_by ungroup summarise rename filter mutate lag first left_join arrange mutate_
 #' @importFrom magrittr "%>%"
 #'
 #' @export
@@ -73,17 +73,16 @@ calc_ages = function(data) {
     dplyr::mutate(lagAge = lag(Age)) %>% 
     dplyr::mutate(Interval_LastVisit = ifelse(is.na(lagAge), 0, Age-lagAge),
                   Interval_FirstVisit = Age-min(Age)
-    )
+    ) %>% 
+    dplyr::select(-lagAge)
 
   data = data %>%
     dplyr::select(-dplyr::one_of("Subject_Timepoint")) %>%
     dplyr::left_join(tmp, by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>%
     dplyr::group_by(CrossProject_ID) %>%
-    dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), difftime(Test_Date,MRI_Date), NA))
-
-  data %>%
+    dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), difftime(Test_Date,MRI_Date), NA)) %>% 
     dplyr::arrange(CrossProject_ID, Subject_Timepoint) %>%
     dplyr::select(-Date) %>%
-    as.data.frame()
+    dplyr::ungroup()
 
 }

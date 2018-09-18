@@ -10,6 +10,8 @@ widen(data, by, keep = NA)
 \item{data}{The MOAS or a MOAS generated file.}
 
 \item{by}{Column which to widen by. Options are: "Subject_Timepoint","Project_Wave","Site_Name", or "Site_Number".}
+
+\item{keep}{Option to provide to [site_keeper()] for filtering the double/triple scanned}
 }
 \value{
 A MOAS type file widened by dplyr::selected column, prefixed with columns specifications
