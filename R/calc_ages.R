@@ -77,7 +77,7 @@ calc_ages = function(data) {
     dplyr::select(-lagAge)
 
   data = data %>%
-    dplyr::select(-dplyr::one_of("Subject_Timepoint")) %>%
+    dplyr::select(-dplyr::one_of(c("Subject_Timepoint", "Age"))) %>%
     dplyr::left_join(tmp, by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>%
     dplyr::group_by(CrossProject_ID) %>%
     dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), difftime(Test_Date,MRI_Date), NA)) %>% 
