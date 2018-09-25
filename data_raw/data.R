@@ -1,6 +1,9 @@
 Projects = data.frame(
-  Project_Number = 10:17,
-  Project_Name = c("NDev","MemP","NCP","MoBa","Loci","MemC","ACon","S2C"),
+  Project_Number = c(10:17,90),
+  Project_Name = c("NDev","MemP","NCP","MoBa","Loci","MemC","ACon","S2C",
+                   "Novel_biomarkers"),
+  Project_Experimental = c(NA,NA, "Memory training",NA,"Memory training",
+                           NA, NA, "Memory training (VR)",NA),
   stringsAsFactors = F
 )
 save(Projects, file="data/Projects.RData")

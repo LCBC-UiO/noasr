@@ -41,14 +41,14 @@ widen = function(data, by, keep=NA){
                "Site_Number"       = "S"
   )
 
+  BY = data %>% select_(by)
+  
   if(!is.na(keep)){
     data = data %>%
       site_keeper(keep=keep)
   }
 
   if(purrr::is_empty(SEP)) stop(paste("There is no way to make wide by '", by, "'", sep=""))
-
-  BY = data %>% select_(by)
 
   if(SEP=="skip"){
     #Does nothing...

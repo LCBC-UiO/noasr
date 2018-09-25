@@ -23,7 +23,7 @@
 calc_ages = function(data) {
 
   # Create a single Date columns. with test-Date if MRI-date is missing
-  data = data %>%
+  data2 = data %>%
     dplyr::mutate(Date = ifelse(!is.na(MRI_Date), 
                                 MRI_Date, 
                                 Test_Date) %>% as.Date(origin = "1970-01-01"))
@@ -31,23 +31,23 @@ calc_ages = function(data) {
   # Calculate mean dates for all projects and project waves. For those participants we are missing Dates, so we may sort the
   # data chronologically This is a necessary workaround because of participants having participated across projects, and
   # subject timepoints need to be chronological, not by project.
-  DATES = data %>%
+  DATES = data2 %>%
     dplyr::group_by(Project_Name, Project_Wave) %>%
     dplyr::summarise(Dates = mean.Date(Date, na.rm = T) )
 
   # Replace NA-dates in the data with the mean date for that project
-  for (i in which(is.na(data$Date))) {
-    idx = (DATES$Project_Name %in% data$Project_Name[i] & DATES$Project_Wave %in% data$Project_Wave[i]) %>% which()
-    data$Date[i] = DATES$Dates[idx]
+  for (i in which(is.na(data2$Date))) {
+    idx = (DATES$Project_Name %in% data2$Project_Name[i] & DATES$Project_Wave %in% data2$Project_Wave[i]) %>% which()
+    data2$Date[i] = DATES$Dates[idx]
   }
 
   # Sort the data according to ID then Date
-  data = data %>%
+  data2 = data2 %>%
     dplyr::filter(!is.na(CrossProject_ID)) %>%
     dplyr::arrange(CrossProject_ID, Date)
 
   # Get ages in numeric years adjusting for leap years
-  data = data %>%
+  data2 = data2 %>%
     dplyr::mutate(MRI_Age = ifelse(!is.na(MRI_Date), 
                                    as.numeric(MRI_Date-Birth_Date)/365.25, 
                                    NA),
@@ -64,7 +64,7 @@ calc_ages = function(data) {
   # Subject timepoint needs a small workaround because of the double/triple scans and Novel_biomarkers round 4 with several
   # months between double scans
   
-  tmp = data %>%
+  tmp = data2 %>%
     dplyr::select(CrossProject_ID, Project_Number, Project_Wave, Age) %>%
     arrange(CrossProject_ID, Age) %>% 
     unique() %>%
@@ -76,7 +76,7 @@ calc_ages = function(data) {
     ) %>% 
     dplyr::select(-lagAge)
 
-  data = data %>%
+  data2 %>%
     dplyr::select(-dplyr::one_of(c("Subject_Timepoint", "Age"))) %>%
     dplyr::left_join(tmp, by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>%
     dplyr::group_by(CrossProject_ID) %>%
