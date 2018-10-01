@@ -18,7 +18,7 @@ save(Sites, file="data/Sites.RData")
 
 baseCols = c("Folder","CrossProject_ID","Sex","Birth_Date",
              "Subject_Timepoint","Project_Wave","Project_Name",
-             "SIte_Name","Site_Number", "Site_Tesla","N_Scans",
+             "Site_Name","Site_Number", "Site_Tesla","N_Scans",
              "Age","Interval_FirstVisit")
 save(baseCols,file="data/baseCols.RData")
 

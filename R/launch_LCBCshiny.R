@@ -24,12 +24,12 @@ launch_LCBCshiny <- function(data) {
     stop("Could not find example directory. Try re-installing `MOAS`.", call. = FALSE)
   }
 
-  load(paste0(appDir,"/globalVars/Vars.RData"))
+  sapply(list.files(paste0(appDir,"/globalVars/"), full.names = T), load, .GlobalEnv)
 
   if(!missing(data)){
-    if(any(!BaseCols %in% names(data))){
+    if(any(!baseCols %in% names(data))){
       stop(paste0("Data is missing key variables for shiny to run: ",
-                  paste(BaseCols[!BaseCols %in% names(data)], collapse=", ")))
+                  paste(baseCols[!baseCols %in% names(data)], collapse=", ")))
     }
     .GlobalEnv$inDATA <- data
     on.exit(rm(inDATA, envir=.GlobalEnv))

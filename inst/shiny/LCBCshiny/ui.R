@@ -16,7 +16,7 @@ ui=shiny::fluidPage(
     shiny::fluidRow(
       shiny::HTML("<br><p style='color: #626262; font-size: 12px;'> Use the 'Search' field to provide expressions that subsets the rows of
            the table with a logical expression ['COLUMN' 'expression' 'value'], ex. Age>20 for Age over 20. See 'Help' tab for more information <br>"),
-      shiny::HTML("<br><b>Base columns are: </b>"), paste(BaseCols , collapse = "  ")
+      shiny::HTML("<br><b>Base columns are: </b>"), paste(baseCols , collapse = "  ")
       ),
 
     shiny::fluidRow(

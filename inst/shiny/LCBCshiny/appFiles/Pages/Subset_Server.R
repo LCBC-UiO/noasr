@@ -2,7 +2,7 @@
 
 output$ColSelect_SubData = shiny::renderUI({
   # The options are dynamically generated on the server
-  opts = names(DATA())[!(names(DATA()) %in% BaseCols)]
+  opts = names(DATA())[!(names(DATA()) %in% baseCols)]
   shiny::selectizeInput('ExtraColsDATA', 'Add columns to your file', opts, selected = character(0),
                         multiple = T, options = list(placeholder = 'Type to start selecting'), width="100%")
 })
@@ -42,7 +42,7 @@ ExCols =  shiny::eventReactive(input$goClick_DATA, {
     tmp = gsub(",", "|", input$ColSearch_SubData)
     tmp = gsub(" ","", tmp)
     Cols = DATA() %>%
-      dplyr::select(tmp) %>%
+      dplyr::select(matches(tmp)) %>%
       names()
   }
   if(!purrr::is_empty(input$ExtraColsDATA)) Cols=c(Cols,input$ExtraColsDATA)
@@ -51,9 +51,9 @@ ExCols =  shiny::eventReactive(input$goClick_DATA, {
 
 subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
   tmp=DATA()
-  print(unique(c(BaseCols , ExCols() )))
+  print(unique(c(baseCols , ExCols() )))
   if(input$search_DATA!="") tmp = tmp %>% dplyr::filter_(input$search_DATA)
-  if(!purrr::is_empty(ExCols())) tmp = tmp %>% dplyr::select(dplyr::one_of(unique(c(BaseCols , ExCols() ))))
+  if(!purrr::is_empty(ExCols())) tmp = tmp %>% dplyr::select(dplyr::one_of(unique(c(baseCols, ExCols() ))))
 
   for(i in names(which(sapply(DATA(), class) == "list"))){
     tmp = list2df(tmp, i)
@@ -67,19 +67,20 @@ subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
 })
 
 subDATA_structured = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
-  tmp=subDATA()
 
-  if(input$actionTable %in% "w2s"){
-    tmp = tmp %>% MOAS::widen("Project_Wave", ConversionTab[,1]) %>%
-      MOAS::widen("Site_Name", ConversionTab[,1])
+  if(input$actionTable %in% "none"){
+    tmp = subDATA()
+  }else if(input$actionTable %in% "w2s"){
+    tmp = subDATA() %>% MOAS::widen("Project_Wave") %>%
+      MOAS::widen("Site_Name")
   }else if(input$actionTable %in% "s2w"){
-    tmp = tmp %>% MOAS::widen("Site_Name", ConversionTab[,1]) %>%
-      MOAS::widen("Project_Wave", ConversionTab[,1])
+    tmp = subDATA() %>% MOAS::widen("Site_Name") %>%
+      MOAS::widen("Project_Wave")
   }else if(input$actionTable %in% "t2w"){
-    tmp = tmp %>% MOAS::widen(tmp, "Site_Tesla", ConversionTab[,1]) %>%
-      MOAS::widen("Project_Wave", ConversionTab[,1])
+    tmp = subDATA() %>% MOAS::widen(tmp, "Site_Tesla") %>%
+      MOAS::widen("Project_Wave")
   }else{
-    tmp = MOAS::widen(tmp, input$actionTable, ConversionTab[,1])
+    tmp = MOAS::widen(subDATA(), input$actionTable, ConversionTab[,1])
   }
 
   return(tmp %>% MOAS::na.col.rm())

@@ -22,12 +22,11 @@ output$DataTablePage = shiny::renderUI({
 
 
 output$table_DATA = DT::renderDataTable({
-  n=sample(1:(nrow(subDATA_structured())-24),1)
   NUMS = apply(subDATA_structured(),2,
                function(x) (as.numeric(x)%%1 > 0 ) %>% any)
   NUMS = (NUMS %in% TRUE) %>% which()
 
-  subDATA_structured() %>% #[n:(n+24),] %>%
+  subDATA_structured() %>%
     DT::datatable(options = list(scrollX = TRUE,pageLength = 25)) %>%
     DT::formatStyle(columns = c(1:ncol(subDATA_structured())), 'text-align' = 'center') %>%
     DT::formatRound(columns=NUMS, digits=2)

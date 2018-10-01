@@ -21,68 +21,89 @@
 #'
 #' @export
 calc_ages = function(data) {
-
+  
   # Create a single Date columns. with test-Date if MRI-date is missing
   data2 = data %>%
+    select(-one_of(c("Interval_LastVisit","Interval_FirstVisit"))) %>% 
     dplyr::mutate(Date = ifelse(!is.na(MRI_Date), 
                                 MRI_Date, 
                                 Test_Date) %>% as.Date(origin = "1970-01-01"))
-
+  
   # Calculate mean dates for all projects and project waves. For those participants we are missing Dates, so we may sort the
   # data chronologically This is a necessary workaround because of participants having participated across projects, and
   # subject timepoints need to be chronological, not by project.
   DATES = data2 %>%
     dplyr::group_by(Project_Name, Project_Wave) %>%
     dplyr::summarise(Dates = mean.Date(Date, na.rm = T) )
-
+  
   # Replace NA-dates in the data with the mean date for that project
   for (i in which(is.na(data2$Date))) {
     idx = (DATES$Project_Name %in% data2$Project_Name[i] & DATES$Project_Wave %in% data2$Project_Wave[i]) %>% which()
     data2$Date[i] = DATES$Dates[idx]
   }
-
+  
   # Sort the data according to ID then Date
   data2 = data2 %>%
-    dplyr::filter(!is.na(CrossProject_ID)) %>%
+    tidyr::drop_na(CrossProject_ID) %>%
     dplyr::arrange(CrossProject_ID, Date)
-
+  
   # Get ages in numeric years adjusting for leap years
   data2 = data2 %>%
     dplyr::mutate(MRI_Age = ifelse(!is.na(MRI_Date), 
                                    as.numeric(MRI_Date-Birth_Date)/365.25, 
                                    NA),
-           Test_Age = ifelse(!is.na(Test_Date), 
-                             as.numeric(Test_Date-Birth_Date)/365.25, 
-                             NA),
-           Age = ifelse((is.na(MRI_Age) & is.na(Test_Age)), 
-                        Age, 
-                        as.numeric(Date - Birth_Date)/365.25)) %>%
+                  Test_Age = ifelse(!is.na(Test_Date), 
+                                    as.numeric(Test_Date-Birth_Date)/365.25, 
+                                    NA),
+                  Age = ifelse((is.na(MRI_Age) & is.na(Test_Age)), 
+                               Age, 
+                               as.numeric(Date - Birth_Date)/365.25)) %>%
     dplyr::mutate(Age = ifelse(is.na(Age), 
                                as.numeric(Date - Birth_Date)/365.25,
                                Age))
-
+  
   # Subject timepoint needs a small workaround because of the double/triple scans and Novel_biomarkers round 4 with several
   # months between double scans
-  
   tmp = data2 %>%
+    filter(Project_Number != 90) %>% 
     dplyr::select(CrossProject_ID, Project_Number, Project_Wave, Age) %>%
     arrange(CrossProject_ID, Age) %>% 
     unique() %>%
     dplyr::group_by(CrossProject_ID) %>%
-    dplyr::mutate(Subject_Timepoint = stats::ave(CrossProject_ID,CrossProject_ID, FUN = seq_along)) %>% 
+    dplyr::mutate(Subject_Timepoint = dplyr::row_number()) %>% 
+    dplyr::ungroup() %>% 
+    full_join(data2 %>% select(-Age),by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>% 
+    filter(Project_Number != 90)
+  
+  ## Workaround for Novel biomarkers round 4 that is messing up things.
+  novelBM <- data2 %>% 
+    filter(Project_Number == 90) %>% 
+    select(CrossProject_ID, Project_Number, Project_Wave) %>% 
+    distinct() %>% 
+    dplyr::group_by(CrossProject_ID) %>%
+    dplyr::mutate(Subject_Timepoint = dplyr::row_number()) %>% 
+    dplyr::ungroup() %>% 
+    full_join(data2,by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>% 
+    filter(Project_Number == 90)
+  
+  data3 = tmp %>% 
+    rbind.data.frame(novelBM)
+  
+  data4 = data3 %>% 
+    dplyr::group_by(CrossProject_ID) %>% 
     dplyr::mutate(lagAge = lag(Age)) %>% 
     dplyr::mutate(Interval_LastVisit = ifelse(is.na(lagAge), 0, Age-lagAge),
-                  Interval_FirstVisit = Age-min(Age)
+                  Interval_FirstVisit = Age-min(Age,na.rm=T)
     ) %>% 
-    dplyr::select(-lagAge)
-
-  data2 %>%
-    dplyr::select(-dplyr::one_of(c("Subject_Timepoint", "Age"))) %>%
-    dplyr::left_join(tmp, by = c("CrossProject_ID", "Project_Number", "Project_Wave")) %>%
+    dplyr::select(-lagAge) %>% 
+    dplyr::ungroup()
+  
+  data4 %>%
     dplyr::group_by(CrossProject_ID) %>%
-    dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), difftime(Test_Date,MRI_Date), NA)) %>% 
+    dplyr::mutate(Interval_MRI_Test = ifelse(!is.na(Test_Date) & !is.na(MRI_Date), 
+                                             difftime(Test_Date,MRI_Date), NA)) %>% 
     dplyr::arrange(CrossProject_ID, Subject_Timepoint) %>%
     dplyr::select(-Date) %>%
     dplyr::ungroup()
-
+  
 }

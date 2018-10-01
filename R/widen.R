@@ -76,7 +76,8 @@ widen = function(data, by, keep=NA){
 
     # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age
     tmp = DATA4 %>%
-      dplyr::filter(CrossProject_ID > 9000000 & temp %in% paste0(SEP,"4_Age")) %>%
+      dplyr::filter(CrossProject_ID > 9000000 & 
+                      grepl(paste0(c(paste0(SEP,"4_Age"), paste0(SEP,"4_Interval")), collapse="|"),temp)) %>%
       dplyr::group_by(CrossProject_ID,Birth_Date,Sex, temp) %>%
       dplyr::summarise(val=as.character(mean(as.numeric(val)))) %>% as.data.frame() %>% stats::na.omit()
 
