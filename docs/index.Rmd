@@ -20,5 +20,6 @@ knitr::include_graphics("../inst/rmarkdown/templates/lcbc-presentation/skeleton/
 
 # Index of presentations
 
+- [MOAS-vignette](MOAS-vignette/MOAS-vignette.html) - Vignette from package 
 - [MOAS-ggseg](MOAS-ggseg/MOAS-ggseg.html) - From thursday meeting 18/10/2018  
 

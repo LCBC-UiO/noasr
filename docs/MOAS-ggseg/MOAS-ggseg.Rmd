@@ -1,8 +1,8 @@
 ---
-title: "LCBC presentation"
-subtitle: "- some tagline -"
-author: "Athanasia Monika Mowinckel"
-date: "The Date"
+title: "LCBC R-packages"
+subtitle: "- MOAS & ggseg -"
+author: "Athanasia Monika Mowinckel & Didac Piñeiro"
+date: "18/10/2018"
 output:
   xaringan::moon_reader:
     css: [lcbc-uio.css, lcbc-uio-fonts.css, default]
