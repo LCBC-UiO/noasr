@@ -22,6 +22,8 @@ between test and MRI, baseline to every subsequent testing, and
 intervall between timepoints.
 }
 \examples{
+\dontrun{
 calc_ages(data)
+}
 
 }

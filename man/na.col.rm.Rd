@@ -17,6 +17,7 @@ a data frame with no empty columns
 data frame that does not contain any data.
 }
 \examples{
+\dontrun{
 na.col.rm(data)
-
+}
 }

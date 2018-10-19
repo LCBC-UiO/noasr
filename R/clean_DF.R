@@ -8,8 +8,9 @@
 #' @return a cleaned data.frame
 
 #' @examples
+#' \dontrun{
 #' clean_DF(data)
-#'
+#' }
 #' @importFrom magrittr "%>%"
 #' @importFrom dplyr select one_of
 #' @importFrom utils type.convert

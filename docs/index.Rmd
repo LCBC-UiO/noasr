@@ -1,0 +1,19 @@
+---
+classoption: notitlepage
+author: "Athanasia Mowinckel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<div align="center">
+```{r echo=FALSE, out.width="70%"}
+knitr::include_graphics("../inst/rmarkdown/templates/lcbc-presentation/skeleton/lcbc_logo_wide.png")
+```
+</div>
+
+# Index of presentations
+

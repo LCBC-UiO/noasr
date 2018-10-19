@@ -13,9 +13,10 @@
 #' vector of integers
 
 #' @examples
+#' \dontrun{
 #'  tsdify(data)
 #'  tsdify(data, reverse=TRUE)
-#'
+#' }
 #' @importFrom magrittr "%>%"
 #' @importFrom dplyr mutate filter summarise distinct select one_of
 #' @importFrom stringr str_pad
@@ -41,7 +42,7 @@ tsdify = function(data, reverse = F) {
 
         tmp = tmp %>%
           dplyr::mutate(Project_Wave = as.numeric(Project_Wave)) %>%
-          dplyr::mutate(Project_Wave = ifelse(CrossProject_ID %in% NCPs$CrossProject_ID, Project_Wave + 1, Project_Wave)) %>% 
+          dplyr::mutate(Project_Wave = ifelse(CrossProject_ID %in% NCPs$CrossProject_ID, Project_Wave + 1, Project_Wave)) %>%
           dplyr::mutate(Project_Wave = ifelse(Project_Wave > 10, Project_Wave/10, Project_Wave))
 
         return(tmp$Project_Wave)

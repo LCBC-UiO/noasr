@@ -16,12 +16,14 @@
 #' @return A MOAS type file widened by dplyr::selected column, prefixed with columns specifications
 
 #' @examples
+#' \dontrun{
 #' widen(MOAS, by="Site_Name")
 #' widen(MOAS, by="Project_Wave")
 #'
 #' # Data with double/triple scans must be widened in a two-stage process
 #' dt = widen(MOAS, by="Site_Name")
 #' df = widen(dt, by="Project_Wave")
+#' }
 #'
 #' @importFrom dplyr select matches one_of everything distinct arrange_ arrange filter group_by summarise anti_join left_join mutate
 #' @importFrom purrr is_empty
@@ -42,7 +44,7 @@ widen = function(data, by, keep=NA){
   )
 
   BY = data %>% select_(by)
-  
+
   if(!is.na(keep)){
     data = data %>%
       site_keeper(keep=keep)
@@ -76,7 +78,7 @@ widen = function(data, by, keep=NA){
 
     # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age
     tmp = DATA4 %>%
-      dplyr::filter(CrossProject_ID > 9000000 & 
+      dplyr::filter(CrossProject_ID > 9000000 &
                       grepl(paste0(c(paste0(SEP,"4_Age"), paste0(SEP,"4_Interval")), collapse="|"),temp)) %>%
       dplyr::group_by(CrossProject_ID,Birth_Date,Sex, temp) %>%
       dplyr::summarise(val=as.character(mean(as.numeric(val)))) %>% as.data.frame() %>% stats::na.omit()

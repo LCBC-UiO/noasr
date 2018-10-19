@@ -23,7 +23,8 @@ TSD folder location of MRI data is, or to figure out the project
 wave from TSD folder names.
 }
 \examples{
+\dontrun{
  tsdify(data)
  tsdify(data, reverse=TRUE)
-
+}
 }

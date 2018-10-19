@@ -17,6 +17,7 @@ A string vector with up to 4 levels.
 four times of day: Morning, Afternoon, Evening, or Night.
 }
 \examples{
- factor_times(data)
-
+\dontrun{
+factor_times(data)
+}
 }

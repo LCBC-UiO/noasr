@@ -19,7 +19,9 @@ may pass this as an argument to the function to have the data
 already loaded in the application.
 }
 \examples{
+\dontrun{
 launch_LCBCshiny()
-launch_LCBCshiny(MOAS)
 
+launch_LCBCshiny(MOAS)
+}
 }

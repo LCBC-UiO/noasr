@@ -25,9 +25,11 @@
 #' @return a data frame ready for Freesurfer LMM use.
 
 #' @examples
+#' \dontrun{
 #' site_keeper(MOAS)
 #' site_keeper(MOAS, "ousSkyra")
 #' site_keeper(MOAS, "ousAvanto")
+#' }
 #'
 #' @importFrom dplyr filter mutate ungroup transmute select one_of mutate_all funs group_by summarise_all left_join first everything
 #' @importFrom stats na.omit

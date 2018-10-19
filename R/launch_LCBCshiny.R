@@ -11,9 +11,11 @@
 #' @param data The MOAS or a MOAS generated file.
 #'
 #' @examples
+#' \dontrun{
 #' launch_LCBCshiny()
-#' launch_LCBCshiny(MOAS)
 #'
+#' launch_LCBCshiny(MOAS)
+#' }
 #' @importFrom shiny runApp
 #'
 #' @export

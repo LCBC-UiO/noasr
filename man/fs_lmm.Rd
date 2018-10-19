@@ -40,8 +40,10 @@ Design matrices are created for the grouping.var factors, and numeric
 variables are z-transformed.
 }
 \examples{
+\dontrun{
 site_keeper(MOAS)
 site_keeper(MOAS, "ousSkyra")
 site_keeper(MOAS, "ousAvanto")
+}
 
 }

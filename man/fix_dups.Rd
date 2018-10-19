@@ -23,6 +23,8 @@ is NA in the original column, the suffixed column's data is
 placed there instead.
 }
 \examples{
+\dontrun{
 fix_dups(data, suffix="YY")
+}
 
 }

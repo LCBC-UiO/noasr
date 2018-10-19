@@ -7,8 +7,9 @@
 #' @return a numeric vector of decimal hours
 
 #' @examples
+#' \dontrun{
 #'  calc_hour(data)
-#'
+#' }
 #' @importFrom dplyr mutate
 #' @importFrom magrittr "%>%"
 #'

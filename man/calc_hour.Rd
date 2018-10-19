@@ -16,6 +16,7 @@ a numeric vector of decimal hours
 \code{calc_hour} calculates time in decimal hours from HH:MM format.
 }
 \examples{
+\dontrun{
  calc_hour(data)
-
+}
 }

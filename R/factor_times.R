@@ -8,8 +8,9 @@
 #' @return A string vector with up to 4 levels.
 
 #' @examples
-#'  factor_times(data)
-#'
+#' \dontrun{
+#' factor_times(data)
+#' }
 #' @importFrom lubridate hm hms
 #' @export
 

@@ -17,6 +17,7 @@ a cleaned data.frame
 labels and attributed, for easier reading and handling in R
 }
 \examples{
+\dontrun{
 clean_DF(data)
-
+}
 }

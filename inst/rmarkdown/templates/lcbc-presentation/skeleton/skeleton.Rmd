@@ -1,0 +1,76 @@
+---
+title: "LCBC presentation"
+subtitle: "- some tagline -"
+author: "Athanasia Monika Mowinckel"
+date: "The Date"
+output:
+  xaringan::moon_reader:
+    css: [lcbc-uio.css, lcbc-uio-fonts.css, default]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [middle, right]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false 
+      ratio: "16:9"
+---
+
+layout: true
+    
+<div class="my-sidebar"></div> 
+
+---
+
+### Start editing after this
+
+```{r setup, include=FALSE}
+# Here you can place global options for the entire document.
+# Mostly used for knitr settings, but can also load data etc.
+# Whatever happens here will not show in the presentation.
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Heading 1
+There are several heading levels. 
+
+## Heading 2
+depending on your hierarchy
+
+maybe some latex math? 
+$$\large x = \frac{y}{z} $$
+
+And some **bold** and  _italics_ text? 
+
+Three dashes make a new slide
+---
+## Add some R code
+```{r}
+library(ggseg)
+ggseg()
+```
+
+---
+## Create two columns and mute the R code
+.pull-right[
+This text goes in the right-hand column, while the plot is placed in the left-hand column
+]
+.pull-left[
+```{r, echo=F}
+ggseg(atlas = yeo7, 
+      position="stacked",
+      mapping = aes(fill=area),
+      show.legend = F) + 
+  scale_fill_brain("yeo7")
+```
+]
+---
+class: inverse, middle, center
+
+# You can also have some special slides
+## by specifying classes right after the `---`
+
+---
+class: dark, middle
+
+# or even with a dark slide!
+because dark is cool, right?

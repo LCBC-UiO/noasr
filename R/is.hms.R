@@ -7,8 +7,9 @@
 #' @return logical vector of length==ncol(data)
 
 #' @examples
+#' \dontrun{
 #' is.hms(data)
-#'
+#' }
 #' @export
 is.hms = function(data){
   any(class(data) %in% "hms")

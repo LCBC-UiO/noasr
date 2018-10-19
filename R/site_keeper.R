@@ -21,9 +21,11 @@
 #' @return A MOAS type file with one line per subject and timepoint.
 
 #' @examples
+#' \dontrun{
 #' site_keeper(MOAS)
 #' site_keeper(MOAS, 'ousSkyra')
 #' site_keeper(MOAS, 'ousAvanto')
+#' }
 #'
 #' @importFrom dplyr group_by add_tally ungroup filter select mutate
 #' @importFrom magrittr "%>%"
@@ -54,15 +56,18 @@ site_keeper = function(data, keep = "long", quiet = F) {
       dplyr::select(-n)
 
     # If there is a tie in number of scanners, grab the first
-    data2[!duplicated(data2 %>% dplyr::select(CrossProject_ID, Subject_Timepoint)),]
+    data2 = data2[!duplicated(data2 %>% dplyr::select(CrossProject_ID, Subject_Timepoint)),]
 
   }else{
 
-    data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
+    data2 = data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
       dplyr::add_tally() %>%
       dplyr::ungroup() %>%
       dplyr::mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
       dplyr::filter(Keep) %>%
       dplyr::select(-n, -Keep)
   }
+
+  data2 %>%
+    dplyr::ungroup()
 }

@@ -29,11 +29,13 @@ For MOAS which inclused double/triple scans, by="Site_Name",
 must be run prior to by="Project_Wave".
 }
 \examples{
+\dontrun{
 widen(MOAS, by="Site_Name")
 widen(MOAS, by="Project_Wave")
 
 # Data with double/triple scans must be widened in a two-stage process
 dt = widen(MOAS, by="Site_Name")
 df = widen(dt, by="Project_Wave")
+}
 
 }

@@ -16,6 +16,7 @@ logical vector of length==ncol(data)
 \code{is.hms} locates columns that are time (hms) classes
 }
 \examples{
+\dontrun{
 is.hms(data)
-
+}
 }
