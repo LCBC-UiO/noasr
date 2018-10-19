@@ -61,15 +61,13 @@ h1 {
   border-width: 0em 0em .3em 0em ;
   border-style: solid;
   border-color: #0099CC;
-  border-image: linear-gradient(to left,#ffffff00 3%, #94c11faa, #c5da84aa, #b2b2b2aa, #66bfddaa, #009fe3aa, #ffffff00 97%);
-  border-image-slice: 1;
+  border-image: linear-gradient(to left,#ffffff00 3%, #94c11faa, #c5da84aa, #b2b2b2aa, #66bfddaa, #009fe3aa, #ffffff00 97%);  border-image-slice: 1;
 }
 
 .inverse h1, .inverse h2, .inverse h3{
   border: none;
   color: #fff;
 }
-
 
 .title-slide h1, .title-slide h2, .title-slide h3 {
   border: none;
@@ -80,7 +78,6 @@ h1 {
 a, a > code {
   color: #626262;
 }
-
 
 .remark-code-line-highlighted { background-color: #66bfdd60; }
 

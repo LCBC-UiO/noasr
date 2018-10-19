@@ -1,0 +1,490 @@
+---
+title: "LCBC presentation"
+subtitle: "- some tagline -"
+author: "Athanasia Monika Mowinckel"
+date: "The Date"
+output:
+  xaringan::moon_reader:
+    css: [lcbc-uio.css, lcbc-uio-fonts.css, default]
+    lib_dir: libs
+    nature:
+      titleSlideClass: [middle, right]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false 
+      ratio: "16:9"
+---
+
+layout: true
+    
+<div class="my-sidebar"></div> 
+     
+---
+class: middle
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+``` 
+
+# Why R-packages?
+
+### Easy to install — Easy to update — Easy to use
+
+.pull-left[
+#### MOAS (in-house)
+Contains convenience functions and objects to work with the MOAS dataset.  
+- to aid subsetting, widening, create data for Freesurfer LME's etc.
+]  
+
+.pull-right[
+#### ggseg (public)
+To plot brain segmentations in R through ggplot.  
+
+- Create nice brain plots easily and in publication quality.  
+]
+
+---
+class: inverse, center, middle
+
+# Get Started
+
+---
+
+# Installing
+
+Both packages must be installed from github, and therefore requires devtools to install.  
+
+Both patckages are hosted on the LCBC github organizational page, and available for all do download, [Github](https://github.com/LCBC-UiO):
+
+```{r eval=FALSE, tidy=FALSE}
+devtools::install_github("LCBC-UiO/MOAS", build_vignettes = TRUE)
+devtools::install_github("LCBC-UiO/ggseg", build_vignettes = TRUE)
+```
+
+Remember to use the `build_vignettes = TRUE` option, to make the package vignettes available to you, these contain tutorials on using the packages.
+
+```{r message=F}
+library(tidyverse)
+library(MOAS)
+library(ggseg)
+```
+
+```{r eval=FALSE, tidy=FALSE}
+vignette("MOAS")
+vignette("ggseg")
+```
+
+---
+class: inverse, center, middle
+
+# The MOAS-package
+
+---
+# MOAS: Built-in global objects
+There are a couple of global objects in the `MOAS` package, both for cataloguing and for convenience.
+
+The `Projects` object gives a simple overview of all the projects in the MOAS, and some accompanying information on those.
+
+```{r }
+Projects
+```
+
+---
+# MOAS: Built-in global objects
+`baseCols` is a list of strings that might generally be smart to include in your subsetted MOAS data, particularly if you intend on using MOAS-package functions, which might rely on several of these columns to be present to work.
+
+You can for instance inslude these in you data with the following tidyverse command: `MOAS %>% select(one_of(baseCols))`
+
+```{r }
+baseCols
+```
+
+---
+# MOAS: Built-in global objects
+There is also the `Sites` object, with a simple overvire of the various scanners present in the dataset. 
+
+```{r }
+Sites
+```
+
+---
+# MOAS: Built-in global objects
+
+`variables` gives an overview over all the non-imaging columns in the MOAS, including information on the column name, explanatory label, type of data, class of data, and allowed values.
+
+```{r }
+variables %>% glimpse
+```
+---
+# MOAS: Using the package
+To properly use the MOAS package, you need to have already loaded MOAS-dataset into R.
+
+```{r eval=F, tidy=FALSE}
+load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+```
+
+```{r}
+MOAS %>% 
+  glimpse()
+```
+
+---
+# MOAS: Using the package 
+
+.pull-left[
+The LCBC shiny launcher is a user interfacer to subset and work simply with the MOAS. 
+
+```{r eval=F}
+# Launch without data
+launch_LCBCshiny() #<<
+
+# Launch with data
+launch_LCBCshiny(MOAS)
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+shiny::shinyAppDir(
+system.file('shiny/LCBCshiny', package = 'MOAS'),
+options = list(width = "100%", height = "100%")
+)
+```
+]
+---
+# MOAS: Using the package - Widening
+If you have the enitre MOAS data, widening by anything other that `Site_Name` first will result in error.
+
+```{r eval=F}
+MOAS %>% 
+  widen(by = "Site_Name") %>% #<<
+  names()
+```
+
+Unless you use the `keep` option which calls another MOAS function called `site_keeper()`, which helps you select which of the MRI sites you want to keep in your data. The `long` option here will pick the Site each person has the _most_ data from.
+
+```{r eval=F}
+MOAS %>% 
+  widen(by = "Subject_Timepoint",
+        keep = "long") #<<
+```
+
+---
+# MOAS: Using the package - site_keeper
+The site_keeper function is there to remove unwanted rows from double or triple scanned participants, as most people will likely not want to use all the data.
+You can either specify exactly which scanner to keep data from, or let the `long` option find the scanner which each participant has the most data from (in case of a tie between Skyra and Avanto, this option will choose Skyra).
+
+```{r eval=F}
+MOAS %>% 
+  site_keeper("long")#<<
+
+
+MOAS %>% 
+  site_keeper("ousAvanto")#<<
+
+
+MOAS %>% 
+  site_keeper("ousSkyra")#<<
+```
+
+---
+# MOAS: Using the package - na.col.rm
+Given the very many columns in the MOAS, and the project specific variables collected, after subsetting the MOAS to the data you are interested in,
+there might be a substantial amount of columns which solaly contain `NA` values. 
+
+To quickly remove these, use the `na.col.rm` function
+
+.pull-left[
+```{r}
+# Number of columns in the entire file, 
+# irrespective of project
+MOAS %>% 
+  filter(Project_Name %in% "MemP") %>% 
+  ncol()
+```
+]
+.pull-right[
+```{r}
+# Number of columns for "MemP" 
+# that is not empty
+MOAS %>% 
+  filter(Project_Name %in% "MemP") %>% 
+  na.col.rm() %>% #<<
+  ncol()
+```
+]
+
+---
+# MOAS: Using the package - fs_lmm
+The `fs_lmm` function creates a file that can more easily be used with Freesurfers LME analysis. 
+It must be provided with data, and optionally either grouping variable(s) and/or numeric variable(s).
+
+
+```{r }
+MOAS %>% 
+  fs_lmm(
+    grouping.var = c("Sex","Site_Name"), #<<
+    numeric.var = c("CVLT_A_Total") #<<
+    ) %>% 
+  head(4)
+
+```
+
+---
+class: inverse, center, middle
+
+# The ggseg-package
+
+---
+# ggseg
+The `ggseg`-package was thought of and initially made by Didac Piñeiro, to easier plot brain segmentations directly in R, without having to rely on yet another piece of software when writing papers and presenting results.
+
+It uses the very powerful `Grammar of Graphics` which is implemented in R's `ggplot2`. It can easily create beautiful plots, which again can easily be manipulated into the shape and colours you'd want for your plots.
+
+---
+# ggseg: base-plot
+
+By default, running `ggseg()` will plot the Desikan-Killany atlas from Freesurfer (dkt/aparc).
+
+.pull-left[
+```{r eval=F }
+ggseg() 
+
+# Equivalent to
+ggseg(atlas = dkt)
+```
+]
+
+.pull-right[
+```{r echo=F }
+ggseg() 
+```
+]
+
+---
+# ggseg: stacking
+
+You can also stack the hemispheres on top of eachother
+
+.pull-left[
+```{r eval=F }
+ggseg(atlas = dkt,
+      position = "stacked") #<<
+```
+]
+
+.pull-right[
+```{r echo=F }
+ggseg(atlas = dkt,
+      position = "stacked", 
+      show.legend = FALSE) 
+```
+]
+
+---
+# ggseg - scales
+
+You can also colour the segments using the internal `area` column that is in every atlas, and using the `theme_brain` option
+
+.pull-left[
+```{r eval=F }
+ggseg(atlas = dkt,
+      position = "stacked",
+      mapping = aes(fill=area), #<<
+      show.legend = FALSE) +
+  scale_fill_brain(atlas = "dkt") #<<
+```
+]
+
+.pull-right[
+```{r echo=F }
+ggseg(atlas = dkt,
+      position = "stacked",
+      mapping = aes(fill=area),
+      show.legend = FALSE) +
+  scale_fill_brain("dkt") 
+```
+]
+
+---
+# ggseg: scales
+
+Doing the same with another atlas
+
+.pull-left[
+```{r eval=F }
+ggseg(atlas = yeo17, #<<
+      position = "stacked",
+      mapping = aes(fill=area), 
+      show.legend = FALSE) +
+  scale_fill_brain("yeo17") #<<
+```
+]
+
+.pull-right[
+```{r echo=F }
+ggseg(atlas = yeo17,
+      position = "stacked",
+      mapping = aes(fill=area),
+      show.legend = FALSE) +
+  scale_fill_brain("yeo17") #<<
+```
+]
+
+---
+# ggseg: fill the polygons
+Most importantly, you can use the information in the atlas to colour the segments by some statistic you provide your self.
+
+.pull-left[
+```{r eval=F }
+yourData  = data.frame(
+  list(area=c("somatomotor", "default"), 
+       p=c(0.045, 0.031)), 
+  stringsAsFactors = F)
+
+ggseg(data= yourData,#<<
+      atlas = yeo7,
+      mapping = aes(fill=p), #<<
+      position = "stacked")
+```
+]
+
+.pull-right[
+```{r echo=F }
+yourData  = data.frame(
+  list(area=c("somatomotor", "default"), 
+       p=c(0.045, 0.031)), 
+  stringsAsFactors = F)
+
+ggseg(data= yourData,
+      atlas = yeo7,
+      mapping = aes(fill=p),
+      position = "stacked") 
+```
+]
+
+
+---
+# ggseg: adding data 
+
+.pull-left[
+The really tricky part is if you want to use facets for different groups, which requires you to duplicate the entire atlas, even those without any statistics.
+
+```{r eval=F }
+yourData  = data.frame(
+  list(area = c("somatomotor", "default",
+                "somatomotor", "default"), 
+       p = c(0.045, 0.031, 0.02, 0.06),
+       group = c(rep("Young",2),rep("Old",2))), 
+  stringsAsFactors = F) %>% 
+  group_by(group) %>% 
+  nest() %>% 
+  mutate(data = map(data, ~full_join(., yeo7))) %>% 
+  unnest()
+
+
+ggseg(atlas = yourData, #<< 
+      mapping = aes(fill=p),
+      position = "stacked") +
+  facet_wrap(~group)
+```
+]
+
+.pull-right[
+```{r echo=F, message=F }
+yourData  = data.frame(
+  list(area = c("somatomotor", "default","somatomotor", "default"), 
+       p = c(0.045, 0.031, 0.02, 0.06),
+       group = c(rep("Young",2),rep("Old",2))), 
+  stringsAsFactors = F) %>% 
+  group_by(group) %>% 
+  nest() %>% 
+  mutate(
+    data = map(data, ~full_join(., yeo7))
+    ) %>% 
+  unnest()
+
+
+ggseg(atlas = yourData, #<< 
+      mapping = aes(fill=p),
+      position = "stacked") +
+  facet_wrap(~group, nrow=2)
+```
+]
+
+---
+# ggseg - built-in objects
+A variable calles `atlas.info` provides some base information about all the atlases, in addition to the possibility of inspecting the data.frame of each atlas.
+
+```{r}
+atlas.info
+```
+
+
+---
+# ggseg - all atlases
+
+```{r echo=F, fig.width=16}
+brains = atlas.info %>% names %>% lapply(get)
+names(brains) = names(atlas.info)
+
+gg_brains = brains %>% 
+  lapply(function(x){ 
+    ggseg(atlas=x, mapping=aes(fill=area), show.legend=F) +
+      scale_fill_brain(unique(x$atlas)) +
+      labs(title=unique(x$atlas)) +
+      theme(plot.title = element_text(hjust = 0.5))
+  }
+  )
+
+gridExtra::grid.arrange(grobs = gg_brains, 
+                        layout_matrix = rbind(cbind(1,1),
+                                          cbind(2,3),
+                                          cbind(4,5),
+                                          cbind(6,7)))
+```
+---
+# ggseg & MOAS
+.pull-left[
+```{r eval=T}
+# Grab MOAS data
+sumData = MOAS %>% 
+
+  # Select just thickness
+  select(matches("MRI_aparc.*thickness")) %>% 
+  
+  # Make a really tall data with columns as rows
+  gather(label, val) %>% 
+  
+  # Remove unecessary strings from the label
+  mutate(
+    label = gsub("MRI_aparc_|_thickness",
+                 "",
+                 label)
+    ) %>%
+  
+  # Group by the label
+  group_by(label) %>% 
+  
+  # Calculate the mean and sd for each label
+  summarise(mean = mean(val, na.rm=T)) 
+```
+]
+
+.pull-right[
+```{r echo=T, warning=F, message=F}
+  # Plot it!
+  ggseg(data = sumData, 
+        mapping=aes(fill=mean), 
+        position="stacked") 
+```
+]
+
+---
+class: dark, middle, center
+
+# Enjoy!
+
+
+

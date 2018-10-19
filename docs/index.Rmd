@@ -2,10 +2,13 @@
 classoption: notitlepage
 author: "Athanasia Mowinckel"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    css: [MOAS-ggseg/lcbc-uio-fonts.css]
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -16,4 +19,6 @@ knitr::include_graphics("../inst/rmarkdown/templates/lcbc-presentation/skeleton/
 </div>
 
 # Index of presentations
+
+- [MOAS-ggseg](MOAS-ggseg/MOAS-ggseg.html) - From thursday meeting 18/10/2018  
 
