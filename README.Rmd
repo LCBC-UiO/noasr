@@ -19,10 +19,12 @@ devtools::install_github("LCBC-UiO/MOAS", build_vignettes = TRUE)
 
 The functions are now installed, and you may load them when you want to use them.
 All functions are documented in standard R fashion.
+
 The package also has a vignette, to help you get started using it. 
-You can access it [here](inst/doc/MOAS.Rmd), or via R:
 
 ```{r eval=F}
 library(MOAS)
 vignette("MOAS")
 ```
+
+The vignette and other presentations or tutorials of the package can also be found online [here](https://lcbc-uio.github.io/MOAS/)

@@ -152,8 +152,10 @@ The function will run even without much input, but the output will not necessari
 You must supply the function with the data you want to use.
 Secondly, you must decide which numeric covariates and categorical (grouping) variables you want your model include.
 
-`grouping.var` - a vector of strings with the names of the columns for your categorical groups. Usually, "Sex" and "Site_Name" are added here, like so: `grouping.var = c("Sex","Site_Name").
-`numeric.var` - a vector of strings with the names of the columns for you numeric covariates. Here we often add cognitive scores like: `numeric.var = "CVLT_A_Total`.
+|option|explanation|example|
+|---|---|---|
+|`grouping.var` | a vector of strings with the names of the columns for your categorical groups. Usually, "Sex" and "Site_Name" are added here. | `grouping.var = c("Sex","Site_Name")`|  
+|`numeric.var` | a vector of strings with the names of the columns for you numeric covariates. Here we often add cognitive scores. | `numeric.var = "CVLT_A_Total`|
 
 Example: 
 ```{r fs_lmm1, eval=F}
