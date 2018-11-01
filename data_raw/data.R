@@ -23,6 +23,5 @@ baseCols = c("Folder","CrossProject_ID","Sex","Birth_Date",
 save(baseCols,file="data/baseCols.RData")
 
 # Only works on lagringshotel
-variables = rio::import("../../../../Documentation/Project_Harmonization.xlsx") %>%
-  select(1:5)
+variables = rio::import("../../../../Documentation/MOAS_columns.tsv")
 save(variables, file="data/variables.RData")

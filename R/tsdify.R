@@ -49,8 +49,9 @@ tsdify = function(data, reverse = F) {
 
     } else {
         if (grepl("NCP_Group", names(data)) %>% any) {
-            tmp = data %>% dplyr::select(dplyr::one_of(COLS), NCP_Group)
-
+            tmp = data %>% 
+              dplyr::select(dplyr::one_of(COLS), NCP_Group) 
+            
             # Fix NCP Project_wave so the correspnd to active or inactive condition
             tmp$Project_Wave = ifelse(tmp$NCP_Group %in% "Start rest", tmp$Project_Wave - 1, tmp$Project_Wave)
             tmp = tmp %>% dplyr::select(-NCP_Group)
@@ -59,7 +60,10 @@ tsdify = function(data, reverse = F) {
         }
 
         tmp$Subject_Timepoint = stringr::str_pad(tmp$Subject_Timepoint, 2, pad = "0")
-        tmp$Project_Wave = stringr::str_pad(tmp$Project_Wave, 2, pad = "0")
+        
+        #Fikx NDev wave 3.5 to 35
+        tmp$Project_Wave = ifelse(tmp$Project_Wave %% 1 > 0, tmp$Project_Wave*10, tmp$Project_Wave) %>% 
+          stringr::str_pad(2, pad = "0")
 
         Folder = apply(tmp, 1, function(x) paste(x, collapse = "_"))
 
