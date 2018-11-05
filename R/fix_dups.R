@@ -33,9 +33,9 @@ fix_dups = function(data, suffix, remove = T){
 
     if(!grep(paste0("^",nm,"$"), names(data)) %>% purrr::is_empty()){
 
-      tmp = data %>% dplyr::mutate_(nm = ifelse(is.na(nm), nmSuff,nm)) %>% dplyr::select(nm) %>% unlist()
-
-      data[,nm] = tmp
+      idx = which(is.na(data[,nm]))
+      
+      data[idx,nm] = data[idx,nmSuff]
 
       if(grepl("_Date", nm) & !class(data[,nm] %>% unlist()) %in% "character"){
         data[,nm] = as.Date(data[,nm], origin="1970-01-01") %>%
