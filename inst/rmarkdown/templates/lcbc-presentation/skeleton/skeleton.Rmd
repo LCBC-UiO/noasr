@@ -50,6 +50,7 @@ ggseg()
 ```
 
 ---
+
 ## Create two columns and mute the R code
 .pull-right[
 This text goes in the right-hand column, while the plot is placed in the left-hand column
