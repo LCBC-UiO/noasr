@@ -26,7 +26,7 @@ calc_ages = function(data) {
 
   # Create a single Date columns. with test-Date if MRI-date is missing
   data2 = data %>%
-    select(-one_of(c("Interval_LastVisit","Interval_FirstVisit"))) %>%
+    select(-matches("Interval_LastVisit|Interval_FirstVisit|Subject_Timepoint")) %>%
     dplyr::mutate(Date = ifelse(!is.na(MRI_Date),
                                 MRI_Date,
                                 Test_Date) %>% as.Date(origin = "1970-01-01"))
