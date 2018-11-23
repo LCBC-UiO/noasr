@@ -94,6 +94,17 @@ widen = function(data, by, keep=NA){
       stop(paste("This data has nothing to widen by", by))
     }
 
+    test = DATA4 %>%
+      # mutate(row=row_number())%>%
+      group_by_at(vars(-val)) %>%
+      add_tally() %>%
+      filter(n>1)
+    
+    if(nrow(test)>1){
+      print(test)
+      stop("There are duplicate entries. check the output above.")
+    }
+    
     ### This is where it usually goes wrong if there's something odd with the data
     DATA3 = DATA4 %>%
       tidyr::spread(temp, val, convert = TRUE)
@@ -135,6 +146,18 @@ widen = function(data, by, keep=NA){
       tidyr::unite(temp, c(temp,by))
 
     ### This is where it usually goes wrong if there's something odd with the data
+    
+    test = DATA2 %>%
+     # mutate(row=row_number())%>%
+      group_by_at(vars(-val)) %>%
+      add_tally() %>%
+      filter(n>1)
+    
+    if(nrow(test)>1){
+      print(test)
+      stop("There are duplicate entries. check the output above.")
+    }
+    
     DATA4 = DATA2 %>%
       tidyr::spread(temp, val, convert = TRUE)
     ###
