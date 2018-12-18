@@ -10,10 +10,15 @@ output$ColSelect_SubData = shiny::renderUI({
 output$widenTable = shiny::renderUI({
   if(input$actionDoubles == "asis"){
     shiny::radioButtons("actionTable", label="Table format",
-                      choices=c("Keep as is (long)"="none", "Widen by site"="Site_Name", "Widen by site then by wave"="s2w"))
+                        choices=c("Keep as is (long)" = "none",
+                                  "Widen by site" = "Site_Name",
+                                  "Widen by site then by wave" = "s2w"))
   }else{
     shiny::radioButtons("actionTable", label="Table format",
-                        choices=c("Keep as is (long)"="none", "Widen by site"="Site_Name", "Widen by wave"="Project_Wave", "Widen by time point"="Subject_Timepoint"))
+                        choices=c("Keep as is (long)" = "none",
+                                  "Widen by site" = "Site_Name",
+                                  "Widen by wave" = "Project_Wave",
+                                  "Widen by time point" = "Subject_Timepoint"))
   }
 })
 
@@ -21,11 +26,10 @@ output$actionTableHelp = shiny::renderUI({
 
   help = switch(input$actionTable,
                 "none" = "",
-                "Site_Name"         = "one row per scanning and project wave (prefix 'S[site]')",
-                "Project_Wave"      = "one row per participant (prefix 'W[x]')",
-                "Subject_Timepoint" = "one row per participant (prefix 'tp[x]')",
-                "s2w"               = "one row per participant (prefix 'S[site]_W')",
-                "t2w"               = "one row per participant (prefix 'tp[x]_W')"
+                "Site_Name"         = "one row per scanning and project wave (prefix: 'S[site]')",
+                "Project_Wave"      = "one row per participant (prefix: 'W[x]')",
+                "Subject_Timepoint" = "one row per participant (prefix: 'tp[x]')",
+                "s2w"               = "one row per participant (prefix: 'S[site]_W')"
   )
 
   if(input$actionDoubles != "asis" & input$actionTable == "Site_Name"){
@@ -49,38 +53,45 @@ ExCols =  shiny::eventReactive(input$goClick_DATA, {
   return(Cols)
 })
 
-subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
+subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable; input$actionDoubles},{
   tmp=DATA()
-  print(unique(c(baseCols , ExCols() )))
+  #print(unique(c(baseCols , ExCols() )))
   if(input$search_DATA!="") tmp = tmp %>% dplyr::filter_(input$search_DATA)
-  if(!purrr::is_empty(ExCols())) tmp = tmp %>% dplyr::select(dplyr::one_of(unique(c(baseCols, ExCols() ))))
+  if(!purrr::is_empty(ExCols())) tmp = tmp %>%
+      dplyr::select(dplyr::one_of(unique(c(baseCols, ExCols() ))))
 
   for(i in names(which(sapply(DATA(), class) == "list"))){
     tmp = list2df(tmp, i)
   }
 
-  if(input$tickSelect) tmp = tmp %>% dplyr::filter(tmp %>% dplyr::select(dplyr::one_of(input$ExtraColsDATA)) %>% stats::complete.cases())
+  if(input$tickSelect) tmp = tmp %>%
+      dplyr::filter(tmp %>%
+                      dplyr::select(dplyr::one_of(input$ExtraColsDATA)) %>%
+                      stats::complete.cases())
 
-  if(input$actionDoubles != "asis") tmp = tmp %>% MOAS::site_keeper(input$actionDoubles, quiet=T)
+  if(input$actionDoubles != "asis") tmp = tmp %>%
+      MOAS::site_keeper(keep = input$actionDoubles, quiet = T)
 
   return(tmp %>% MOAS::na.col.rm())
 })
 
-subDATA_structured = shiny::eventReactive({input$goClick_DATA; input$actionTable},{
+subDATA_structured = shiny::eventReactive({input$goClick_DATA; input$actionTable; input$actionDoubles},{
 
-  if(input$actionTable %in% "none"){
-    tmp = subDATA()
+  tmp = if(input$actionTable %in% "none"){
+    subDATA()
   }else if(input$actionTable %in% "w2s"){
-    tmp = subDATA() %>% MOAS::widen("Project_Wave") %>%
-      MOAS::widen("Site_Name")
+    subDATA() %>%
+      MOAS::widen(by = "Project_Wave") %>%
+      MOAS::widen(by = "Site_Name")
   }else if(input$actionTable %in% "s2w"){
-    tmp = subDATA() %>% MOAS::widen("Site_Name") %>%
-      MOAS::widen("Project_Wave")
-  }else if(input$actionTable %in% "t2w"){
-    tmp = subDATA() %>% MOAS::widen(tmp, "Site_Tesla") %>%
-      MOAS::widen("Project_Wave")
+    subDATA() %>%
+      MOAS::widen(by = "Site_Name") %>%
+      MOAS::widen(by = "Project_Wave")
   }else{
-    tmp = MOAS::widen(subDATA(), input$actionTable, ConversionTab[,1])
+    print(paste("Action:", input$actionTable))
+
+    subDATA() %>%
+      MOAS::widen(by = input$actionTable)
   }
 
   return(tmp %>% MOAS::na.col.rm())

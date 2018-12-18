@@ -117,6 +117,7 @@ widen = function(data, by, keep=NA){
   }else if(any(SEP %in% c("S","T"))){
     # Define key columns that must stay in
     COLS = c("CrossProject_ID", "Project_Name", "Project_Wave", "Project_Wave_ID", "Subject_Timepoint")
+    COLS = COLS[COLS %in% names(data)]
 
     #Create a data.frame with only cognitive stuff and PET (i.e. things measured only once pr TP)
     DATAX = data %>%
