@@ -51,3 +51,18 @@
 #' @examples
 #' data(variables)
 "variables"
+
+
+#' MOAS mock example data
+#'
+#' A mock example of the LCBC data
+#'
+#' @docType data
+#' @name data
+#' @usage data(data)
+#' @keywords datasets
+#'
+#' @examples
+#' data(data)
+"data"
+

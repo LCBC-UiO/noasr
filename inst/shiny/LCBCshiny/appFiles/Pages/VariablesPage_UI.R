@@ -10,7 +10,7 @@ output$VariablesPage = shiny::renderUI({
 # --------- Variables variables ----------
 Variables = shiny::reactive({
   rbind(ConversionTab,
-        cbind(MOAS=names(DATA())[(!names(DATA()) %in% ConversionTab$MOAS)],
+        cbind(MOAS=names(subDATA())[(!names(subDATA()) %in% ConversionTab$MOAS)],
               Label=NA, Type=NA, Class=NA, Values=NA)) %>%
     dplyr::rename(Column=MOAS) %>%
     dplyr::mutate(Number=seq(1, nrow(.))) %>%

@@ -209,3 +209,17 @@ fs_lmm = function(data,
   return(FS_data)
 }
 
+## quiets concerns of R CMD check
+if(getRversion() >= "2.15.1"){
+  utils::globalVariables(c("Folder",
+                           "Site_Number",
+                           "Site_Name",
+                           ".",
+                           "N",
+                           "ID",
+                           "Interval_FirstVisit",
+                           "Age",
+                           "Age_orig",
+                           "fsid",
+                           "fsid-base"))
+}

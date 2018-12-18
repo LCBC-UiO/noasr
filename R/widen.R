@@ -25,12 +25,13 @@
 #' df = widen(dt, by="Project_Wave")
 #' }
 #'
-#' @importFrom dplyr select matches one_of everything distinct arrange_ arrange filter group_by summarise anti_join left_join mutate
+#' @importFrom dplyr select matches select_ one_of everything distinct arrange_ arrange filter group_by summarise anti_join group_by_at vars add_tally mutate
 #' @importFrom purrr is_empty
 #' @importFrom stats na.omit
-#' @importFrom tidyr gather unite spread drop_na_
+#' @importFrom tidyr gather unite_ spread drop_na_ unite
 #' @importFrom magrittr "%>%"
 #' @export
+
 widen = function(data, by, keep=NA){
 
   ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
@@ -43,7 +44,7 @@ widen = function(data, by, keep=NA){
                "Site_Number"       = "S"
   )
 
-  BY = data %>% select_(by)
+  BY = data %>% dplyr::select_(by)
 
   if(!is.na(keep)){
     data = data %>%
@@ -61,7 +62,7 @@ widen = function(data, by, keep=NA){
 
     # Reorder columns so we can start manipulating the data.frame
     DATA2 = data %>%
-      dplyr::select(one_of(COLS), by, dplyr::everything())
+      dplyr::select(dplyr::one_of(COLS), by, dplyr::everything())
 
     DATA2 = DATA2 %>%
       tidyr::gather(variable, val, -(1:4), na.rm=T)  %>%
@@ -95,16 +96,15 @@ widen = function(data, by, keep=NA){
     }
 
     test = DATA4 %>%
-      # mutate(row=row_number())%>%
-      group_by_at(vars(-val)) %>%
-      add_tally() %>%
-      filter(n>1)
-    
+      dplyr::group_by_at(dplyr::vars(-val)) %>%
+      dplyr::add_tally() %>%
+      dplyr::filter(n>1)
+
     if(nrow(test)>1){
       print(test)
       stop("There are duplicate entries. check the output above.")
     }
-    
+
     ### This is where it usually goes wrong if there's something odd with the data
     DATA3 = DATA4 %>%
       tidyr::spread(temp, val, convert = TRUE)
@@ -121,17 +121,17 @@ widen = function(data, by, keep=NA){
     #Create a data.frame with only cognitive stuff and PET (i.e. things measured only once pr TP)
     DATAX = data %>%
       dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>%
-      dplyr::select(one_of(COLS), dplyr::everything()) %>%
+      dplyr::select(dplyr::one_of(COLS), dplyr::everything()) %>%
       dplyr::distinct() %>%
       tidyr::drop_na_("CrossProject_ID")
 
     # Create a widened data frame
     DATA2 = data %>%
-      dplyr::select(-one_of(names(DATAX)[!grepl(paste(COLS,collapse="|"), names(DATAX))])) %>%
-      dplyr::select(one_of(COLS),by, dplyr::everything()) %>%
+      dplyr::select(-dplyr::one_of(names(DATAX)[!grepl(paste(COLS,collapse="|"), names(DATAX))])) %>%
+      dplyr::select(dplyr::one_of(COLS),by, dplyr::everything()) %>%
       tidyr::drop_na_("CrossProject_ID") %>%
       dplyr::distinct() %>%
-      tidyr::gather(temp, val, -one_of(c(COLS,by))) %>%
+      tidyr::gather(temp, val, -dplyr::one_of(c(COLS,by))) %>%
       stats::na.omit() %>%
       dplyr::distinct() %>%
       dplyr::arrange(temp)
@@ -146,18 +146,17 @@ widen = function(data, by, keep=NA){
       tidyr::unite(temp, c(temp,by))
 
     ### This is where it usually goes wrong if there's something odd with the data
-    
+
     test = DATA2 %>%
-     # mutate(row=row_number())%>%
-      group_by_at(vars(-val)) %>%
-      add_tally() %>%
-      filter(n>1)
-    
+      dplyr::group_by_at(dplyr::vars(-val)) %>%
+      dplyr::add_tally() %>%
+      dplyr::filter(n>1)
+
     if(nrow(test)>1){
       print(test)
       stop("There are duplicate entries. check the output above.")
     }
-    
+
     DATA4 = DATA2 %>%
       tidyr::spread(temp, val, convert = TRUE)
     ###
@@ -177,4 +176,17 @@ widen = function(data, by, keep=NA){
     dplyr::select(dplyr::one_of(ColumnList[ColumnList %in% names(DATA3)]),
                   dplyr::everything()) %>%
     na.col.rm()
+}
+
+## quiets concerns of R CMD check
+if(getRversion() >= "2.15.1"){
+  utils::globalVariables(c("variable",
+                           "val",
+                           "CrossProject_ID",
+                           "temp",
+                           "Birth_Date",
+                           "Sex",
+                           "n",
+                           "Subject_Timepoint",
+                           "N_Scans"))
 }

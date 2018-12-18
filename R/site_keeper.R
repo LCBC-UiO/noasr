@@ -71,3 +71,11 @@ site_keeper = function(data, keep = "long", quiet = F) {
   data2 %>%
     dplyr::ungroup()
 }
+
+## quiets concerns of R CMD check
+if(getRversion() >= "2.15.1"){
+  utils::globalVariables(c("n",
+                           "CrossProject_ID",
+                           "Keep",
+                           "Subject_Timepoint"))
+}

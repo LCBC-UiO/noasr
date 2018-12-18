@@ -5,20 +5,29 @@ Authors@R: person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.
 Description: Functions created to work well with LCBC's Mother of All Spreadsheet data.
 License: MIT
 Encoding: UTF-8
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 LazyData: true
 Imports: magrittr,
+    plotly,
     stringr,
+    Cairo,
+    rio,
+    svglite,
+    DT,
+    RColorBrewer,
     utils,
     lubridate,
+    shinycssloaders,
     stats,
     shiny,
     stringi,
     tidyr,
     dplyr,
     purrr,
+    shinytest,
     ggplot2
 Suggests: knitr,
+    testthat,
     rmarkdown,
     tidyverse
 VignetteBuilder: knitr
