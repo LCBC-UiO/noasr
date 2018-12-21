@@ -59,6 +59,7 @@ widen = function(data, by, keep=NA){
   }else if(SEP %in% c("W","tp")){  #If going by wave
 
     COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
+    COLS = COLS[COLS %in% names(data)]
 
     # Reorder columns so we can start manipulating the data.frame
     DATA2 = data %>%
@@ -74,7 +75,7 @@ widen = function(data, by, keep=NA){
 
     DATA4 = DATA2 %>%
       dplyr::arrange(variable) %>%
-      tidyr::unite_("temp", c(by, "variable") ) %>%
+      tidyr::unite(temp, c(by,variable)) %>%
       dplyr::distinct()
 
     # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age

@@ -1,34 +1,35 @@
 Package: MOAS
 Title: MOAS convenience functions
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"))
 Description: Functions created to work well with LCBC's Mother of All Spreadsheet data.
 License: MIT
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 LazyData: true
-Imports: magrittr,
-    plotly,
+Depends: R (>= 2.10),
+    tidyverse
+Imports: backports,
+    dplyr,
+    lubridate,
+    magrittr,
+    purrr,
     stringr,
+    tidyr,
+    plotly,
     Cairo,
     rio,
     svglite,
     DT,
     RColorBrewer,
     utils,
-    lubridate,
     shinycssloaders,
     stats,
     shiny,
     stringi,
-    tidyr,
-    dplyr,
-    purrr,
-    shinytest,
-    ggplot2
+    shinytest
 Suggests: knitr,
     testthat,
-    rmarkdown,
-    tidyverse
+    rmarkdown
 VignetteBuilder: knitr
 Remotes: LCBC-UiO/ggbrain
