@@ -80,7 +80,7 @@ widen = function(data, by, keep=NA){
 
     # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age
     tmp = DATA4 %>%
-      dplyr::filter(CrossProject_ID > 9000000 &
+      dplyr::filter(as.numeric(as.character(CrossProject_ID)) > 9000000 &
                       grepl(paste0(c(paste0(SEP,"4_Age"), paste0(SEP,"4_Interval")), collapse="|"),temp)) %>%
       dplyr::group_by(CrossProject_ID,Birth_Date,Sex, temp) %>%
       dplyr::summarise(val=as.character(mean(as.numeric(val)))) %>% as.data.frame() %>% stats::na.omit()
@@ -96,22 +96,27 @@ widen = function(data, by, keep=NA){
       stop(paste("This data has nothing to widen by", by))
     }
 
-    test = DATA4 %>%
-      dplyr::group_by_at(dplyr::vars(-val)) %>%
-      dplyr::add_tally() %>%
-      dplyr::filter(n>1)
+    ### This is where it usually goes wrong if there's something odd with the data
+    DATA3 = DATA4 %>%
+      safely_spread(temp, val, convert = TRUE)
+    ###
+    
+    if(is.null(DATA3$result)){
 
-    if(nrow(test)>1){
-      print(test)
+      rrr <- DATA3$error$message %>% 
+        as.character() %>% 
+        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>% 
+        str_split(",") %>% 
+        unlist() %>% 
+        as.numeric()
+      
+      print(DATA4 %>% 
+        slice(rrr))
+      
       stop("There are duplicate entries. check the output above.")
     }
 
-    ### This is where it usually goes wrong if there's something odd with the data
-    DATA3 = DATA4 %>%
-      tidyr::spread(temp, val, convert = TRUE)
-    ###
-
-    DATA3 = DATA3 %>%
+    DATA3 = DATA3$result %>%
       dplyr::select(1:3,DATA4$temp %>% unique)
 
     #Else if going by site
@@ -149,22 +154,37 @@ widen = function(data, by, keep=NA){
 
     ### This is where it usually goes wrong if there's something odd with the data
 
-    test = DATA2 %>%
-      dplyr::group_by_at(dplyr::vars(-val)) %>%
-      dplyr::add_tally() %>%
-      dplyr::filter(n>1)
-
-    if(nrow(test)>1){
-      print(test)
-      stop("There are duplicate entries. check the output above.")
-    }
+    # test = DATA2 %>%
+    #   dplyr::group_by_at(dplyr::vars(-val)) %>%
+    #   dplyr::add_tally() %>%
+    #   dplyr::filter(n>1)
+    # 
+    # if(nrow(test)>1){
+    #   print(test)
+    #   stop("There are duplicate entries. check the output above.")
+    # }
 
     DATA4 = DATA2 %>%
-      tidyr::spread(temp, val, convert = TRUE)
+      safely_spread(temp, val, convert = TRUE)
     ###
 
+    if(is.null(DATA4$result)){
+      
+      rrr <- DATA4$error$message %>% 
+        as.character() %>% 
+        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>% 
+        str_split(",") %>% 
+        unlist() %>% 
+        as.numeric()
+      
+      print(DATA2 %>% 
+              slice(rrr))
+      
+      stop("There are duplicate entries. check the output above.")
+    }
+    
     DATA3 = DATAX %>%
-      merge(DATA4, all=T, by = COLS) %>%
+      merge(DATA4$result, all=T, by = COLS) %>%
       dplyr::arrange(CrossProject_ID, Subject_Timepoint)
 
     DATA3 = DATA3 %>%
@@ -192,3 +212,6 @@ if(getRversion() >= "2.15.1"){
                            "Subject_Timepoint",
                            "N_Scans"))
 }
+
+safely_spread <- safely(spread)
+
