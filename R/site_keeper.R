@@ -39,28 +39,35 @@ site_keeper = function(data, keep = "long", quiet = F) {
 
   if(!quiet){
     switch(keep,
-           long = warning("Keeping data from scanner with most data from double/triple scanned."),
-           ousAvanto = warning("Keeping 'ousAvanto' from double/triple scanned."),
-           ousSkyra = warning("Keeping 'ousSkyra' from double/triple scanned."),
-           ousPrisma = warning("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file."))
+           long = message("Keeping data from scanner with most data from double/triple scanned."),
+           ousAvanto = message("Keeping 'ousAvanto' from double/triple scanned."),
+           ousSkyra = message("Keeping 'ousSkyra' from double/triple scanned."),
+           ousPrisma = message("Keeping 'ousPrisma' from triple scanned, double scanned Avanto/Skyra removed from file."))
   }
 
   # Decide which data to keep from double/triple scans
   if(keep %in% "long"){
-    data2 = data %>%
-      dplyr::group_by(CrossProject_ID, Site_Name) %>%
-      dplyr::add_tally() %>%
-      dplyr::ungroup() %>%
-      dplyr::group_by(CrossProject_ID) %>%
-      dplyr::filter(max(n)==n) %>%
-      dplyr::select(-n)
 
-    # If there is a tie in number of scanners, grab the first
-    data2 = data2[!duplicated(data2 %>% dplyr::select(CrossProject_ID, Subject_Timepoint)),]
+    data2 <- data %>%
+      #filter(Site_Name != "noMRI") %>%
+      group_by(CrossProject_ID, Site_Name) %>%
+      mutate(n_scans_at_site = n()) %>%
+      group_by(CrossProject_ID, Subject_Timepoint) %>%
+      mutate(n_replicates_at_tp = n()) %>%
+      group_by(CrossProject_ID) %>%
+      filter(n_replicates_at_tp == 1 |
+               (n_replicates_at_tp > 1 & n_scans_at_site == max(n_scans_at_site))) %>%
+      group_by(CrossProject_ID, Subject_Timepoint) %>%
+      mutate(tie = n() > 1) %>%
+      filter(!tie | row_number() == 1L) %>%
+      ungroup() %>%
+      select(-n_replicates_at_tp, -n_scans_at_site, -tie)
+
 
   }else{
 
-    data2 = data %>% dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
+    data2 <- data %>%
+      dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
       dplyr::add_tally() %>%
       dplyr::ungroup() %>%
       dplyr::mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
