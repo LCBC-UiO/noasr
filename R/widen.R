@@ -13,7 +13,7 @@
 #' @param data The MOAS or a MOAS generated file.
 #' @param by Column which to widen by. Options are: "Subject_Timepoint","Project_Wave","Site_Name", or "Site_Number".
 #' @param keep Option to provide to [site_keeper()] for filtering the double/triple scanned
-#' @return A MOAS type file widened by dplyr::selected column, prefixed with columns specifications
+#' @return A MOAS type file widened by selected column, prefixed with columns specifications
 
 #' @examples
 #' \dontrun{
@@ -32,7 +32,7 @@
 #' @importFrom magrittr "%>%"
 #' @export
 
-widen = function(data, by, keep=NA){
+widen = function(data, by, keep=NULL){
 
   ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
 
@@ -46,7 +46,7 @@ widen = function(data, by, keep=NA){
 
   BY = data %>% dplyr::select_(by)
 
-  if(!is.na(keep)){
+  if(!is.null(keep)){
     data = data %>%
       site_keeper(keep=keep)
   }
@@ -56,7 +56,7 @@ widen = function(data, by, keep=NA){
   if(SEP=="skip"){
     #Does nothing...
     DATA3 = data
-  }else if(SEP %in% c("W","tp")){  #If going by wave
+  }else if(SEP %in% c("W","tp")){  #If going by wave or tp
 
     COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
     COLS = COLS[COLS %in% names(data)]
@@ -100,19 +100,19 @@ widen = function(data, by, keep=NA){
     DATA3 = DATA4 %>%
       safely_spread(temp, val, convert = TRUE)
     ###
-    
+
     if(is.null(DATA3$result)){
 
-      rrr <- DATA3$error$message %>% 
-        as.character() %>% 
-        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>% 
-        str_split(",") %>% 
-        unlist() %>% 
+      rrr <- DATA3$error$message %>%
+        as.character() %>%
+        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>%
+        str_split(",") %>%
+        unlist() %>%
         as.numeric()
-      
-      print(DATA4 %>% 
+
+      print(DATA4 %>%
         slice(rrr))
-      
+
       stop("There are duplicate entries. check the output above.")
     }
 
@@ -152,37 +152,24 @@ widen = function(data, by, keep=NA){
     DATA2 = DATA2 %>%
       tidyr::unite(temp, c(temp,by))
 
-    ### This is where it usually goes wrong if there's something odd with the data
-
-    # test = DATA2 %>%
-    #   dplyr::group_by_at(dplyr::vars(-val)) %>%
-    #   dplyr::add_tally() %>%
-    #   dplyr::filter(n>1)
-    # 
-    # if(nrow(test)>1){
-    #   print(test)
-    #   stop("There are duplicate entries. check the output above.")
-    # }
-
     DATA4 = DATA2 %>%
       safely_spread(temp, val, convert = TRUE)
-    ###
 
     if(is.null(DATA4$result)){
-      
-      rrr <- DATA4$error$message %>% 
-        as.character() %>% 
-        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>% 
-        str_split(",") %>% 
-        unlist() %>% 
+
+      rrr <- DATA4$error$message %>%
+        as.character() %>%
+        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>%
+        str_split(",") %>%
+        unlist() %>%
         as.numeric()
-      
-      print(DATA2 %>% 
+
+      print(DATA2 %>%
               slice(rrr))
-      
+
       stop("There are duplicate entries. check the output above.")
     }
-    
+
     DATA3 = DATAX %>%
       merge(DATA4$result, all=T, by = COLS) %>%
       dplyr::arrange(CrossProject_ID, Subject_Timepoint)
