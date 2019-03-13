@@ -3,12 +3,11 @@ Title: MOAS convenience functions
 Version: 0.0.1
 Authors@R: person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"))
 Description: Functions created to work well with LCBC's Mother of All Spreadsheet data.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 LazyData: true
-Depends: R (>= 2.10),
-    tidyverse
+Depends: R (>= 2.10)
 Imports: backports,
     dplyr,
     lubridate,
@@ -29,6 +28,7 @@ Imports: backports,
     stringi,
     shinytest
 Suggests: knitr,
+    tidyverse,
     testthat,
     rmarkdown
 VignetteBuilder: knitr

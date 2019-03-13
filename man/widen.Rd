@@ -4,7 +4,7 @@
 \alias{widen}
 \title{Widen the MOAS data.frame}
 \usage{
-widen(data, by, keep = NA)
+widen(data, by, keep = NULL)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
@@ -14,7 +14,7 @@ widen(data, by, keep = NA)
 \item{keep}{Option to provide to [site_keeper()] for filtering the double/triple scanned}
 }
 \value{
-A MOAS type file widened by dplyr::selected column, prefixed with columns specifications
+A MOAS type file widened by selected column, prefixed with columns specifications
 }
 \description{
 \code{widen} returns a widened data.frame by the columns specified

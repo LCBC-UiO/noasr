@@ -1,4 +1,4 @@
 library(testthat)
-library(MOAS)
+library(dplyr)
 
 test_check("MOAS")

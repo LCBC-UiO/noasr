@@ -26,7 +26,7 @@
 #' }
 #'
 #' @importFrom dplyr select matches select_ one_of everything distinct arrange_ arrange filter group_by summarise anti_join group_by_at vars add_tally mutate
-#' @importFrom purrr is_empty
+#' @importFrom purrr is_empty safely
 #' @importFrom stats na.omit
 #' @importFrom tidyr gather unite_ spread drop_na_ unite
 #' @importFrom magrittr "%>%"
@@ -200,5 +200,5 @@ if(getRversion() >= "2.15.1"){
                            "N_Scans"))
 }
 
-safely_spread <- safely(spread)
+safely_spread <- purrr::safely(spread)
 

@@ -4,19 +4,29 @@
 \alias{site_keeper}
 \title{Utility function for reducing double/triple scans to a single row}
 \usage{
-site_keeper(data, keep = "long", quiet = F)
+site_keeper(data, keep = "long", tie = "interval",
+  site_order = c("ousPrisma", "ousSkyra", "ousAvanto"), quiet = F)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
 
-\item{keep}{A string specifying which data from double/triple scans to keep.}
-
-\item{quiet}{logical, TRUE sets it to verbose
+\item{keep}{A string specifying which data from double/triple scans to keep.
 Available options are:
 'long' - keep data from scanner with most data (default),
 'ousAvanto' = keep 'ousAvanto',
 'ousSkyra' = keep 'ousSkyra', or
 'ousPrisma' = keep 'ousPrisma'.}
+
+\item{tie}{string indicating given a tie in the "long" keep option, what to keep.
+Available options are:
+'interval' - keep data from scanner with longest data interval (default),
+'ousAvanto' = keep 'ousAvanto',
+'ousSkyra' = keep 'ousSkyra', or
+'ousPrisma' = keep 'ousPrisma'.}
+
+\item{site_order}{string vector of the scanner priority given a tie between scanners}
+
+\item{quiet}{logical, TRUE sets it to verbose}
 }
 \value{
 A MOAS type file with one line per subject and timepoint.
