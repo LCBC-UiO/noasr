@@ -1,6 +1,7 @@
-MOAS convenience functions
-================
-Athanasia Mowinckel
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# LCBC MOAS functions <img src="man/figures/hex.png" align="right" alt="" width="120" />
 
 The functions in this package are intended for use on the Mother of All
 Spreadsheets (and related files) in LCBC. The functions will mostly not

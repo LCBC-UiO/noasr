@@ -1,5 +1,5 @@
 ---
-title: "Using the MOAS-package for LCBC custom functions"
+title: "MOAS-package with LCBC custom functions"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using the MOAS-package for LCBC custom functions}
@@ -126,11 +126,15 @@ There are four options:
 3. "ousSkyra" - keeps Skyra data  
 4. "ourPrisma" - keeps Prisma data  
 
+If you choose the 'long' option, you also may specify the `tie` option, in case there is a tie for how many scans of each a participant has. By default the `tie` is set to "interval" where is will look for the scanner that has been used for the longest period of time. Again, here you may specify any one scanner and that will be picked.
+
+Lastly, if there is a tie for scanner also when taking into account the interval, `site_order` takes a string vector specifying the order of priority for scanners. By default it is c("ousPrisma", "ousSkyra", "ousAvanto"), meaninggiven a tie still, it will firstly pick a Prisma scan if its there, if no Prisma it will choose Skyra, and lastly Avanto.
+
 **Note**: the operation only affects double and triple scan timepoints.
 All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.
 
 ```{r "site_keeper example1"}
-simple_data = site_keeper(data, "long")
+simple_data = site_keeper(data, "long", tie = "interval", site_order = c("ousPrisma", "ousSkyra", "ousAvanto"))
 simple_data = site_keeper(data, "ousAvanto")
 simple_data = site_keeper(data, "ourPrisma")
 ```

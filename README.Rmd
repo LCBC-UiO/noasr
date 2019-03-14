@@ -1,12 +1,19 @@
 ---
-title: "MOAS convenience functions"
-author: "Athanasia Mowinckel"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
 ```
+# LCBC MOAS functions <img src="man/figures/hex.png" align="right" alt="" width="120" />
+
 
 The functions in this package are intended for use on the Mother of All Spreadsheets (and related files) in LCBC. The functions will mostly not work on any other data, it is an in-house package of functions.
 
