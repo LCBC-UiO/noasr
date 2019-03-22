@@ -34,7 +34,9 @@
 
 widen = function(data, by, keep=NULL){
 
-  ColumnList = data %>% dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% names()
+  ColumnList = data %>% 
+    dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% 
+    names()
 
   SEP = switch(by,
                "none" = "skip",
@@ -44,7 +46,7 @@ widen = function(data, by, keep=NULL){
                "Site_Number"       = "S"
   )
 
-  BY = data %>% dplyr::select_(by)
+  BY = data %>% dplyr::select(!!by)
 
   if(!is.null(keep)){
     data = data %>%
@@ -103,12 +105,7 @@ widen = function(data, by, keep=NULL){
 
     if(is.null(DATA3$result)){
 
-      rrr <- DATA3$error$message %>%
-        as.character() %>%
-        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>%
-        str_split(",") %>%
-        unlist() %>%
-        as.numeric()
+      rrr <- grab_error_slice(DATA3)
 
       print(DATA4 %>%
         slice(rrr))
@@ -157,12 +154,7 @@ widen = function(data, by, keep=NULL){
 
     if(is.null(DATA4$result)){
 
-      rrr <- DATA4$error$message %>%
-        as.character() %>%
-        gsub("[[:alpha:]]|\\(|\\)| |", "", .) %>%
-        str_split(",") %>%
-        unlist() %>%
-        as.numeric()
+      rrr <- grab_error_slice(DATA4)
 
       print(DATA2 %>%
               slice(rrr))
@@ -202,3 +194,13 @@ if(getRversion() >= "2.15.1"){
 
 safely_spread <- purrr::safely(spread)
 
+grab_error_slice <-   function(data){
+  data$error$message %>%
+    as.character() %>%
+    gsub("[[:alpha:]]|[[:punct:]]", "", .) %>%
+    str_split("\\\n| ") %>%
+    unlist() %>%
+    as.numeric() %>% 
+    na.omit()
+  
+}    

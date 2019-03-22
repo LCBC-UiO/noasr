@@ -8,7 +8,8 @@ Encoding: UTF-8
 RoxygenNote: 6.1.1
 LazyData: true
 Depends: R (>= 2.10)
-Imports: backports,
+Imports: 
+    backports,
     dplyr,
     lubridate,
     magrittr,
@@ -26,7 +27,8 @@ Imports: backports,
     stats,
     shiny,
     stringi,
-    shinytest
+    shinytest,
+    crayon
 Suggests: knitr,
     tidyverse,
     testthat,

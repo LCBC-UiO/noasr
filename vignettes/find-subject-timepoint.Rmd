@@ -1,0 +1,75 @@
+---
+title: "Find subject timepoint"
+author: "Athanasia Monika Mowinckel"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = F,
+  comment = "#>"
+)
+```
+
+Data that comes from the MRI needs to be tagged with the subject timepoint. This is currently (as of `r Sys.Date()`) the only data that is tagged with subject timepoint. The reason for the need of subject timepoint for this data is the Brain Imaging Data Structure (BIDS) that the MRI data are placed into, which requires this information. To ease the work of the MRI engineer, we add this information to the exported files from MRI, when we create dummy names. The information with the 7-digit ID, and the 2-digit timepoint should be clearly visible in the calendar, so that this information is easily available at scan. 
+**Note**: the timepoint information is _only_ needed in the exported files, not anywhere else.
+
+To make it easier for the RAs to find this information, there are two alternatives using R-functions that come with the MOAS R-package. 
+
+## Setup
+
+### Windows PC at UiO
+If you are working on a Windows office PC at the University, find the `Software center` in the windows menu, and locate `R`, `RStudio`, and `rtools`, and click install to install them on your PC. Once they are installed, open `RStudio`. 
+
+### Mac
+If you have a Mac, install R from [this link](https://cran.r-project.org/bin/macosx/), and Rstudio from [this link](https://www.rstudio.com/products/rstudio/download/#download). Install the programs like any other.
+
+
+### Install necessary packages
+Open RStudio and in the `RStudio console` (bottom left of the RStudio program), do the following:
+```{r eval=F}
+install.packages("devtools")
+devtools::install_github("LCBC-UiO/MOAS")
+```
+
+Once these are done running, your computer will have the necessary setup to run the function to find the subject timepoints.
+
+## Finding the time point
+### Alternative 1: interactive shiny launcher
+The shiny launcher is arguably the easier for those who are unfamiliar with R and who do not feel comfortable using it. 
+
+In the `Rstudio console` type:
+```{r eval=F}
+MOAS::launch_check_tp()
+```
+
+This should open a website in your browser. Here, you need to navigate to and upload the MOAS file (on lagringshotell). Then you will be able to look for specific IDs and be provided information on the next timepoint for this participant.
+
+### Alternative 2: R console function
+If you are more familiar with R and RStudio in general, you might want to use the function directly in R, rather than open the shiny instance.
+
+There are two ways you can do this, and you will need to know how to navigate to the MOAS file using paths in both.
+
+#### Option 1: giving the MOAS path directly to the function
+In this variant, you provide the full path to the MOAS file directly to the `check_tp()` function, along with the ID you are checking. This is convenient if you are only checking a couple of IDs.
+
+```{r eval = F}
+MOAS::check_tp(1000401, "~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+```
+
+#### Option 2: Pre-loading the MOAS
+If you are checking many IDs, it is an idea to pre-load the MOAS into R, and then provide that to the function. The MOAS is large, and reading it in every time you check an ID will make the process slow. If you pre-load it, it will be much faster.
+
+```{r eval=F}
+load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+
+MOAS::check_tp(1000401, MOAS)
+```
+
+

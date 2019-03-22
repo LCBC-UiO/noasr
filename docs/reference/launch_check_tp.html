@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a data.frame that is ready for use in Freesufers linear
-mixed models — fs_lmm • MOAS</title>
+<title>Launch shiny app to find subject timepoint — launch_check_tp • MOAS</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -38,13 +37,10 @@ mixed models — fs_lmm • MOAS</title>
 
 
 
-<meta property="og:title" content="Create a data.frame that is ready for use in Freesufers linear
-mixed models — fs_lmm" />
+<meta property="og:title" content="Launch shiny app to find subject timepoint — launch_check_tp" />
 
-<meta property="og:description" content="fs_lmm Creates a data.frame of subsetted row and formatted
-columns ready for use in Freesurfers (6.0) linear mixed models.
-Design matrices are created for the grouping.var factors, and numeric
-variables are z-transformed." />
+<meta property="og:description" content="A companion function to [check_tp], which
+launches an interactive shiny app to find participant ID." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,84 +122,26 @@ variables are z-transformed." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a data.frame that is ready for use in Freesufers linear
-mixed models</h1>
+    <h1>Launch shiny app to find subject timepoint</h1>
     
-    <div class="hidden name"><code>fs_lmm.Rd</code></div>
+    <div class="hidden name"><code>launch_check_tp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>fs_lmm</code> Creates a data.frame of subsetted row and formatted
-columns ready for use in Freesurfers (6.0) linear mixed models.
-Design matrices are created for the grouping.var factors, and numeric
-variables are z-transformed.</p>
+    <p>A companion function to [<code>check_tp</code>], which
+launches an interactive shiny app to find participant ID.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fs_lmm</span>(<span class='no'>data</span>, <span class='no'>grouping.var</span>, <span class='no'>numeric.var</span>, <span class='kw'>missing.action</span> <span class='kw'>=</span> <span class='st'>"mean"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"long"</span>, <span class='no'>file</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data</th>
-      <td><p>The MOAS or a MOAS generated file.</p></td>
-    </tr>
-    <tr>
-      <th>grouping.var</th>
-      <td><p>String vector specifying the column names of
-categorical/ordinal factors.</p></td>
-    </tr>
-    <tr>
-      <th>numeric.var</th>
-      <td><p>A string vector of column names for numeric,
-scalar co-variates.</p></td>
-    </tr>
-    <tr>
-      <th>missing.action</th>
-      <td><p>Action to take on missing data for the
-numeric.vars. Options are:
-'delete' - deletes observations with any missing numeric.vars,
-'mean' - replaces missing with mean for that participant,
-'all' - replaces all values with the mean for that participant,
-'first' - replaced all values with the first observation for that
-participant.</p></td>
-    </tr>
-    <tr>
-      <th>keep</th>
-      <td><p>For double/triple scans, which data should be kept.
-option calls <code>site_keeper</code>.</p></td>
-    </tr>
-    <tr>
-      <th>file</th>
-      <td><p>Optional string specifying file name to be saved</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='fu'>launch_check_tp</span>()</pre>
+        
 
-    <p>a data frame ready for Freesurfer LMM use.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='site_keeper.html'>site_keeper</a></span>(<span class='no'>MOAS</span>)
-<span class='fu'><a href='site_keeper.html'>site_keeper</a></span>(<span class='no'>MOAS</span>, <span class='st'>"ousSkyra"</span>)
-<span class='fu'><a href='site_keeper.html'>site_keeper</a></span>(<span class='no'>MOAS</span>, <span class='st'>"ousAvanto"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
