@@ -40,9 +40,9 @@ ui <- fluidPage(
              style="background-color: transparent; border-color: transparent;"))
   ),
 
-
+  fluidRow(wellPanel(h3(textOutput("options")), style="background-color: #c6e7f2; border-color: #66bfdd;")),
+  HTML("<br>"),
   fluidRow(dataTableOutput("tp_options")),
-  fluidRow(textOutput("options")),
   fluidRow(
     hr(),
     HTML("<p align='center' style='color: #626262; font-size: 12px;'> Created by Athanasia Monika Mowinckel </p>")
@@ -86,16 +86,8 @@ server <- function(input, output) {
     check_tp(input$ID_selected, InFILE())
   })
 
-
   output$options = renderPrint({
     t <- check_tp(input$ID_selected, InFILE())
-
-    next_tp <- stringr::str_pad(round(max(t$Subject_Timepoint)+1,0), 2, 'left', '0')
-    last_tp <- stringr::str_pad(round(max(t$Subject_Timepoint),0), 2, 'left', '0')
-
-    cat(paste0("The next timepoint for this participant is ", next_tp,
-               ". Unless it is still ", t[nrow(t), "Project_Name"], " wave ", t[nrow(t), "Project_Wave"],
-               ", then timepoint should be ", last_tp, "."))
   })
 
 }

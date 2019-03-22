@@ -38,7 +38,18 @@ install.packages("devtools")
 devtools::install_github("LCBC-UiO/MOAS")
 ```
 
-Once these are done running, your computer will have the necessary setup to run the function to find the subject timepoints.
+If the last command outputs a numbered list asking you to choose which packages to update, type in the number for the **"None"** option. You may also choose **"All"** but this might take some time, depending on the number of packages it wants to update. If it additionally asks you `Do you want to install from sources the package which needs compilation?`, always type `n`, for no. 
+
+No matter which option you choose, the installation of the MOAS-packages takes some time, because it needs many other packages to work.
+
+**Warning:** we know there is an issue with installing this package on the UiO office PCs. If the installation is failing, please follow [this troubleshoot](https://github.com/LCBC-UiO/Mini-Workshops/wiki/Analysis:-R), and see if that fixed your problem.
+
+After this, try installing again:
+```{r}
+devtools::install_github("LCBC-UiO/MOAS")
+```
+
+Once everything has been installed sucessfully, your computer will have the necessary setup to run the function to find the subject timepoints. Thankfully, once it is all installed, you don't have to do these steps again!
 
 ## Finding the time point
 ### Alternative 1: interactive shiny launcher
@@ -49,7 +60,7 @@ In the `Rstudio console` type:
 MOAS::launch_check_tp()
 ```
 
-This should open a website in your browser. Here, you need to navigate to and upload the MOAS file (on lagringshotell). Then you will be able to look for specific IDs and be provided information on the next timepoint for this participant.
+This should open a website in your browser. Here, you need to navigate to and upload the `MOAS.RData` file (on lagringshotell). Then you will be able to look for specific IDs and be provided information on the next timepoint for this participant.
 
 ### Alternative 2: R console function
 If you are more familiar with R and RStudio in general, you might want to use the function directly in R, rather than open the shiny instance.
@@ -57,7 +68,14 @@ If you are more familiar with R and RStudio in general, you might want to use th
 There are two ways you can do this, and you will need to know how to navigate to the MOAS file using paths in both.
 
 #### Option 1: giving the MOAS path directly to the function
-In this variant, you provide the full path to the MOAS file directly to the `check_tp()` function, along with the ID you are checking. This is convenient if you are only checking a couple of IDs.
+In this variant, you use the R-console directly, meaning the same place you typed all the install commands above. 
+If you are on a UiO windows machine, the function will only need an ID as input to work. This is convenient if you are only checking a couple of IDs
+
+```{r eval = F}
+MOAS::check_tp(1000401)
+```
+
+If you are on a mac, you will need to provide another path. If you are mounting the lagringshotell the exact way specified in the [wiki]() on this, the path should be `~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData`.
 
 ```{r eval = F}
 MOAS::check_tp(1000401, "~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
@@ -67,7 +85,8 @@ MOAS::check_tp(1000401, "~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
 If you are checking many IDs, it is an idea to pre-load the MOAS into R, and then provide that to the function. The MOAS is large, and reading it in every time you check an ID will make the process slow. If you pre-load it, it will be much faster.
 
 ```{r eval=F}
-load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+load("//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData") # Windows path
+# load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData") # Mac paths
 
 MOAS::check_tp(1000401, MOAS)
 ```

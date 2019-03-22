@@ -10,7 +10,7 @@
 #'
 #' @return a data.frame with information on the ID
 #' @export
-check_tp <- function(ID=NULL, MOAS=NULL){
+check_tp <- function(ID=NULL, MOAS="//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"){
 
   if(is.null(ID)){
     cat(crayon::red(paste("I need and ID to look for.")))
@@ -22,6 +22,8 @@ check_tp <- function(ID=NULL, MOAS=NULL){
                           "Give me either a string with the path to the file,",
                           "or a preloaded data.frame.")))
     stop()
+  }else if(is.character(MOAS)){
+    stopifnot(file.exists(MOAS), "Cannot find MOAS in this path, check the path for errors.")
   }
 
   MOAS <- get_moas(MOAS) %>%
@@ -36,7 +38,7 @@ check_tp <- function(ID=NULL, MOAS=NULL){
   last_tp <- stringr::str_pad(round(max(t$Subject_Timepoint),0), 2, 'left', '0')
 
   cat(crayon::blue(
-    paste0("The next timepoint for this participant is ", crayon::bold(next_tp),
+    paste0("The next timepoint for this subject ",ID ," is ", crayon::bold(next_tp),
            ". Unless it is still ",
            t[nrow(t), "Project_Name"], " wave ", t[nrow(t), "Project_Wave"],
            ", then timepoint should be ", crayon::bold(last_tp), ".\n\n")

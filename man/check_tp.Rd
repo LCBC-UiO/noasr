@@ -4,7 +4,8 @@
 \alias{check_tp}
 \title{Check subject timepoint}
 \usage{
-check_tp(ID = NULL, MOAS = NULL)
+check_tp(ID = NULL,
+  MOAS = "//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
 }
 \arguments{
 \item{ID}{7-digit code, CrossProject_ID}
