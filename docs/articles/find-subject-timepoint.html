@@ -116,7 +116,12 @@
 <p>Open RStudio and in the <code>RStudio console</code> (bottom left of the RStudio program), do the following:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"LCBC-UiO/MOAS"</span>)</a></code></pre></div>
-<p>Once these are done running, your computer will have the necessary setup to run the function to find the subject timepoints.</p>
+<p>If the last command outputs a numbered list asking you to choose which packages to update, type in the number for the <strong>“None”</strong> option. You may also choose <strong>“All”</strong> but this might take some time, depending on the number of packages it wants to update. If it additionally asks you <code>Do you want to install from sources the package which needs compilation?</code>, always type <code>n</code>, for no.</p>
+<p>No matter which option you choose, the installation of the MOAS-packages takes some time, because it needs many other packages to work.</p>
+<p><strong>Warning:</strong> we know there is an issue with installing this package on the UiO office PCs. If the installation is failing, please follow <a href="https://github.com/LCBC-UiO/Mini-Workshops/wiki/Analysis:-R">this troubleshoot</a>, and see if that fixed your problem.</p>
+<p>After this, try installing again:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"LCBC-UiO/MOAS"</span>)</a></code></pre></div>
+<p>Once everything has been installed sucessfully, your computer will have the necessary setup to run the function to find the subject timepoints. Thankfully, once it is all installed, you don’t have to do these steps again!</p>
 </div>
 </div>
 <div id="finding-the-time-point" class="section level2">
@@ -127,8 +132,8 @@
 <a href="#alternative-1-interactive-shiny-launcher" class="anchor"></a>Alternative 1: interactive shiny launcher</h3>
 <p>The shiny launcher is arguably the easier for those who are unfamiliar with R and who do not feel comfortable using it.</p>
 <p>In the <code>Rstudio console</code> type:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/launch_check_tp">launch_check_tp</a></span>()</a></code></pre></div>
-<p>This should open a website in your browser. Here, you need to navigate to and upload the MOAS file (on lagringshotell). Then you will be able to look for specific IDs and be provided information on the next timepoint for this participant.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/launch_check_tp">launch_check_tp</a></span>()</a></code></pre></div>
+<p>This should open a website in your browser. Here, you need to navigate to and upload the <code>MOAS.RData</code> file (on lagringshotell). Then you will be able to look for specific IDs and be provided information on the next timepoint for this participant.</p>
 </div>
 <div id="alternative-2-r-console-function" class="section level3">
 <h3 class="hasAnchor">
@@ -138,16 +143,19 @@
 <div id="option-1-giving-the-moas-path-directly-to-the-function" class="section level4">
 <h4 class="hasAnchor">
 <a href="#option-1-giving-the-moas-path-directly-to-the-function" class="anchor"></a>Option 1: giving the MOAS path directly to the function</h4>
-<p>In this variant, you provide the full path to the MOAS file directly to the <code><a href="../reference/check_tp.html">check_tp()</a></code> function, along with the ID you are checking. This is convenient if you are only checking a couple of IDs.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/check_tp">check_tp</a></span>(<span class="dv">1000401</span>, <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>)</a></code></pre></div>
+<p>In this variant, you use the R-console directly, meaning the same place you typed all the install commands above. If you are on a UiO windows machine, the function will only need an ID as input to work. This is convenient if you are only checking a couple of IDs</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/check_tp">check_tp</a></span>(<span class="dv">1000401</span>)</a></code></pre></div>
+<p>If you are on a mac, you will need to provide another path. If you are mounting the lagringshotell the exact way specified in the <a href="">wiki</a> on this, the path should be <code>~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/check_tp">check_tp</a></span>(<span class="dv">1000401</span>, <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>)</a></code></pre></div>
 </div>
 <div id="option-2-pre-loading-the-moas" class="section level4">
 <h4 class="hasAnchor">
 <a href="#option-2-pre-loading-the-moas" class="anchor"></a>Option 2: Pre-loading the MOAS</h4>
 <p>If you are checking many IDs, it is an idea to pre-load the MOAS into R, and then provide that to the function. The MOAS is large, and reading it in every time you check an ID will make the process slow. If you pre-load it, it will be much faster.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(<span class="st">"~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/check_tp">check_tp</a></span>(<span class="dv">1000401</span>, MOAS)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(<span class="st">"//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>) <span class="co"># Windows path</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData") # Mac paths</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/check_tp">check_tp</a></span>(<span class="dv">1000401</span>, MOAS)</a></code></pre></div>
 </div>
 </div>
 </div>
