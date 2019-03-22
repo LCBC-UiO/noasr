@@ -23,7 +23,7 @@ check_tp <- function(ID=NULL, MOAS="//lagringshotell/sv-psi/LCBC/Projects/Cross_
                           "or a preloaded data.frame.")))
     stop()
   }else if(is.character(MOAS)){
-    stopifnot(file.exists(MOAS), "Cannot find MOAS in this path, check the path for errors.")
+    stop(file.exists(MOAS) == FALSE, " -- Cannot find MOAS in this path, check the path for errors.")
   }
 
   MOAS <- get_moas(MOAS) %>%
@@ -32,7 +32,6 @@ check_tp <- function(ID=NULL, MOAS="//lagringshotell/sv-psi/LCBC/Projects/Cross_
 
   t <- MOAS %>%
     filter(CrossProject_ID %in% ID)
-
 
   next_tp <- stringr::str_pad(round(max(t$Subject_Timepoint)+1,0), 2, 'left', '0')
   last_tp <- stringr::str_pad(round(max(t$Subject_Timepoint),0), 2, 'left', '0')
