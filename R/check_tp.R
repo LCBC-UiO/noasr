@@ -23,7 +23,9 @@ check_tp <- function(ID=NULL, MOAS="//lagringshotell/sv-psi/LCBC/Projects/Cross_
                           "or a preloaded data.frame.")))
     stop()
   }else if(is.character(MOAS)){
-    stop(file.exists(MOAS) == FALSE, " -- Cannot find MOAS in this path, check the path for errors.")
+    if(!file.exists(MOAS)){
+      stop(" -- Cannot find MOAS in this path, check the path for errors.")
+    }
   }
 
   MOAS <- get_moas(MOAS) %>%
