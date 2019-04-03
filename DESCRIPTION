@@ -35,3 +35,5 @@ Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
 Remotes: LCBC-UiO/ggbrain
+URL: https://github.com/LCBC-UiO/MOAS
+BugReports: https://github.com/LCBC-UiO/MOAS/issues

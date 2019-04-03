@@ -29,6 +29,7 @@ ui <- fluidPage(
   HTML("<br>"),
   fluidRow(
     column(6,
+           helpText("Start typing a number, the drop-down list is not exhaustive."),
            uiOutput('ID_choice', inline=T)),
     column(6,
            wellPanel(
