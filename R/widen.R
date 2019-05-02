@@ -60,20 +60,30 @@ widen = function(data, by, keep=NULL){
     DATA3 = data
   }else if(SEP %in% c("W","tp")){  #If going by wave or tp
 
+    DATA = data
+    
+    # Paste separator infront of the by
+    DATA[,by] = paste0(SEP,DATA[,by] %>% unlist)
+    
+    # Merge wave and project together to spread it, or else will fail with multi-project participants
+    if(by == "Project_Wave"){
+      DATA <- DATA %>% 
+        unite(Project_Wave, c(Project_Name, Project_Wave), sep=".")
+    }else{
+      DATA <- data
+    }
+    
     COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
-    COLS = COLS[COLS %in% names(data)]
+    COLS = COLS[COLS %in% names(DATA)]
 
     # Reorder columns so we can start manipulating the data.frame
-    DATA2 = data %>%
+    DATA2 = DATA %>%
       dplyr::select(dplyr::one_of(COLS), by, dplyr::everything())
 
     DATA2 = DATA2 %>%
       tidyr::gather(variable, val, -(1:4), na.rm=T)  %>%
       dplyr::distinct() %>%
       dplyr::arrange_("CrossProject_ID",by)
-
-    # Paste separator infront of the by
-    DATA2[,by] = paste0(SEP,DATA2[,by] %>% unlist)
 
     DATA4 = DATA2 %>%
       dplyr::arrange(variable) %>%
@@ -195,12 +205,14 @@ if(getRversion() >= "2.15.1"){
 safely_spread <- purrr::safely(spread)
 
 grab_error_slice <-   function(data){
-  data$error$message %>%
-    as.character() %>%
-    gsub("[[:alpha:]]|[[:punct:]]", "", .) %>%
+  t <- data$error$message %>%
+    as.character() %>% 
+    str_split(":")
+  
+    gsub("[[:alpha:]]|[[:punct:]]", "", t[[1]][2]) %>%
     str_split("\\\n| ") %>%
     unlist() %>%
     as.numeric() %>% 
-    na.omit()
-  
+    na.omit() %>% 
+    as.numeric()
 }    

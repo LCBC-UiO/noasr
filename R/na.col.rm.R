@@ -13,9 +13,6 @@
 #' }
 #' @export
 na.col.rm = function(data) {
-
-    NaNidx = apply(data, 2, function(x) all(is.na(x)))
-    data = data[, !NaNidx]
-
-    return(data)
+  NaNidx = apply(data, 2, function(x) all(is.na(x)))
+  data[, !NaNidx]
 }
