@@ -28,7 +28,9 @@ Imports:
     shiny,
     stringi,
     shinytest,
-    crayon
+    crayon,
+    pbapply,
+    readr
 Suggests: knitr,
     tidyverse,
     testthat,

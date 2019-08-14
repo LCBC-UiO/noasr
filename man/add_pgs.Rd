@@ -4,8 +4,7 @@
 \alias{add_pgs}
 \title{Add PGS data to the MOAS}
 \usage{
-add_pgs(MOAS, pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7",
-  "S11"),
+add_pgs(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
   pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
   genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
   include_cnt = FALSE, include_genetics_debug = FALSE)

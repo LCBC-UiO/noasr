@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check subject timepoint — check_tp • MOAS</title>
+<title>Add PGS data to the MOAS — add_pgs • MOAS</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,11 +37,11 @@
 
 
 
-<meta property="og:title" content="Check subject timepoint — check_tp" />
+<meta property="og:title" content="Add PGS data to the MOAS — add_pgs" />
 
-<meta property="og:description" content="This function is intended for the RA's of LCBC to lookup,
-using the MOAS, hich timepoint should be the next allocated
-to a participant." />
+<meta property="og:description" content="This function calls on [get_pgs] to read in wanted
+PGS at specified significance levels, and adds that data
+to the MOAS-type data provided." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -131,41 +131,76 @@ to a participant." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check subject timepoint</h1>
-    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/check_tp.R'><code>R/check_tp.R</code></a></small>
-    <div class="hidden name"><code>check_tp.Rd</code></div>
+    <h1>Add PGS data to the MOAS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/genetic-funcs.R'><code>R/genetic-funcs.R</code></a></small>
+    <div class="hidden name"><code>add_pgs.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function is intended for the RA's of LCBC to lookup,
-using the MOAS, hich timepoint should be the next allocated
-to a participant.</p>
+    <p>This function calls on [<code>get_pgs</code>] to read in wanted
+PGS at specified significance levels, and adds that data
+to the MOAS-type data provided.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>check_tp</span>(<span class='kw'>ID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>MOAS</span> <span class='kw'>=</span> <span class='st'>"//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>)</pre>
+    <pre class="usage"><span class='fu'>add_pgs</span>(<span class='no'>MOAS</span>, <span class='kw'>pgs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>s_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"S1"</span>, <span class='st'>"S7"</span>, <span class='st'>"S11"</span>),
+  <span class='kw'>pgs_path</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,
+  <span class='kw'>genetic_match_file</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,
+  <span class='kw'>include_cnt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_genetics_debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ID</th>
-      <td><p>7-digit code, CrossProject_ID</p></td>
+      <th>MOAS</th>
+      <td><p>data.frame of the full MOAS or MOAS sub-set</p></td>
     </tr>
     <tr>
-      <th>MOAS</th>
-      <td><p>A string with the path to, or the pre-loaded,
-MOAS data.frame</p></td>
+      <th>pgs</th>
+      <td><p>character vector of the PGS wanted</p></td>
+    </tr>
+    <tr>
+      <th>s_levels</th>
+      <td><p>character vector of the significance levels wanted</p></td>
+    </tr>
+    <tr>
+      <th>pgs_path</th>
+      <td><p>path to the directory where the PGS's are stored</p></td>
+    </tr>
+    <tr>
+      <th>genetic_match_file</th>
+      <td><p>path to the file containing the MOAS-genetics
+matching and debugging information</p></td>
+    </tr>
+    <tr>
+      <th>include_cnt</th>
+      <td><p>logical, whether to keep SNP count information</p></td>
+    </tr>
+    <tr>
+      <th>include_genetics_debug</th>
+      <td><p>logical, whether to keep all columns
+in the genetic_match_file in the final output</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame with information on the ID</p>
+    <p>a tibble / data.frame</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># Here we assume you know the path to the LCBC</span>
+<span class='co'># lagringshotell, you can substitute "~" in the</span>
+<span class='co'># paths with the path to the lagringshotell</span>
+
+<span class='fu'>add_pgs</span>(<span class='kw'>pgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"AD"</span>, <span class='st'>"EduYears_2016"</span>, <span class='st'>"Depression_Nagel2018"</span>),
+    <span class='kw'>s_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"S1"</span>, <span class='st'>"S7"</span>, <span class='st'>"S11"</span>),
+    <span class='kw'>pgs_path</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,
+    <span class='kw'>genetic_match_file</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,
+)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -173,7 +208,9 @@ MOAS data.frame</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

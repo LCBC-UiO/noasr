@@ -63,6 +63,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/PGS_functions.html">PGS functions</a>
+    </li>
+    <li>
       <a href="../articles/find-subject-timepoint.html">Find subject timepoint</a>
     </li>
   </ul>
@@ -71,7 +74,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/LCBC-UiO/MOAS">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -86,7 +96,7 @@
       <h1>MOAS-package with LCBC custom functions</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/LCBC-UiO/MOAS/blob/master/vignettes/MOAS.Rmd"><code>vignettes/MOAS.Rmd</code></a></small>
       <div class="hidden name"><code>MOAS.Rmd</code></div>
 
     </div>
@@ -107,17 +117,22 @@
 <a href="#basic-usage" class="anchor"></a>Basic usage</h3>
 <p>After the package is installed, the package needs to be called in every script or R instance to make it’s functions available.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(MOAS)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: 'MOAS'</code></pre>
+<pre><code>## The following object is masked _by_ '.GlobalEnv':
+## 
+##     data</code></pre>
 <p>The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. The MOAS may be found in the MOAS data-folder in the Lagringshotell: <code>LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData</code></p>
 <p>Each project contained in the MOAS also has it’s own MOAS-derived files at the top level of their data folder, in this type of format: <code>LCBC/Projects/11_MemP/Data/11_MemP_Imaging_Long.RData</code> These types of files are compatible with all functions in the package.</p>
 <div id="loading-the-moas-or-moas-derived-files" class="section level4">
 <h4 class="hasAnchor">
 <a href="#loading-the-moas-or-moas-derived-files" class="anchor"></a>Loading the MOAS or MOAS-derived files</h4>
 <p>To work with the file, you must first get it into R’s memory. For loading <code>.RData</code> files, which is an R-native file type, the simplest way is to use the <code><a href="https://www.rdocumentation.org/packages/base/topics/load">load()</a></code> function. Remember to use the path to the file from <strong>your current working directory</strong>. Because <code>.RData</code> files are saved with the object name they had when saved, <code>.RData</code> can have very different names than expected when loading them. To handle this, we assign the loading of the file to an object <code>nm</code>, which will capture the name of the object. We will then use the <code><a href="https://www.rdocumentation.org/packages/base/topics/get">get()</a></code> function to grab the data with name <code>nm</code> and assign it to the object <code>data</code>, so we have the data in an object with the name of our chosing.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Loads in the data, and also stores the name of the data.frame in the object `nm`</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">nm =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(<span class="st">"LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Get the data with the name `nm` and assign it to `data`</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">data =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(nm)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Loads in the data, and also stores the name of the data.frame in the object `nm`</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">nm =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/load">load</a></span>(<span class="st">"LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># Get the data with the name `nm` and assign it to `data`</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">data =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(nm)</a></code></pre></div>
 <p>You now have MOAS-data in your environment stored in the object <code>data</code>.</p>
 </div>
 </div>
@@ -125,20 +140,20 @@
 <h3 class="hasAnchor">
 <a href="#function-documentation" class="anchor"></a>Function documentation</h3>
 <p>Like all R-functions, the MOAS package functions have documentation that may be accessed by typing a question mark in the console, and the function you want to know more about.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Base R</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">?anova</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">?t.test</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># MOAS functions</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">?widen</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">?fs_lmm</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Base R</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">?anova</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">?t.test</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co"># MOAS functions</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">?widen</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">?fs_lmm</a></code></pre></div>
 <div id="launch_LCBCshiny" class="section level4">
 <h4 class="hasAnchor">
 <a href="#launch_LCBCshiny" class="anchor"></a>The <code><a href="../reference/launch_LCBCshiny.html">launch_LCBCshiny()</a></code> function</h4>
 <p>This function will launch the LCBC shiny explorer in your default browser. It works “out-of-the-box” and will immediately launch the app in your browser without any extra inputs. You can then use the file browser in the application to upload the file you want to work on.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/launch_LCBCshiny">launch_LCBCshiny</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/launch_LCBCshiny">launch_LCBCshiny</a></span>()</a></code></pre></div>
 <p>If you have already loaded in the MOAS or a MOAS generated file in your R instance, you can supply it directly through R. We already loaded in the MOAS data into the object <code>data</code> in the previous section. We provide this information to the shiny launcher, and the data will automatically be loaded into the application.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/launch_LCBCshiny">launch_LCBCshiny</a></span>(data)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">MOAS<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/MOAS/topics/launch_LCBCshiny">launch_LCBCshiny</a></span>(data)</a></code></pre></div>
 </div>
 <div id="widen" class="section level4">
 <h4 class="hasAnchor">
@@ -151,12 +166,12 @@
 1. “Site_Name”<br>
 1. “Site_Number”</p>
 <p>To widen data, simply type:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">widened_data =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(data, <span class="dt">by=</span><span class="st">"Site_Name"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">widened_data =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(data, <span class="dt">by=</span><span class="st">"Site_Name"</span>)</a></code></pre></div>
 <p>Using <code>by="Subject_Timepoint"</code> or <code>by="Project_Wave"</code> the data must have only <em>one line per participant and timepoint</em>. For double and triple scanned, this is not the case. In order to widen by these two options, you need to either run <code><a href="../reference/widen.html">widen()</a></code> with <code>by="Site_Name"</code> or <code>by="Site_Number"</code> first, run the <a href="#site_keeper"><code><a href="../reference/site_keeper.html">site_keeper()</a></code></a> function, or provide <code><a href="../reference/widen.html">widen()</a></code> with the <code>keep</code> argument which will feed it to <code>site_keeper</code> for you.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">widened_data1 =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(data, <span class="dt">by=</span><span class="st">"Site_Name"</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">widened_data2 =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(widened_data1, <span class="dt">by=</span><span class="st">"Project_Wave"</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">widened_data1 =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(data, <span class="dt">by=</span><span class="st">"Site_Name"</span>, <span class="dt">keep=</span><span class="st">"ousAvanto"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">widened_data1 =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(data, <span class="dt">by=</span><span class="st">"Site_Name"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">widened_data2 =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(widened_data1, <span class="dt">by=</span><span class="st">"Project_Wave"</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">widened_data1 =<span class="st"> </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(data, <span class="dt">by=</span><span class="st">"Site_Name"</span>, <span class="dt">keep=</span><span class="st">"ousAvanto"</span>)</a></code></pre></div>
 </div>
 <div id="site_keeper" class="section level4">
 <h4 class="hasAnchor">
@@ -169,9 +184,9 @@
 <p>If you choose the ‘long’ option, you also may specify the <code>tie</code> option, in case there is a tie for how many scans of each a participant has. By default the <code>tie</code> is set to “interval” where is will look for the scanner that has been used for the longest period of time. Again, here you may specify any one scanner and that will be picked.</p>
 <p>Lastly, if there is a tie for scanner also when taking into account the interval, <code>site_order</code> takes a string vector specifying the order of priority for scanners. By default it is c(“ousPrisma”, “ousSkyra”, “ousAvanto”), meaninggiven a tie still, it will firstly pick a Prisma scan if its there, if no Prisma it will choose Skyra, and lastly Avanto.</p>
 <p><strong>Note</strong>: the operation only affects double and triple scan timepoints. All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">simple_data =<span class="st"> </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(data, <span class="st">"long"</span>, <span class="dt">tie =</span> <span class="st">"interval"</span>, <span class="dt">site_order =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ousPrisma"</span>, <span class="st">"ousSkyra"</span>, <span class="st">"ousAvanto"</span>))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">simple_data =<span class="st"> </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(data, <span class="st">"ousAvanto"</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">simple_data =<span class="st"> </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(data, <span class="st">"ourPrisma"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">simple_data =<span class="st"> </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(data, <span class="st">"long"</span>, <span class="dt">tie =</span> <span class="st">"interval"</span>, <span class="dt">site_order =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ousPrisma"</span>, <span class="st">"ousSkyra"</span>, <span class="st">"ousAvanto"</span>))</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">simple_data =<span class="st"> </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(data, <span class="st">"ousAvanto"</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">simple_data =<span class="st"> </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(data, <span class="st">"ourPrisma"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="fs_lmm" class="section level3">
@@ -181,33 +196,33 @@
 <p>The function will run even without much input, but the output will not necessarily make muc sense. You must supply the function with the data you want to use. Secondly, you must decide which numeric covariates and categorical (grouping) variables you want your model include.</p>
 <p><code>grouping.var</code> - a vector of strings with the names of the columns for your categorical groups. Usually, “Sex” and “Site_Name” are added here, like so: <code>grouping.var = c("Sex","Site_Name").</code>numeric.var<code>- a vector of strings with the names of the columns for you numeric covariates. Here we often add cognitive scores like:</code>numeric.var = "CVLT_A_Total`.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/fs_lmm.html">fs_lmm</a></span>(data, <span class="dt">grouping.var =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Sex"</span>,<span class="st">"Site_Name"</span>), <span class="dt">numeric.var=</span><span class="st">"CVLT_A_Total"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/fs_lmm.html">fs_lmm</a></span>(data, <span class="dt">grouping.var =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Sex"</span>,<span class="st">"Site_Name"</span>), <span class="dt">numeric.var=</span><span class="st">"CVLT_A_Total"</span>)</a></code></pre></div>
 <p>There are several other options to help you do different things. the <code>keep</code> option is passed to the <a href="#site_keeper"><code><a href="../reference/site_keeper.html">site_keeper()</a></code></a> function to handle double and triple scanned data. By default is uses the value “long”, which will choose the scanner from a subject with the most data (in case of a tie, it picks the Skyra).</p>
 <p>Please see the documentation of this function for more options:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">?fs_lmm</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">?fs_lmm</a></code></pre></div>
 </div>
 <div id="pipe" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pipe" class="anchor"></a>Pipe ( %&gt;% ) compatibility</h3>
 <p>All MOAS functions are pipe compatible, and should thus easily be incorporated into tidyverse-type syntax.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">simple_data =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MemC"</span>,<span class="st">"MemP"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/na.col.rm.html">na.col.rm</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see section on Utility functions</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(<span class="st">"ousPrisma"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(<span class="st">"Project_Wave"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">simple_data =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MemC"</span>,<span class="st">"MemP"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/na.col.rm.html">na.col.rm</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see section on Utility functions</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(<span class="st">"ousPrisma"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(<span class="st">"Project_Wave"</span>)</a></code></pre></div>
 </div>
 <div id="built-in-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#built-in-data" class="anchor"></a>Built in data</h3>
 <p>There are certain variables easily accessible after loading the MOAS package, to help you navigate the data.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">Sites</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">Sites</a></code></pre></div>
 <pre><code>##   Site_Number    Site_Name Site_Tesla
 ## 1          11    ousAvanto        1.5
 ## 2          12     ousSkyra        3.0
 ## 3          13    ousPrisma        3.0
 ## 4          20   ntnuAvanto        1.5
 ## 5          21 curatoAvanto        1.5</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">Projects</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">Projects</a></code></pre></div>
 <pre><code>##   Project_Number     Project_Name Project_Experimental
 ## 1             10             NDev                 &lt;NA&gt;
 ## 2             11             MemP                 &lt;NA&gt;
@@ -219,8 +234,8 @@
 ## 8             17              S2C Memory training (VR)
 ## 9             90 Novel_biomarkers                 &lt;NA&gt;</code></pre>
 <p>The most useful is likely the <code>variables</code> data.frame is the most useful, which gives you a table of all the non-imaging variables in the MOAS, with some information about their content and types. The <code>Values</code> column in this data.frame denotes the allowed values in the column. For numeric data it denotes the min and max values, while for factors it should provide the factor levels and labels.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># reduced to just to 5 first for this vignette</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(variables, <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># reduced to just to 5 first for this vignette</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(variables, <span class="dv">5</span>)</a></code></pre></div>
 <pre><code>##                MOAS                             Label     Type   Class
 ## 1   CrossProject_ID                Subject identifier Constant integer
 ## 2        Birth_Date                     Date of Birth Constant    Date
@@ -242,7 +257,7 @@
 <h4 class="hasAnchor">
 <a href="#na-col-rm" class="anchor"></a>The <code><a href="../reference/na.col.rm.html">na.col.rm()</a></code> function</h4>
 <p>This function locates any column in a data.frame that has no observations (only contains <code>NA</code> or <code>NaN</code>), and removes it from the data.frame. This particularly convenient if you have subsetted the rows of data to specific observations, and want to quickly remove any columns that no longer are of consequence for the data you have.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">data2 =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> "NCP"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/na.col.rm.html">na.col.rm</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">data2 =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> "NCP"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/na.col.rm.html">na.col.rm</a></span>()</a></code></pre></div>
 </div>
 <div id="factor_times" class="section level4">
 <h4 class="hasAnchor">
@@ -252,16 +267,16 @@
 - Afternoon<br>
 - Evening<br>
 - Night</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">times_hhmm =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"22:40"</span>,<span class="st">"19:30"</span>,<span class="st">"08:21"</span>,<span class="st">"02:47"</span>,<span class="st">"11:45"</span>,<span class="st">"13:12"</span>)</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/factor_times.html">factor_times</a></span>(times_hhmm)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">times_hhmm =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"22:40"</span>,<span class="st">"19:30"</span>,<span class="st">"08:21"</span>,<span class="st">"02:47"</span>,<span class="st">"11:45"</span>,<span class="st">"13:12"</span>)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/factor_times.html">factor_times</a></span>(times_hhmm)</a></code></pre></div>
 <pre><code>## [1] "Night"     "Evening"   "Morning"   "Night"     "Morning"   "Afternoon"</code></pre>
 </div>
 <div id="calc_hour" class="section level4">
 <h4 class="hasAnchor">
 <a href="#calc_hour" class="anchor"></a>The <code><a href="../reference/calc_hour.html">calc_hour()</a></code> function</h4>
 <p>If you have a vector of “HH:MM” time specification, it might be convenient to create a factor of what time of day this would be. <code><a href="../reference/calc_hour.html">calc_hour()</a></code> takes a character time vector, a numeric vector of decimal hours.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">times_hhmm =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"22:40"</span>,<span class="st">"19:30"</span>,<span class="st">"08:21"</span>,<span class="st">"02:47"</span>,<span class="st">"11:45"</span>,<span class="st">"13:12"</span>)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/calc_hour.html">calc_hour</a></span>(times_hhmm)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">times_hhmm =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"22:40"</span>,<span class="st">"19:30"</span>,<span class="st">"08:21"</span>,<span class="st">"02:47"</span>,<span class="st">"11:45"</span>,<span class="st">"13:12"</span>)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/calc_hour.html">calc_hour</a></span>(times_hhmm)</a></code></pre></div>
 <pre><code>## [1] 22.666667 19.500000  8.350000  2.783333 11.750000 13.200000</code></pre>
 </div>
 </div>

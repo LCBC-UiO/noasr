@@ -42,6 +42,9 @@
 #'
 #' }
 #'
+#' @importFrom dplyr filter bind_cols select matches left_join
+#' @importFrom pbapply pblapply
+#' @importFrom readr read_tsv cols
 get_pgs <- function(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
                     pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
                     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
@@ -56,6 +59,8 @@ get_pgs <- function(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
 
   if(!all(s_levels %in% paste0("S", 1:12)))
     stop(paste0("s_levels must be one or more of ", paste0("S", 1:12, collapse=", ")))
+
+  if(is.null(pgs)) stop("No PGS was requested, please provide PGS as a character vector")
 
   # Check is pgs's asked for exist
   pgs_alts <- list.dirs(pgs_path, full.names = FALSE)
@@ -164,7 +169,8 @@ get_pgs_all <- function(s_levels = paste0("S", 1:12),
 #'     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #' }
-add_pgs <- function(MOAS, pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
+#' @importFrom dplyr mutate left_join
+add_pgs <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
                     pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
                     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
                     include_cnt = FALSE, include_genetics_debug = FALSE){
