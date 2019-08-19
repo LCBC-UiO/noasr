@@ -12,6 +12,7 @@
 #' @param genetic_match_file path to the file containing the MOAS-genetics
 #' matching and debugging information
 #' @param include_cnt logical, whether to keep SNP count information
+#' @param include_pheno  logical, whether to keep PHENO information
 #' @param include_genetics_debug logical, whether to keep all columns
 #' in the genetic_match_file in the final output
 #'
@@ -45,10 +46,12 @@
 #' @importFrom dplyr filter bind_cols select matches left_join
 #' @importFrom pbapply pblapply
 #' @importFrom readr read_tsv cols
-get_pgs <- function(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
+get_pgs <- function(pgs = c("AD", "AD_Jansen"),
+                    s_levels = c("S1", "S7", "S11"),
                     pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
                     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
                     include_cnt = FALSE,
+                    include_pheno = FALSE,
                     include_genetics_debug = FALSE){
 
   if(!dir.exists(pgs_path))
@@ -95,6 +98,10 @@ get_pgs <- function(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
 
   if(!include_cnt){
     pgs_data <- dplyr::select(pgs_data, -dplyr::matches(paste(s_levels, "CNT", sep="_", collapse = "|")))
+  }
+
+  if(!include_pheno){
+    pgs_data <- dplyr::select(pgs_data, -dplyr::matches(paste(s_levels, "PHENO", sep="_", collapse = "|")))
   }
 
   pgs_data
@@ -246,7 +253,7 @@ read_pgs_file <- function(path, name = NULL){
   }
 
   names(pgs_data)[3:6] <- paste("PGS", name, names(pgs_data)[3:6], sep="_")
-  names(pgs_data)[6] <- gsub("_Score", "", names(pgs_data)[6])
+  names(pgs_data)[6] <- gsub("_SCORE", "", names(pgs_data)[6])
 
   pgs_data
 }
