@@ -1,3 +1,10 @@
+#' Create new chapter for the Paradigm documentation
+#'
+#' @param name acronym of chapter
+#' @param type type of chapter (one of "rt", "sp", "fmri", "erp")
+#' @param path path to Paradigm documentation
+#' @param bib logical, initiate bibTex file or not
+#' @export
 docs_paradigm_page <- function(name = NULL, type = NULL, path = ".", bib=TRUE){
 
   types <- c("rt", "sp", "fmri", "erp")
@@ -33,6 +40,16 @@ docs_paradigm_page <- function(name = NULL, type = NULL, path = ".", bib=TRUE){
 }
 
 
+#' Order the chapters of the Paradigm documentation
+#'
+#' Over time, adding new chapters to the documentation
+#' can be tedious as numbering will change. This
+#' functions makes that easy, by ordering and numbering
+#' the chapters by `type` and the alphabetically.
+#'
+#' @param path path to Paradigm_documentation folder
+#'
+#' @export
 docs_paradigm_order_chapter <- function(path = "."){
 
   types <- c("rt", "sp", "fmri", "erp")

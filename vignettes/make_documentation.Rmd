@@ -21,6 +21,7 @@ library(MOAS)
 In LCBC we have several documentation books that are made in R, and rendered into html and pdf for reading, and hosted online on github. 
 Using the package [bookdown](https://bookdown.org/yihui/bookdown/), these books are based on R Markdown files, and renderes into the necessary other file types based on that through R. 
 While setting up R Markdown to work with pdf for the first time is a bit of a hassle, it is worth the effort, as the resulting documentation is in a nicely readable and ordered format. 
+I highly recommend using the [bookdown site](https://bookdown.org/yihui/bookdown/) as a reference manual on how to add things to the documentation, and the Rmarkdown [cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf) is also very handy!
 
 In order to aid users set up new pages to the different documentation, re-ordering pages, setting-up support files etc., I have made some R functions to help you get started. 
 Since we have several different types of documentation, the functions depend on which documentation you wish toset up a new page (chapter) for.
@@ -72,6 +73,16 @@ git clone https://github.com/LCBC-UiO/Paradigm-documentation
 ```
 
 This will clone (copy) all of the files necessary to build on the documentation to into a folder called `Paradigm_documentation` in the folder your terminal is standing in. 
+If you **already have cloned the repository before*  there is no point in cloing it again. 
+However, you should make sure you are working on the most recent version.
+For this you need to navigate into the `Paradigm_documentation` folder and get the newest version from github.
+You can do this in the terminal:
+
+```
+cd path/to/Paradigm_documentation
+git pull
+```
+
 Once it is downloaded, enter the folder and open the `Paradigm-documentation.Rproj`.
 
 Once opened, RStudio will have placed your R in the correct working directory and you can start editing files. 
