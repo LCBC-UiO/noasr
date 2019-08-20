@@ -39,10 +39,15 @@
 #' @importFrom magrittr "%>%"
 #'
 #' @export
-site_keeper = function(data, keep = "long", tie = "interval", site_order = c("ousPrisma", "ousSkyra", "ousAvanto"), quiet = F) {
+site_keeper = function(data,
+                       keep = "long",
+                       tie = "interval",
+                       site_order = c("ousPrisma", "ousSkyra", "ousAvanto"),
+                       quiet = F) {
 
   if(any(!keep %in% c("long","ousAvanto","ousSkyra","ousPrisma"))){
-    stop(paste0("Unrecognised option '",keep,"' for keep. Options are: 'long','ousAvanto','ousSkyra','ousPrisma'"))
+    stop(paste0("Unrecognised option '",keep,
+                "' for keep. Options are: 'long','ousAvanto','ousSkyra','ousPrisma'"))
   }
 
   if(!quiet){

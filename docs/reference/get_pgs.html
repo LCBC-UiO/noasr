@@ -107,6 +107,9 @@ provide for a check." />
     <li>
       <a href="../articles/find-subject-timepoint.html">Find subject timepoint</a>
     </li>
+    <li>
+      <a href="../articles/make_documentation.html">Make documentation pages</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -151,7 +154,8 @@ provide for a check.</p>
     <pre class="usage"><span class='fu'>get_pgs</span>(<span class='kw'>pgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"AD"</span>, <span class='st'>"AD_Jansen"</span>), <span class='kw'>s_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"S1"</span>, <span class='st'>"S7"</span>, <span class='st'>"S11"</span>),
   <span class='kw'>pgs_path</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,
   <span class='kw'>genetic_match_file</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,
-  <span class='kw'>include_cnt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_genetics_debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>include_cnt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_pheno</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>include_genetics_debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,6 +180,10 @@ matching and debugging information</p></td>
     <tr>
       <th>include_cnt</th>
       <td><p>logical, whether to keep SNP count information</p></td>
+    </tr>
+    <tr>
+      <th>include_pheno</th>
+      <td><p>logical, whether to keep PHENO information</p></td>
     </tr>
     <tr>
       <th>include_genetics_debug</th>

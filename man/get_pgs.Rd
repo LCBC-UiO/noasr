@@ -7,7 +7,8 @@
 get_pgs(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
   pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
   genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
-  include_cnt = FALSE, include_genetics_debug = FALSE)
+  include_cnt = FALSE, include_pheno = FALSE,
+  include_genetics_debug = FALSE)
 }
 \arguments{
 \item{pgs}{character vector of the PGS wanted}
@@ -20,6 +21,8 @@ get_pgs(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
 matching and debugging information}
 
 \item{include_cnt}{logical, whether to keep SNP count information}
+
+\item{include_pheno}{logical, whether to keep PHENO information}
 
 \item{include_genetics_debug}{logical, whether to keep all columns
 in the genetic_match_file in the final output}
