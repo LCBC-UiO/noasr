@@ -67,12 +67,21 @@ install.packages("bookdown")
 ```
 
 Once bookdown is done installing, you might neet to restart R to properly see the difference.
-WHen successfully installed, there should be some new `Addin` options for you in R, that are very convenient. 
+When successfully installed, there should be some new `Addin` options for you in R, that are very convenient. 
 
 The most convenient it the shortcut `Preview book` which will attempt to render to book for you and display it in the RStudio Viewer in the bottom right.
 Once this had been activated once, it will continue to render the book for each change you save to any document affiliated to the book.
 
 ![](vignette_img/bookdown_addin.png)
+
+There are also some convenience functions for working with our documentation in the MOAS R-package. 
+You can install this and get all those conventient functions by doing do:
+
+```{r, eval=FALSE}
+install.packages("remotes")
+remotes::install_github("LCBC-UiO/MOAS")
+```
+
 
 ### LaTex for pdf outputs
 For the pdf output to be generated you also need a LaTeX version. 
@@ -172,7 +181,7 @@ Once opened, RStudio will have placed your R in the correct working directory an
 You can edit already existing files, or create a new chapter by using a function in the MOAS R-package:
 
 ```{r, eval=FALSE}
-docs_project_page(project_acronym =  = "MemP", project_number = 11)
+MOAS::docs_project_page(project_acronym =  = "MemP", project_number = 11)
 ```
 
 This function takes two arguments. 
@@ -186,7 +195,7 @@ A general good hint when creating each chapter is to look at how other already c
 Once you have edited your chapter, and are quite satisfied (or whenever you feel like it really), you should run a command that rearranges and renames the `.Rmd` files for the chapters in the correct numerical order. 
 
 ```{r, eval=FALSE}
-docs_project_order_chapter()
+MOAS::docs_project_order_chapter()
 ```
 
 This function will find the appendix chapter and give it a new chapter number, to make sure it always appears at the end of the book.
@@ -243,7 +252,7 @@ Once opened, RStudio will have placed your R in the correct working directory an
 You can edit already existing files, or create a new chapter by using a function in the MOAS R-package:
 
 ```{r, eval=FALSE}
-docs_paradigm_page(name = "new_paradigm", type = "rt")
+MOAS::docs_paradigm_page(name = "new_paradigm", type = "rt")
 ```
 
 This function takes two main arguments a `name` for the new chapter, which should be the paradigm acronym, and a `type` depending on whether the task is a response time (rt), stimulus presentation (sp), event related potential (erp) or functional MRI (fmri) paradigm. 
@@ -257,7 +266,7 @@ A general good hint when creating each chapter is to look at how other already c
 Once you have edited your chapter, and are quite satisfied (or whenever you feel like it really), you should run a command that rearranges and renames the `.Rmd` files for the chapters in the correct numerical order. 
 
 ```{r, eval=FALSE}
-docs_paradigm_order_chapter()
+MOAS::docs_paradigm_order_chapter()
 ```
 
 This function will automatically rename the chapters prefixing them with the correct numerical value for each chapter, making sure similar sections follow eachother in the row. 
@@ -285,5 +294,5 @@ You can have a look at final pushed book
 
 ## MOAS documentation
 
-
+no information yet
 
