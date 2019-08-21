@@ -31,9 +31,10 @@ Imports:
     crayon,
     pbapply,
     readr
-Suggests: knitr,
+Suggests: 
+    knitr,
     tidyverse,
-    testthat,
+    testthat (>= 2.1.0),
     rmarkdown
 VignetteBuilder: knitr
 Remotes: LCBC-UiO/ggbrain

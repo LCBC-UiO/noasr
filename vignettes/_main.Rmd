@@ -1,0 +1,618 @@
+---
+title: "Find subject timepoint"
+author: "Athanasia Monika Mowinckel"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = F,
+  comment = "#>"
+)
+```
+
+Data that comes from the MRI needs to be tagged with the subject timepoint. This is currently (as of `r Sys.Date()`) the only data that is tagged with subject timepoint. The reason for the need of subject timepoint for this data is the Brain Imaging Data Structure (BIDS) that the MRI data are placed into, which requires this information. To ease the work of the MRI engineer, we add this information to the exported files from MRI, when we create dummy names. The information with the 7-digit ID, and the 2-digit timepoint should be clearly visible in the calendar, so that this information is easily available at scan. 
+**Note**: the timepoint information is _only_ needed in the exported files, not anywhere else.
+
+To make it easier for the RAs to find this information, there are two alternatives using R-functions that come with the MOAS R-package. 
+
+## Setup
+
+### Windows PC at UiO
+If you are working on a Windows office PC at the University, find the `Software center` in the windows menu, and locate `R`, `RStudio`, and `rtools`, and click install to install them on your PC. Once they are installed, open `RStudio`. 
+
+### Mac
+If you have a Mac, install R from [this link](https://cran.r-project.org/bin/macosx/), and Rstudio from [this link](https://www.rstudio.com/products/rstudio/download/#download). Install the programs like any other.
+
+
+### Install necessary packages
+Open RStudio and in the `RStudio console` (bottom left of the RStudio program), do the following:
+```{r eval=F}
+install.packages("devtools")
+devtools::install_github("LCBC-UiO/MOAS")
+```
+
+If the last command outputs a numbered list asking you to choose which packages to update, type in the number for the **"None"** option. You may also choose **"All"** but this might take some time, depending on the number of packages it wants to update. If it additionally asks you `Do you want to install from sources the package which needs compilation?`, always type `n`, for no. 
+
+No matter which option you choose, the installation of the MOAS-packages takes some time, because it needs many other packages to work.
+
+**Warning:** we know there is an issue with installing this package on the UiO office PCs. If the installation is failing, please follow [this troubleshoot](https://github.com/LCBC-UiO/Mini-Workshops/wiki/Analysis:-R), and see if that fixed your problem.
+
+After this, try installing again:
+```{r}
+devtools::install_github("LCBC-UiO/MOAS")
+```
+
+Once everything has been installed sucessfully, your computer will have the necessary setup to run the function to find the subject timepoints. Thankfully, once it is all installed, you don't have to do these steps again!
+
+## Finding the time point
+### Alternative 1: interactive shiny launcher
+The shiny launcher is arguably the easier for those who are unfamiliar with R and who do not feel comfortable using it. 
+
+In the `Rstudio console` type:
+```{r eval=F}
+MOAS::launch_check_tp()
+```
+
+This should open a website in your browser. Here, you need to navigate to and upload the `MOAS.RData` file (on lagringshotell). Then you will be able to look for specific IDs and be provided information on the next timepoint for this participant.
+
+### Alternative 2: R console function
+If you are more familiar with R and RStudio in general, you might want to use the function directly in R, rather than open the shiny instance.
+
+There are two ways you can do this, and you will need to know how to navigate to the MOAS file using paths in both.
+
+#### Option 1: giving the MOAS path directly to the function
+In this variant, you use the R-console directly, meaning the same place you typed all the install commands above. 
+If you are on a UiO windows machine, the function will only need an ID as input to work. This is convenient if you are only checking a couple of IDs
+
+```{r eval = F}
+MOAS::check_tp(1000401)
+```
+
+If you are on a mac, you will need to provide another path. If you are mounting the lagringshotell the exact way specified in the [wiki]() on this, the path should be `~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData`.
+
+```{r eval = F}
+MOAS::check_tp(1000401, "~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+```
+
+#### Option 2: Pre-loading the MOAS
+If you are checking many IDs, it is an idea to pre-load the MOAS into R, and then provide that to the function. The MOAS is large, and reading it in every time you check an ID will make the process slow. If you pre-load it, it will be much faster.
+
+```{r eval=F}
+load("//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData") # Windows path
+# load("~/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData") # Mac paths
+
+MOAS::check_tp(1000401, MOAS)
+```
+
+
+
+<!--chapter:end:find-subject-timepoint.Rmd-->
+
+---
+title: "Make documentation pages"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{make_documentation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MOAS)
+```
+
+In LCBC we have several documentation books that are made in R, and rendered into html and pdf for reading, and hosted online on github. 
+Using the package [bookdown](https://bookdown.org/yihui/bookdown/), these books are based on R Markdown files, and renderes into the necessary other file types based on that through R. 
+While setting up R Markdown to work with pdf for the first time is a bit of a hassle, it is worth the effort, as the resulting documentation is in a nicely readable and ordered format. 
+I highly recommend using the [bookdown site](https://bookdown.org/yihui/bookdown/) as a reference manual on how to add things to the documentation, and the Rmarkdown [cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf) is also very handy!
+
+In order to aid users set up new pages to the different documentation, re-ordering pages, setting-up support files etc., I have made some R functions to help you get started. 
+Since we have several different types of documentation, the functions depend on which documentation you wish toset up a new page (chapter) for.
+
+## Editing documentation onlin (on github)
+You may alter the documentation directly online. 
+Doing this is the simplest for those who only need to make minor changes to already existing chapters. 
+It is not recommended to attempt more complex alterations on github than that.
+
+![](/./attachments/github_edit1.png)
+![](/./attachments/github_edit2.png)
+
+## Set up for editing the documentations locally
+
+### git
+git is a system for version control. 
+It is an important aspect of working with the documentation, as we can track the different versions over time and the changes that have been made.
+We have a small wiki with information on `git` and links to how to install `git` on your system [here](https://github.com/LCBC-UiO/Mini-Workshops/wiki/General%3A-git).
+
+### R & Rstudio
+We also need to make sure you have R and RStudio installed on your system. 
+We have a minimal set of instructions to help you get started with that [here](https://github.com/LCBC-UiO/Mini-Workshops/wiki/Analysis%3A-R).
+A key point if you have a Mac, is to **not** use the pre-installed UiO software `Software Management System` to install your R and RStudio.
+This tool is not helpful for this and we have experienced a lot of bugs using it. 
+While you technically can edit the documentation without R, it is most easily done with R.
+
+Once R and RStudio is installed, open RStudio and install the required package [bookdown](https://bookdown.org/yihui/bookdown/), so you can edit the book.
+
+```{r, eval=FALSE}
+install.packages("bookdown")
+```
+
+
+### LaTex for pdf outputs
+For the pdf output to be generated you also need a LaTeX version. 
+You will not need to know or touch LaTeX it self, but the program must exist on your computer for pdf's to be generated.
+
+You will need to get [mactex](http://tug.org/mactex/mactex-download.html) for mac, or [MikTex](http://miktex.org/download) for windows.
+
+
+
+## Manual
+The manual contains vital information about data gathering procedures and handling at LCBC. 
+This handbook is read by all new staff, and should provide a general guide to how things are done at LCBC. 
+The book does not contain the same type of structure as other documentation, and as such there are no templates etc for setting up new chapters, you can just start adding them, and placing them where you believe they make most sense. 
+
+Large changes to the manual **should not** be made without consulting key personell at LCBC.
+
+
+## Project documentation
+
+## Paradigm documentation
+Documenting the different paradigms we use is incerdibly important. 
+Imaging running a computer task in 2008, and then having a researcher wanting to investigate in 2018 if that data is something they are interested in.
+Without any proper documentation, the researcher needs to do all background information gathering them selves, asking several people in the lab to figure out what the rationale behind the task is, where it was aqcuired from, who else has used it, has the lab published based on that task before etc..
+After 10 years, it may be that only our main PI's are still working at LCBC and have any knowledge about it, but they are busy andmight not really have detailed information about the task. 
+If the task was already documented, the researcher could just read the documentation, and have a general idea about what this data is about and whether it is of interest. 
+
+The paradigm documentation is stored on [github](), and you can clone it locally to your machine to work with using `git` in your terminal:
+
+```
+git clone https://github.com/LCBC-UiO/Paradigm-documentation
+```
+
+This will clone (copy) all of the files necessary to build on the documentation to into a folder called `Paradigm_documentation` in the folder your terminal is standing in. 
+If you **already have cloned the repository before*  there is no point in cloing it again. 
+However, you should make sure you are working on the most recent version.
+For this you need to navigate into the `Paradigm_documentation` folder and get the newest version from github.
+You can do this in the terminal:
+
+```
+cd path/to/Paradigm_documentation
+git pull
+```
+
+Once it is downloaded, enter the folder and open the `Paradigm-documentation.Rproj`.
+
+Once opened, RStudio will have placed your R in the correct working directory and you can start editing files. 
+You can edit already existing files, or create a new chapter by using a function in the MOAS R-package:
+
+```{r, eval=FALSE}
+docs_paradigm_page(name = "new_paradigm", type = "rt")
+```
+
+This function takes two main arguments a `name` for the new chapter, which should be the paradigm acronym, and a `type` depending on whether the task is a response time (rt), stimulus presentation (sp), event related potential (erp) or functional MRI (fmri) paradigm. 
+Using the type, we can make sure the chapters are ordered in the correct sequence and numbered correctly. 
+Once this command has been executed, the paradigm `.Rmd` file will be created in the right location and opened, togehter with a `.bib` file.
+The `.bib` file is for storing bibTex citations for use in the chapter. 
+If you do not know how to use bib, don't worry, just make sure to indicate in your `.Rmd` file where which citation should go, and ask someone experienced (like Mo) about how to create and insert bibTex citations.
+
+A general good hint when creating each chapter is to look at how other already completed chapters look like, and try to mimmick that format. 
+
+Once you have edited your chapter, and are quite satisfied (or whenever you feel like it really), you should run a command that rearranges and renames the `.Rmd` files for the chapters in the correct numerical order. 
+
+```{r, eval=FALSE}
+docs_paradigm_order_chapter()
+```
+
+This function will automatically rename the chapters prefixing them with the correct numerical value for each chapter, making sure similar sections follow eachother in the row. 
+Once all this is done, it is important to save the changes also to `git` and send them to github. 
+To do this, click on the `Terminal` tab in the Console area of RStudio.
+Here you can work just like in the standard terminal.
+You will need to `add` your changes to git, and provide a message when `committing` the change.
+Make sure your commit message is meaningful for what you have done, so it is easy to follow the history of changes to the book. 
+
+```
+git add .
+git commit -m "add your message here, eg added documentation for XX paradigm"
+```
+
+Once you have done so, you may in the terminal, run the `_deploy.sh` script.
+
+```
+sh _deploy.sh
+```
+
+This will re-render the book in all formats requested, aadd, commit and push the entire log and changes to github.
+You will now have sucessfully contributed and re-created the entire book for others to benefit from.
+Thank you!
+You can have a look at final pushed book 
+
+## MOAS documentation
+
+
+
+
+<!--chapter:end:make_documentation.Rmd-->
+
+---
+title: "MOAS-package with LCBC custom functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the MOAS-package for LCBC custom functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=F)
+```
+
+## Introduction
+The Mother of all Spreadsheets (MOAS) data is a large data.frame/spreadsheet combining all information from participants in most of LCBC's studies. The spreadsheet is over 2000 columns wide, and 4000 rows long, and growing constantly. Navigating this file is tedious at times, and requires a lot of programming skills to handle.
+
+The MOAS R-package is created witht he intent to share common operations/functions people may use on the MOAS, in order to get the data into the shape they need. This vignette is intended to showcase som of the functions currently available in the package that people may wish to use.
+
+## How to use the package
+
+### Basic usage
+After the package is installed, the package needs to be called in every script or R instance to make it's functions available.
+
+```{r "library", eval=TRUE, warning=F, error=F}
+library(MOAS)
+```
+
+The package functions mostly requires the actual MOAS data to work, or data created by subsetting the MOAS. 
+The MOAS may be found in the MOAS data-folder in the Lagringshotell: `LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData`
+
+Each project contained in the MOAS also has it's own MOAS-derived files at the top level of their data folder, in this type of format:
+`LCBC/Projects/11_MemP/Data/11_MemP_Imaging_Long.RData`
+These types of files are compatible with all functions in the package.
+
+#### Loading the MOAS or MOAS-derived files
+To work with the file, you must first get it into R's memory. 
+For loading `.RData` files, which is an R-native file type, the simplest way is to use the `load()` function.
+Remember to use the path to the file from **your current working directory**. 
+Because `.RData` files are saved with the object name they had when saved, `.RData` can have very different names than expected when loading them. 
+To handle this, we assign the loading of the file to an object `nm`, which will capture the name of the object.
+We will then use the `get()` function to grab the data with name `nm` and assign it to the object `data`, so we have the data in an object with the name of our chosing.
+
+```{r "Load RData"}
+# Loads in the data, and also stores the name of the data.frame in the object `nm`
+nm = load("LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+
+# Get the data with the name `nm` and assign it to `data`
+data = get(nm)
+
+```
+
+You now have MOAS-data in your environment stored in the object `data`.
+
+### Function documentation
+Like all R-functions, the MOAS package functions have documentation that may be accessed by typing a question mark in the console, and the function you want to know more about.
+
+```{r "help"}
+# Base R
+?anova
+?t.test
+
+# MOAS functions
+?widen
+?fs_lmm
+```
+
+#### The `launch_LCBCshiny()` function {#launch_LCBCshiny}
+This function will launch the LCBC shiny explorer in your default browser. 
+It works "out-of-the-box" and will immediately launch the app in your browser
+without any extra inputs. You can then use the file browser in the application
+to upload the file you want to work on.
+
+```{r "shiny1"}
+MOAS::launch_LCBCshiny()
+```
+
+If you have already loaded in the MOAS or a MOAS generated file in your R instance,
+you can supply it directly through R.
+We already loaded in the MOAS data into the object `data` in the previous section.
+We provide this information to the shiny launcher, and the data will automatically be loaded
+into the application.
+
+```{r "shiny2"}
+MOAS::launch_LCBCshiny(data)
+```
+
+#### The `widen()` function {#widen} 
+This function will create a wider data.frame of the data you have, given some specification. 
+This is often necessary if you want to use the data in SPSS, or for running ANOVAs etc.
+To view the manual page of this package, simply type:
+
+`widen()` has two mandatory inputs, the data to widen, and the column name to widen by. 
+
+There are four options to widen the data by:  
+1. "Subject_Timepoint"  
+1. "Project_Wave"  
+1. "Site_Name"  
+1. "Site_Number"  
+
+To widen data, simply type:
+```{r "widen examplel1"}
+widened_data = widen(data, by="Site_Name")
+```
+
+Using `by="Subject_Timepoint"` or `by="Project_Wave"` the data must have only _one line per participant and timepoint_. For double and triple scanned, this is not the case. 
+In order to widen by these two options, you need to either run `widen()` with `by="Site_Name"` or `by="Site_Number"` first, run the [`site_keeper()`](#site_keeper) function, or provide `widen()` with the `keep` argument which will feed it to `site_keeper` for you.
+
+```{r "widen examplel2"}
+widened_data1 = widen(data, by="Site_Name")
+widened_data2 = widen(widened_data1, by="Project_Wave")
+
+widened_data1 = widen(data, by="Site_Name", keep="ousAvanto")
+
+
+```
+
+
+#### The `site_keeper()` function {#site_keeper} 
+The `site_keeper()` function is intended for use when you wish to reduce double and triple scanned data to a single line from one of the scanners. 
+This is necessary for all analyses not using the site as a variable of interest. 
+To run the function, you must choose which scanner you wish to keep data from.   
+
+There are four options:  
+1. "long" - finds which scanner there is most data from, and keeps those (default) 
+2. "ousAvanto" - keeps Avanto data  
+3. "ousSkyra" - keeps Skyra data  
+4. "ourPrisma" - keeps Prisma data  
+
+If you choose the 'long' option, you also may specify the `tie` option, in case there is a tie for how many scans of each a participant has. By default the `tie` is set to "interval" where is will look for the scanner that has been used for the longest period of time. Again, here you may specify any one scanner and that will be picked.
+
+Lastly, if there is a tie for scanner also when taking into account the interval, `site_order` takes a string vector specifying the order of priority for scanners. By default it is c("ousPrisma", "ousSkyra", "ousAvanto"), meaninggiven a tie still, it will firstly pick a Prisma scan if its there, if no Prisma it will choose Skyra, and lastly Avanto.
+
+**Note**: the operation only affects double and triple scan timepoints.
+All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.
+
+```{r "site_keeper example1"}
+simple_data = site_keeper(data, "long", tie = "interval", site_order = c("ousPrisma", "ousSkyra", "ousAvanto"))
+simple_data = site_keeper(data, "ousAvanto")
+simple_data = site_keeper(data, "ourPrisma")
+```
+
+### The `fs_lmm()` function {#fs_lmm}
+This function will return a data.frame containing formatted data for use in Freesurfers LME models. 
+There are specific requirements to how the data should look, and also there are operations done on the data which help our data engineer to set up analyses.
+
+The function will run even without much input, but the output will not necessarily make muc sense. 
+You must supply the function with the data you want to use.
+Secondly, you must decide which numeric covariates and categorical (grouping) variables you want your model include.
+
+`grouping.var` - a vector of strings with the names of the columns for your categorical groups. Usually, "Sex" and "Site_Name" are added here, like so: `grouping.var = c("Sex","Site_Name").
+`numeric.var` - a vector of strings with the names of the columns for you numeric covariates. Here we often add cognitive scores like: `numeric.var = "CVLT_A_Total`.
+
+Example: 
+```{r fs_lmm1, eval=F}
+fs_lmm(data, grouping.var = c("Sex","Site_Name"), numeric.var="CVLT_A_Total")
+```
+
+There are several other options to help you do different things.
+the `keep` option is passed to the [`site_keeper()`](#site_keeper) function to handle double and triple scanned data. 
+By default is uses the value "long", which will choose the scanner from a subject with the most data (in case of a tie, it picks the Skyra).
+
+Please see the documentation of this function for more options:
+```{r}
+?fs_lmm
+```
+
+
+### Pipe ( %>% ) compatibility {#pipe}
+All MOAS functions are pipe compatible, and should thus easily be incorporated into tidyverse-type syntax.
+
+```{r "pipeExample"}
+simple_data = data %>% 
+  filter(Project_Name %in% c("MemC","MemP")) %>% 
+  na.col.rm() %>% # see section on Utility functions
+  site_keeper("ousPrisma") %>% 
+  widen("Project_Wave")
+```
+
+### Built in data
+There are certain variables easily accessible after loading the MOAS package, to help you navigate the data.
+
+```{r data, echo=T, eval=T}
+Sites
+
+Projects
+```
+
+The most useful is likely the `variables` data.frame is the most useful, which gives you a table of all the non-imaging variables in the MOAS, with some information about their content and types.
+The `Values` column in this data.frame denotes the allowed values in the column.
+For numeric data it denotes the min and max values, while for factors it should provide the factor levels and labels.
+
+```{r variables, echo=T, eval=T}
+# reduced to just to 5 first for this vignette
+head(variables, 5)
+```
+
+### Utility functions
+Some functions in the MOAS package are what we call utility functions.
+They do not exclusively work on MOAS data, they will work well on other data.frames or vectors.
+These funtions perform operations to help clean up data or perform simple and useful operations.
+
+
+#### The `na.col.rm()` function {#na.col.rm} 
+This function locates any column in a data.frame that has no observations (only contains `NA` or `NaN`), and removes it from the data.frame.
+This particularly convenient if you have subsetted the rows of data to specific observations, and want to quickly remove any columns that no longer are of consequence for the data you have. 
+
+```{r "na.col.rm"}
+data2 = data %>% filter(Project_Name %in% "NCP") %>% na.col.rm()
+```
+
+#### The `factor_times()` function {#factor_times} 
+If you have a vector of "HH:MM" time specification, it might be convenient to create a factor of what time of day this would be. 
+`factor_times()` takes a character vector, and produces a new carachte vector with up to four levels:  
+- Morning  
+- Afternoon  
+- Evening  
+- Night  
+
+```{r "factor_times", eval=T, warning=F}
+times_hhmm = c("22:40","19:30","08:21","02:47","11:45","13:12")
+factor_times(times_hhmm)
+```
+
+#### The `calc_hour()` function {#calc_hour} 
+If you have a vector of "HH:MM" time specification, it might be convenient to create a factor of what time of day this would be. 
+`calc_hour()` takes a character time vector, a numeric vector of decimal hours.
+
+```{r "calc_hour", eval=T, warning=F}
+times_hhmm = c("22:40","19:30","08:21","02:47","11:45","13:12")
+calc_hour(times_hhmm)
+```
+
+
+
+<!--chapter:end:MOAS.Rmd-->
+
+---
+title: "PGS functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PGS_functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+  knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+  )
+```
+  
+```{r setup}
+  library(MOAS)
+```
+
+There are several functions in this package that should aid anyone working with PGS's to add the PGS they want to their data. 
+While the MOAS-data does contain PGS data, you might want to use some other PGS's than already provided in the MOAS, or you might want to have more accompanying data with the PGSs (like the SNP counts). 
+There are a couple of requisites to having these functions work:  
+
+1. You need to be able to connect to the LCBC lagringshotell, and know the path to the lagringshotell within your system.  
+2. The PGS data needs to be ordered in a directory, where each PGS has its own sub-directory with all the files with the different significance levels for that PGS are stored within these subdirectories with naming conventions like these: `AAmenarche/AAmenarche.S10.profile`, `AAmenarche//AAmenarche.S3.profile` etc. 
+
+Given these two things, the functions should be fairly simple to use.
+
+## The two main functions
+
+In the following examples the "~" (tilde) sign is a short-hand for where-ever on your system the LCBC lagringshotell is mounted. 
+Depending on your OS and setup, you may need to change "~" to something else to make this work. 
+The remaining paths point to two important places.
+The first being the path containing the PGS subdirectories, and the second to the cleaned file that enables matching between the PGS data and the MOAS.
+A consequence of using the `genetic_match_file` is also that the number of rows in the source PGS files are reduced to only those samples that we have verified as trustworty.
+
+### Getting PGS data
+The first key function is `get_pgs` which will create a data.frame of the PGS's you have asked for with the command.
+
+```{r, eval=FALSE}
+get_pgs(pgs = c("AD", "AD_Jansen"),
+        pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+        genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+```
+
+In this example, the user is asking for PGS for AD, and AD_Jansen, and will be given back a data.frame with these PGSs. 
+The functions by default assumes you want the significance levels S1, S7, and S11, but you may overwrite this by using the `s_levels` argument.
+
+```{r, eval=FALSE}
+get_pgs(pgs = c("AD", "AD_Jansen"),
+        s_levels = c("S1", "S5", "S12", "S7")
+        pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+        genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+```
+
+
+### Adding PGS data to the MOAS
+The two above codes will give data.frames with PGS data alone, and nothing else. 
+If you are confident in how you handle data, the above might provide enough for you to be able to merge it with whatever data you have to work with.
+If you are less confident, or just want a simple solution, you can use the two functions specifically created for easy MOAS-merging. 
+You need not use the entire MOAS for these two functions to work, you can be working with MOAS data that has already been subsetted, and you want to add PGS to that.
+The key feature must be that the data is MOAS-derived, as the functions assume a certain structure to the data. 
+
+```{r, eval=FALSE}
+add_pgs(MOAS, 
+        pgs = c("AD", "AD_Jansen",
+        pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+        genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+        s_levels = c("S1", "S7", "S11"))      
+```
+
+The `add_pgs` function takes all the same arguments as the `get_pgs` function, with the addition of needing the MOAS-derived data. 
+The output of this function, is the entire data.frame you provided (MOAS-derived) with the PGS columns appended to it.
+This function is also created such that you may use the pipe (`%>%`) operator on it if you like using it.
+
+```{r, eval=FALSE}
+MOAS %>% 
+  add_pgs(pgs = c("AD", "AD_Jansen",
+          pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+          genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+          s_levels = c("S1", "S7", "S11"))      
+```
+
+
+### The `_all` functions
+The two functions above have two companions, that end with `_all`. 
+The two `_all`-functions are made to easily add/get all the available PFS's from the path specified.
+
+```{r, eval=FALSE}
+get_pgs_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+```
+
+In particular, most will not want all the significance levels outputted (there are 12, and this is the default behaviour for the `_all` functions).
+You may specify which significance levels you want by providing a character vector to the `s_levels` argument.
+
+```{r, eval=FALSE}
+add_pgs_all(MOAS, 
+            s_levels = c("S1", "S7", "S11"),
+            pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+```
+
+
+## Extra options to all functions
+All the above functions also have a couple of extra arguments, for those interested in keeping certain information that is removed by default
+
+### Keeping the `CNT` columns
+Some are also interested in keeping the two `CNT` columns from the PGS data, as these may provide valuable information about the PGS's computed. 
+To do this, you can provide the `include_cnt = TRUE` to the funciton, and those columns will also be added.
+
+```{r, eval=FALSE}
+get_pgs_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+            s_levels = c("S1", "S7", "S11"),
+            include_cnt = TRUE)
+```
+
+### Keeping information from the genetics-MOAS matching file
+Some might be debugging the data, or want to find some extra information about the source genetic samples. 
+In this case, one can use the `include_genetics_debug = TRUE` argument, which will keep all the columns from the genetics-MOAS matching file in the outputted data.
+
+```{r, eval=FALSE}
+get_pgs_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+            s_levels = c("S1", "S7", "S11"),
+            include_genetics_debug = TRUE)
+```
+
+
+<!--chapter:end:PGS_functions.Rmd-->
+

@@ -26,7 +26,27 @@ I highly recommend using the [bookdown site](https://bookdown.org/yihui/bookdown
 In order to aid users set up new pages to the different documentation, re-ordering pages, setting-up support files etc., I have made some R functions to help you get started. 
 Since we have several different types of documentation, the functions depend on which documentation you wish toset up a new page (chapter) for.
 
-## Set up for editing the documentations
+## Editing documentation online (on github)
+You may alter the documentation directly online. 
+Doing this is the simplest for those who only need to make minor changes to already existing chapters. 
+It is not recommended to attempt more complex alterations on github than that.
+
+To edit a chapter .Rmd on github, go to the documentation you want to edit (links for each documentation comes below), and click on the .Rmd.
+![Find the Rmd you are looking for and click its name.](vignette_img/github_edit1.png)
+
+In the next window, click on the pencil icon to start editing in the browser. 
+![Click on the little pencil-icon to start editing in the browser](vignette_img/github_edit2.png)
+
+Once the changes you wanted to make are done, scroll to the bottom of the page, type in a message to be added with you changes, and then click "Commit". 
+![Commit your changes](vignette_img/github_edit3.png)
+
+Once this is done, you changes are saved in the _source files_ for the documentation. 
+This will **not** alter the rendered version yet, someone needs to go over it and render it again.
+It will be done when someone has the time.
+
+The alternative, to get it rendered immediately, means following the steps to get the documentation edited locally to work. 
+
+## Set up for editing the documentations locally
 
 ### git
 git is a system for version control. 
@@ -46,6 +66,13 @@ Once R and RStudio is installed, open RStudio and install the required package [
 install.packages("bookdown")
 ```
 
+Once bookdown is done installing, you might neet to restart R to properly see the difference.
+WHen successfully installed, there should be some new `Addin` options for you in R, that are very convenient. 
+
+The most convenient it the shortcut `Preview book` which will attempt to render to book for you and display it in the RStudio Viewer in the bottom right.
+Once this had been activated once, it will continue to render the book for each change you save to any document affiliated to the book.
+
+![](vignette_img/bookdown_addin.png)
 
 ### LaTex for pdf outputs
 For the pdf output to be generated you also need a LaTeX version. 
@@ -56,8 +83,135 @@ You will need to get [mactex](http://tug.org/mactex/mactex-download.html) for ma
 
 
 ## Manual
+The manual contains vital information about data gathering procedures and handling at LCBC. 
+This handbook is read by all new staff, and should provide a general guide to how things are done at LCBC. 
+The book does not contain the same type of structure as other documentation, and as such there are no templates etc for setting up new chapters, you can just start adding them, and placing them where you believe they make most sense. 
+
+Large changes to the manual **should not** be made without consulting key personell at LCBC.
+
+
+```
+git clone https://github.com/LCBC-UiO/Manual
+```
+
+This will clone (copy) all of the files necessary to build on the documentation to into a folder called `Manual` in the folder your terminal is standing in. 
+If you **already have cloned the repository before*  there is no point in cloing it again. 
+However, you should make sure you are working on the most recent version.
+For this you need to navigate into the `Manual` folder and get the newest version from github.
+You can do this in the terminal:
+
+```
+cd path/to/Manual
+git pull
+```
+
+Once it is downloaded, enter the folder and open the `Manual.Rproj`.
+
+Once opened, RStudio will have placed your R in the correct working directory and you can start editing files. 
+You can edit already existing file by clicking its name in the `Files` pane in RStudio(bottom right). 
+
+Once all your edits are done, it is important to save the changes to `git` and send them to github. 
+To do this, click on the `Terminal` tab in the Console area of RStudio.
+Here you can work just like in the standard terminal.
+You will need to `add` your changes to git, and provide a message when `committing` the change.
+Make sure your commit message is meaningful for what you have done, so it is easy to follow the history of changes to the book. 
+
+```
+git add .
+git commit -m "add your message here, eg added documentation for XX paradigm"
+```
+
+Once you have done so, you may in the terminal, run the `_deploy.sh` script.
+
+```
+sh _deploy.sh
+```
+
+This will re-render the book in all formats requested, and, commit and push the entire log and changes to github.
+If you are having troubles rendering the book, let Mo know, she will help you debug.
+
+You will now have sucessfully contributed and re-created the entire book for others to benefit from.
+Thank you!
+You can have a look at final pushed book 
+
 
 ## Project documentation
+Project documentation is vitally important.
+We have all experienced forgetting key aspects of data collections and project decisions just within months.
+This lack of stable memory for project details is especially difficult when academia is also known for its high personell turn-over.
+In order to keep track of projects, data collection etc. we already have the folder system set-up on the lagringshotell that helps somewhat.
+However, this system quickly becomes cluttered with many files, and is overwhelming to navigate for new staff.
+
+This is why there is a specific Project documentation book, that should summarise key-aspects of each LCBC project briefly, so people can better understand what these projects are and what to expect from their data. 
+By using the same template for all projects, we can ensure that there is easily accessible and understandable information regarding the projects available. 
+
+The older projects have poorer documentation that wanted, so newer projects should aspire to include more information than we currently have available for the older projects. 
+As the style of data collection we have, each chapter is organized by its parent Project, with sub-headings for the different waves of data collection within that project.
+If not editing information to an already documentet project, by adding a new wave or information to a wave, it is most likely that we will want to add another project (i.e. chapter) to the book. 
+
+To work locally with the documentation, clone the source files [from github](https://github.com/LCBC-UiO/Project-documentation) in the terminal by:
+
+```
+git clone https://github.com/LCBC-UiO/Project-documentation
+```
+
+This will create a folder called `Project-documentation` with everything you need.
+If you **already have cloned the repository before*  there is no point in cloing it again. 
+However, you should make sure you are working on the most recent version.
+For this you need to navigate into the `Project-documentation` folder and get the newest version from github.
+You can do this in the terminal:
+
+```
+cd path/to/Project-documentation
+git pull
+```
+
+Once it is downloaded, enter the folder and open the `Project-documentation.Rproj`.
+
+Once opened, RStudio will have placed your R in the correct working directory and you can start editing files. 
+You can edit already existing files, or create a new chapter by using a function in the MOAS R-package:
+
+```{r, eval=FALSE}
+docs_project_page(project_acronym =  = "MemP", project_number = 11)
+```
+
+This function takes two arguments. 
+The project acronym and number should be the same as in the rest of our system, and should mirror information in the MOAS, the lagringshotell folder set-up etc.
+
+This will create and open an `.Rmd` (R markdown) file from a template and you can start adding the information needed.
+
+
+A general good hint when creating each chapter is to look at how other already completed chapters look like, and try to mimmick that format. 
+
+Once you have edited your chapter, and are quite satisfied (or whenever you feel like it really), you should run a command that rearranges and renames the `.Rmd` files for the chapters in the correct numerical order. 
+
+```{r, eval=FALSE}
+docs_project_order_chapter()
+```
+
+This function will find the appendix chapter and give it a new chapter number, to make sure it always appears at the end of the book.
+Once all this is done, it is important to save the changes also to `git` and send them to github. 
+To do this, click on the `Terminal` tab in the Console area of RStudio.
+Here you can work just like in the standard terminal.
+You will need to `add` your changes to git, and provide a message when `committing` the change.
+Make sure your commit message is meaningful for what you have done, so it is easy to follow the history of changes to the book. 
+
+```
+git add .
+git commit -m "add your message here, eg added documentation for XX project"
+```
+
+Once you have done so, you may in the terminal, run the `_deploy.sh` script.
+
+```
+sh _deploy.sh
+```
+
+This will re-render the book in all formats requested, aadd, commit and push the entire log and changes to github.
+You will now have sucessfully contributed and re-created the entire book for others to benefit from.
+Thank you!
+You can have a look at final pushed book.
+
 
 ## Paradigm documentation
 Documenting the different paradigms we use is incerdibly important. 
@@ -66,7 +220,7 @@ Without any proper documentation, the researcher needs to do all background info
 After 10 years, it may be that only our main PI's are still working at LCBC and have any knowledge about it, but they are busy andmight not really have detailed information about the task. 
 If the task was already documented, the researcher could just read the documentation, and have a general idea about what this data is about and whether it is of interest. 
 
-The paradigm documentation is stored on [github](), and you can clone it locally to your machine to work with using `git` in your terminal:
+The paradigm documentation is stored on [github](https://github.com/LCBC-UiO/Paradigm-documentation), and you can clone it locally to your machine to work with using `git` in your terminal:
 
 ```
 git clone https://github.com/LCBC-UiO/Paradigm-documentation
