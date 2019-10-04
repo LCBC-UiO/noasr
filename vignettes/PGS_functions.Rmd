@@ -36,10 +36,10 @@ The first being the path containing the PGS subdirectories, and the second to th
 A consequence of using the `genetic_match_file` is also that the number of rows in the source PGS files are reduced to only those samples that we have verified as trustworty.
 
 ### Getting PGS data
-The first key function is `get_pgs` which will create a data.frame of the PGS's you have asked for with the command.
+The first key function is `pgs_get` which will create a data.frame of the PGS's you have asked for with the command.
 
 ```{r, eval=FALSE}
-get_pgs(pgs = c("AD", "AD_Jansen"),
+pgs_get(pgs = c("AD", "AD_Jansen"),
         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
 ```
@@ -48,7 +48,7 @@ In this example, the user is asking for PGS for AD, and AD_Jansen, and will be g
 The functions by default assumes you want the significance levels S1, S7, and S11, but you may overwrite this by using the `s_levels` argument.
 
 ```{r, eval=FALSE}
-get_pgs(pgs = c("AD", "AD_Jansen"),
+pgs_get(pgs = c("AD", "AD_Jansen"),
         s_levels = c("S1", "S5", "S12", "S7")
         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
@@ -63,20 +63,20 @@ You need not use the entire MOAS for these two functions to work, you can be wor
 The key feature must be that the data is MOAS-derived, as the functions assume a certain structure to the data. 
 
 ```{r, eval=FALSE}
-add_pgs(MOAS, 
+pgs_add(MOAS, 
         pgs = c("AD", "AD_Jansen",
         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
         s_levels = c("S1", "S7", "S11"))      
 ```
 
-The `add_pgs` function takes all the same arguments as the `get_pgs` function, with the addition of needing the MOAS-derived data. 
+The `pgs_add` function takes all the same arguments as the `pgs_get` function, with the addition of needing the MOAS-derived data. 
 The output of this function, is the entire data.frame you provided (MOAS-derived) with the PGS columns appended to it.
 This function is also created such that you may use the pipe (`%>%`) operator on it if you like using it.
 
 ```{r, eval=FALSE}
 MOAS %>% 
-  add_pgs(pgs = c("AD", "AD_Jansen",
+  pgs_add(pgs = c("AD", "AD_Jansen",
           pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
           genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
           s_levels = c("S1", "S7", "S11"))      
@@ -88,7 +88,7 @@ The two functions above have two companions, that end with `_all`.
 The two `_all`-functions are made to easily add/get all the available PFS's from the path specified.
 
 ```{r, eval=FALSE}
-get_pgs_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+pgs_get_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
             genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
 ```
 
@@ -96,7 +96,7 @@ In particular, most will not want all the significance levels outputted (there a
 You may specify which significance levels you want by providing a character vector to the `s_levels` argument.
 
 ```{r, eval=FALSE}
-add_pgs_all(MOAS, 
+pgs_add_all(MOAS, 
             s_levels = c("S1", "S7", "S11"),
             pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
             genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
@@ -111,7 +111,7 @@ Some are also interested in keeping the two `CNT` columns from the PGS data, as 
 To do this, you can provide the `include_cnt = TRUE` to the funciton, and those columns will also be added.
 
 ```{r, eval=FALSE}
-get_pgs_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+pgs_get_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
             genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
             s_levels = c("S1", "S7", "S11"),
             include_cnt = TRUE)
@@ -122,7 +122,7 @@ Some might be debugging the data, or want to find some extra information about t
 In this case, one can use the `include_genetics_debug = TRUE` argument, which will keep all the columns from the genetics-MOAS matching file in the outputted data.
 
 ```{r, eval=FALSE}
-get_pgs_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+pgs_get_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
             genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
             s_levels = c("S1", "S7", "S11"),
             include_genetics_debug = TRUE)

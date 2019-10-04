@@ -275,7 +275,7 @@ server=function(input,output){
 
     if(input$tickSelect) tmp = tmp %>% filter(tmp %>% select(one_of(input$ExtraColsDATA)) %>% complete.cases())
 
-    return(tmp %>% na.col.rm())
+    return(tmp %>% cna_ol_rm())
   })
 
   output$actionTableHelp = renderUI({
@@ -304,7 +304,7 @@ server=function(input,output){
       tmp = widen(tmp, input$actionTable, ConversionTab[,1])
     }
 
-    return(tmp %>% na.col.rm())
+    return(tmp %>% cna_ol_rm())
   })
 
 

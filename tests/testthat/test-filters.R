@@ -1,6 +1,6 @@
 context("test-site_keeper")
 
-test_that("site_keeper works", {
+test_that("filter_site works", {
   dt <-  data.frame(
     CrossProject_ID = rep("1000000", 6),
     Site_Name = c("ousAvanto", "ousAvanto","ousAvanto",
@@ -11,8 +11,8 @@ test_that("site_keeper works", {
   )
 
   # Check default action
-  expect_message(site_keeper(dt),"scanner with most data")
-  expect_equal(site_keeper(dt),
+  expect_output(filter_site(dt),"scanner with most data")
+  expect_equal(filter_site(dt, quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
                  Site_Name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),
@@ -22,7 +22,9 @@ test_that("site_keeper works", {
   )
 
   # Check site order action
-  expect_equal(site_keeper(dt, site_order = c("ousAvanto", "ousSkyra", "ousPrisma")),
+  expect_equal(filter_site(dt,
+                           site_order = c("ousAvanto", "ousSkyra", "ousPrisma"),
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
                  Site_Name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
@@ -31,7 +33,9 @@ test_that("site_keeper works", {
                  stringsAsFactors = FALSE)
   )
 
-  expect_equal(site_keeper(dt, site_order = c("ousAvanto", "ousPrisma", "ousSkyra")),
+  expect_equal(filter_site(dt,
+                           site_order = c("ousAvanto", "ousPrisma", "ousSkyra"),
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
                  Site_Name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
@@ -40,7 +44,9 @@ test_that("site_keeper works", {
                  stringsAsFactors = FALSE)
   )
 
-  expect_equal(site_keeper(dt, site_order = c("ousAvanto", "ousPrisma", "ousSkyra")),
+  expect_equal(filter_site(dt,
+                           site_order = c("ousAvanto", "ousPrisma", "ousSkyra"),
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
                  Site_Name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
@@ -50,7 +56,8 @@ test_that("site_keeper works", {
   )
 
   # Check tie options
-  expect_equal(site_keeper(dt, tie = "ousAvanto"),
+  expect_equal(filter_site(dt, tie = "ousAvanto",
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
                  Site_Name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
@@ -59,7 +66,8 @@ test_that("site_keeper works", {
                  stringsAsFactors = FALSE)
   )
 
-  expect_equal(site_keeper(dt, tie = "ousSkyra"),
+  expect_equal(filter_site(dt, tie = "ousSkyra",
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
                  Site_Name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),
@@ -71,7 +79,8 @@ test_that("site_keeper works", {
 
 
   # Check when keep != "long"
-  expect_equal(site_keeper(dt, keep="ousAvanto"),
+  expect_equal(filter_site(dt, keep="ousAvanto",
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = "1000000",
                  Site_Name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
@@ -80,7 +89,8 @@ test_that("site_keeper works", {
                  stringsAsFactors = FALSE
                ))
 
-  expect_equal(site_keeper(dt, keep="ousSkyra"),
+  expect_equal(filter_site(dt, keep="ousSkyra",
+                           quiet = TRUE),
                data.frame(
                  CrossProject_ID = "1000000",
                  Site_Name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),

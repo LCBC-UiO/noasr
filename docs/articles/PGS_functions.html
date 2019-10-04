@@ -103,12 +103,7 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(MOAS)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Attaching package: 'MOAS'</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; The following object is masked _by_ '.GlobalEnv':</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;     data</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(MOAS)</a></code></pre></div>
 <p>There are several functions in this package that should aid anyone working with PGS’s to add the PGS they want to their data. While the MOAS-data does contain PGS data, you might want to use some other PGS’s than already provided in the MOAS, or you might want to have more accompanying data with the PGSs (like the SNP counts). There are a couple of requisites to having these functions work:</p>
 <ol style="list-style-type: decimal">
 <li>You need to be able to connect to the LCBC lagringshotell, and know the path to the lagringshotell within your system.<br>
@@ -123,12 +118,12 @@
 <div id="getting-pgs-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getting-pgs-data" class="anchor"></a>Getting PGS data</h3>
-<p>The first key function is <code>get_pgs</code> which will create a data.frame of the PGS’s you have asked for with the command.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/get_pgs.html">get_pgs</a></span>(<span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>),</a>
+<p>The first key function is <code>pgs_get</code> which will create a data.frame of the PGS’s you have asked for with the command.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_get.html">pgs_get</a></span>(<span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>),</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">        <span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">        <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>)</a></code></pre></div>
 <p>In this example, the user is asking for PGS for AD, and AD_Jansen, and will be given back a data.frame with these PGSs. The functions by default assumes you want the significance levels S1, S7, and S11, but you may overwrite this by using the <code>s_levels</code> argument.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/get_pgs.html">get_pgs</a></span>(<span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>),</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_get.html">pgs_get</a></span>(<span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>),</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">        <span class="dt">s_levels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"S1"</span>, <span class="st">"S5"</span>, <span class="st">"S12"</span>, <span class="st">"S7"</span>)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">        <span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">        <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>)</a></code></pre></div>
@@ -137,14 +132,14 @@
 <h3 class="hasAnchor">
 <a href="#adding-pgs-data-to-the-moas" class="anchor"></a>Adding PGS data to the MOAS</h3>
 <p>The two above codes will give data.frames with PGS data alone, and nothing else. If you are confident in how you handle data, the above might provide enough for you to be able to merge it with whatever data you have to work with. If you are less confident, or just want a simple solution, you can use the two functions specifically created for easy MOAS-merging. You need not use the entire MOAS for these two functions to work, you can be working with MOAS data that has already been subsetted, and you want to add PGS to that. The key feature must be that the data is MOAS-derived, as the functions assume a certain structure to the data.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/add_pgs.html">add_pgs</a></span>(MOAS, </a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_add.html">pgs_add</a></span>(MOAS, </a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">        <span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>,</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">        <span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">        <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">        <span class="dt">s_levels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"S1"</span>, <span class="st">"S7"</span>, <span class="st">"S11"</span>))      </a></code></pre></div>
-<p>The <code>add_pgs</code> function takes all the same arguments as the <code>get_pgs</code> function, with the addition of needing the MOAS-derived data. The output of this function, is the entire data.frame you provided (MOAS-derived) with the PGS columns appended to it. This function is also created such that you may use the pipe (<code>%&gt;%</code>) operator on it if you like using it.</p>
+<p>The <code>pgs_add</code> function takes all the same arguments as the <code>pgs_get</code> function, with the addition of needing the MOAS-derived data. The output of this function, is the entire data.frame you provided (MOAS-derived) with the PGS columns appended to it. This function is also created such that you may use the pipe (<code>%&gt;%</code>) operator on it if you like using it.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">MOAS <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/add_pgs.html">add_pgs</a></span>(<span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/pgs_add.html">pgs_add</a></span>(<span class="dt">pgs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AD"</span>, <span class="st">"AD_Jansen"</span>,</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">          <span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">          <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">          <span class="dt">s_levels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"S1"</span>, <span class="st">"S7"</span>, <span class="st">"S11"</span>))      </a></code></pre></div>
@@ -153,10 +148,10 @@
 <h3 class="hasAnchor">
 <a href="#the-_all-functions" class="anchor"></a>The <code>_all</code> functions</h3>
 <p>The two functions above have two companions, that end with <code>_all</code>. The two <code>_all</code>-functions are made to easily add/get all the available PFS’s from the path specified.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/get_pgs_all.html">get_pgs_all</a></span>(<span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_get_all.html">pgs_get_all</a></span>(<span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">            <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>)</a></code></pre></div>
 <p>In particular, most will not want all the significance levels outputted (there are 12, and this is the default behaviour for the <code>_all</code> functions). You may specify which significance levels you want by providing a character vector to the <code>s_levels</code> argument.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/add_pgs_all.html">add_pgs_all</a></span>(MOAS, </a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_add_all.html">pgs_add_all</a></span>(MOAS, </a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">            <span class="dt">s_levels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"S1"</span>, <span class="st">"S7"</span>, <span class="st">"S11"</span>),</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">            <span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4">            <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>)</a></code></pre></div>
@@ -170,7 +165,7 @@
 <h3 class="hasAnchor">
 <a href="#keeping-the-cnt-columns" class="anchor"></a>Keeping the <code>CNT</code> columns</h3>
 <p>Some are also interested in keeping the two <code>CNT</code> columns from the PGS data, as these may provide valuable information about the PGS’s computed. To do this, you can provide the <code>include_cnt = TRUE</code> to the funciton, and those columns will also be added.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/get_pgs_all.html">get_pgs_all</a></span>(<span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_get_all.html">pgs_get_all</a></span>(<span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">            <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">            <span class="dt">s_levels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"S1"</span>, <span class="st">"S7"</span>, <span class="st">"S11"</span>),</a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">            <span class="dt">include_cnt =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
@@ -179,7 +174,7 @@
 <h3 class="hasAnchor">
 <a href="#keeping-information-from-the-genetics-moas-matching-file" class="anchor"></a>Keeping information from the genetics-MOAS matching file</h3>
 <p>Some might be debugging the data, or want to find some extra information about the source genetic samples. In this case, one can use the <code>include_genetics_debug = TRUE</code> argument, which will keep all the columns from the genetics-MOAS matching file in the outputted data.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/get_pgs_all.html">get_pgs_all</a></span>(<span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/pgs_get_all.html">pgs_get_all</a></span>(<span class="dt">pgs_path =</span> <span class="st">"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">            <span class="dt">genetic_match_file =</span> <span class="st">"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">            <span class="dt">s_levels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"S1"</span>, <span class="st">"S7"</span>, <span class="st">"S11"</span>),</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">            <span class="dt">include_genetics_debug =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
@@ -188,6 +183,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

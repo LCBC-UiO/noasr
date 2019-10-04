@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deprecated, use filter_site — site_keeper • MOAS</title>
+<title>Add PGS data to the MOAS — pgs_add • MOAS</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -40,14 +40,10 @@
 
 
 
-<meta property="og:title" content="Deprecated, use filter_site — site_keeper" />
-<meta property="og:description" content="filter_site returns a MOAS data.frame with one row per
-participant and timepoint (i.e. removes double/triple scan entries).
-For analyses not intending to use the power of double/triple scans,
-or for data which will be widened and scanner type/site is not of
-interest.
-Only subject timepoints that have several entries (i.e. several scan sites),
-will be reduced. All timepoints will be retained." />
+<meta property="og:title" content="Add PGS data to the MOAS — pgs_add" />
+<meta property="og:description" content="This function calls on [pgs_get] to read in wanted
+PGS at specified significance levels, and adds that data
+to the MOAS-type data provided." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -136,49 +132,87 @@ will be reduced. All timepoints will be retained." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deprecated, use filter_site</h1>
-    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/filters.R'><code>R/filters.R</code></a></small>
-    <div class="hidden name"><code>site_keeper.Rd</code></div>
+    <h1>Add PGS data to the MOAS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/genetic-funcs.R'><code>R/genetic-funcs.R</code></a></small>
+    <div class="hidden name"><code>pgs_add.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>filter_site</code> returns a MOAS data.frame with one row per
-participant and timepoint (i.e. removes double/triple scan entries).
-For analyses not intending to use the power of double/triple scans,
-or for data which will be widened and scanner type/site is not of
-interest.
-Only subject timepoints that have several entries (i.e. several scan sites),
-will be reduced. All timepoints will be retained.</p>
+    <p>This function calls on [<code>pgs_get</code>] to read in wanted
+PGS at specified significance levels, and adds that data
+to the MOAS-type data provided.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>site_keeper</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pgs_add</span>(<span class='no'>MOAS</span>, <span class='kw'>pgs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>s_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"S1"</span>, <span class='st'>"S7"</span>, <span class='st'>"S11"</span>),
+  <span class='kw'>pgs_path</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,
+  <span class='kw'>genetic_match_file</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,
+  <span class='kw'>include_cnt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_Genetic_debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>any argument to filter_site</p></td>
+      <th>MOAS</th>
+      <td><p>data.frame of the full MOAS or MOAS sub-set</p></td>
+    </tr>
+    <tr>
+      <th>pgs</th>
+      <td><p>character vector of the PGS wanted</p></td>
+    </tr>
+    <tr>
+      <th>s_levels</th>
+      <td><p>character vector of the significance levels wanted</p></td>
+    </tr>
+    <tr>
+      <th>pgs_path</th>
+      <td><p>path to the directory where the PGS's are stored</p></td>
+    </tr>
+    <tr>
+      <th>genetic_match_file</th>
+      <td><p>path to the file containing the MOAS-genetics
+matching and debugging information</p></td>
+    </tr>
+    <tr>
+      <th>include_cnt</th>
+      <td><p>logical, whether to keep SNP count information</p></td>
+    </tr>
+    <tr>
+      <th>include_Genetic_debug</th>
+      <td><p>logical, whether to keep all columns
+in the genetic_match_file in the final output</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A MOAS type file with one line per subject and timepoint.</p>
+    <p>a tibble / data.frame</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other pgs-functions: <code><a href='pgs_add_all.html'>pgs_add_all</a></code>,
+  <code><a href='pgs_get_all.html'>pgs_get_all</a></code>, <code><a href='pgs_get.html'>pgs_get</a></code>,
+  <code><a href='pgs_read.html'>pgs_read</a></code></p>
+<p>Other MOAS add-functions: <code><a href='epigen_add.html'>epigen_add</a></code>,
+  <code><a href='pgs_add_all.html'>pgs_add_all</a></code>, <code><a href='pgs_get_all.html'>pgs_get_all</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='filter_site.html'>filter_site</a></span>(<span class='no'>MOAS</span>)
-<span class='fu'><a href='filter_site.html'>filter_site</a></span>(<span class='no'>MOAS</span>, <span class='st'>'ousSkyra'</span>)
-<span class='fu'><a href='filter_site.html'>filter_site</a></span>(<span class='no'>MOAS</span>, <span class='st'>'ousAvanto'</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='co'># Here we assume you know the path to the LCBC</span>
+<span class='co'># lagringshotell, you can substitute "~" in the</span>
+<span class='co'># paths with the path to the lagringshotell</span>
+
+<span class='fu'>pgs_add</span>(<span class='kw'>pgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"AD"</span>, <span class='st'>"EduYears_2016"</span>, <span class='st'>"Depression_Nagel2018"</span>),
+    <span class='kw'>s_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"S1"</span>, <span class='st'>"S7"</span>, <span class='st'>"S11"</span>),
+    <span class='kw'>pgs_path</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,
+    <span class='kw'>genetic_match_file</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,
+)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

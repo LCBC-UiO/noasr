@@ -12,7 +12,7 @@
 #' clean_DF(data)
 #' }
 #' @importFrom magrittr "%>%"
-#' @importFrom dplyr select one_of
+#' @importFrom dplyr select one_of as_tibble
 #' @importFrom utils type.convert
 #'
 #' @export
@@ -33,5 +33,6 @@ clean_DF = function(data) {
       apply(2, function(x) utils::type.convert(as.character(x))) %>%
       as.data.frame() %>%
       dplyr::select(-dplyr::one_of(names(OUT))) %>%
-        cbind.data.frame(OUT)
+        cbind.data.frame(OUT) %>% 
+      as_tibble()
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deprecated, use filter_site — site_keeper • MOAS</title>
+<title>Read in a PGS file — pgs_read • MOAS</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -40,14 +40,8 @@
 
 
 
-<meta property="og:title" content="Deprecated, use filter_site — site_keeper" />
-<meta property="og:description" content="filter_site returns a MOAS data.frame with one row per
-participant and timepoint (i.e. removes double/triple scan entries).
-For analyses not intending to use the power of double/triple scans,
-or for data which will be widened and scanner type/site is not of
-interest.
-Only subject timepoints that have several entries (i.e. several scan sites),
-will be reduced. All timepoints will be retained." />
+<meta property="og:title" content="Read in a PGS file — pgs_read" />
+<meta property="og:description" content="Read in a PGS file" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -136,50 +130,46 @@ will be reduced. All timepoints will be retained." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deprecated, use filter_site</h1>
-    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/filters.R'><code>R/filters.R</code></a></small>
-    <div class="hidden name"><code>site_keeper.Rd</code></div>
+    <h1>Read in a PGS file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/genetic-funcs.R'><code>R/genetic-funcs.R</code></a></small>
+    <div class="hidden name"><code>pgs_read.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>filter_site</code> returns a MOAS data.frame with one row per
-participant and timepoint (i.e. removes double/triple scan entries).
-For analyses not intending to use the power of double/triple scans,
-or for data which will be widened and scanner type/site is not of
-interest.
-Only subject timepoints that have several entries (i.e. several scan sites),
-will be reduced. All timepoints will be retained.</p>
+    <p>Read in a PGS file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>site_keeper</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pgs_read</span>(<span class='no'>path</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>any argument to filter_site</p></td>
+      <th>path</th>
+      <td><p>path to PGS file</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Name of the PGS</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A MOAS type file with one line per subject and timepoint.</p>
+    <p>data frame</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='filter_site.html'>filter_site</a></span>(<span class='no'>MOAS</span>)
-<span class='fu'><a href='filter_site.html'>filter_site</a></span>(<span class='no'>MOAS</span>, <span class='st'>'ousSkyra'</span>)
-<span class='fu'><a href='filter_site.html'>filter_site</a></span>(<span class='no'>MOAS</span>, <span class='st'>'ousAvanto'</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+    <div class='dont-index'><p>Other pgs-functions: <code><a href='pgs_add_all.html'>pgs_add_all</a></code>,
+  <code><a href='pgs_add.html'>pgs_add</a></code>, <code><a href='pgs_get_all.html'>pgs_get_all</a></code>,
+  <code><a href='pgs_get.html'>pgs_get</a></code></p></div>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
