@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MOAS variables — variables • MOAS</title>
+<title>Utility function for reducing double/triple scans to a single row — filter_site • MOAS</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -40,9 +40,14 @@
 
 
 
-<meta property="og:title" content="MOAS variables — variables" />
-<meta property="og:description" content="a data frame with information on the different MOAS variables and
-their content and types" />
+<meta property="og:title" content="Utility function for reducing double/triple scans to a single row — filter_site" />
+<meta property="og:description" content="filter_site returns a MOAS data.frame with one row per
+participant and timepoint (i.e. removes double/triple scan entries).
+For analyses not intending to use the power of double/triple scans,
+or for data which will be widened and scanner type/site is not of
+interest.
+Only subject timepoints that have several entries (i.e. several scan sites),
+will be reduced. All timepoints will be retained." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -106,9 +111,6 @@ their content and types" />
     <li>
       <a href="../articles/find-subject-timepoint.html">Find subject timepoint</a>
     </li>
-    <li>
-      <a href="../articles/make_documentation.html">Make documentation pages</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -134,30 +136,76 @@ their content and types" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>MOAS variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>variables.Rd</code></div>
+    <h1>Utility function for reducing double/triple scans to a single row</h1>
+    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/filters.R'><code>R/filters.R</code></a></small>
+    <div class="hidden name"><code>filter_site.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>a data frame with information on the different MOAS variables and
-their content and types</p>
+    <p><code>filter_site</code> returns a MOAS data.frame with one row per
+participant and timepoint (i.e. removes double/triple scan entries).
+For analyses not intending to use the power of double/triple scans,
+or for data which will be widened and scanner type/site is not of
+interest.
+Only subject timepoints that have several entries (i.e. several scan sites),
+will be reduced. All timepoints will be retained.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='data.html'>data</a></span>(<span class='no'>variables</span>)</pre>
+    <pre class="usage"><span class='fu'>filter_site</span>(<span class='no'>data</span>, <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"long"</span>, <span class='kw'>tie</span> <span class='kw'>=</span> <span class='st'>"interval"</span>,
+  <span class='kw'>site_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"ousPrisma"</span>, <span class='st'>"ousSkyra"</span>, <span class='st'>"ousAvanto"</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>The MOAS or a MOAS generated file.</p></td>
+    </tr>
+    <tr>
+      <th>keep</th>
+      <td><p>A string specifying which data from double/triple scans to keep.
+Available options are:
+'long' - keep data from scanner with most data (default),
+'ousAvanto' = keep 'ousAvanto',
+'ousSkyra' = keep 'ousSkyra', or
+'ousPrisma' = keep 'ousPrisma'.</p></td>
+    </tr>
+    <tr>
+      <th>tie</th>
+      <td><p>string indicating given a tie in the "long" keep option, what to keep.
+Available options are:
+'interval' - keep data from scanner with longest data interval (default),
+'ousAvanto' = keep 'ousAvanto',
+'ousSkyra' = keep 'ousSkyra', or
+'ousPrisma' = keep 'ousPrisma'.</p></td>
+    </tr>
+    <tr>
+      <th>site_order</th>
+      <td><p>string vector of the scanner priority given a tie between scanners</p></td>
+    </tr>
+    <tr>
+      <th>quiet</th>
+      <td><p>logical, TRUE sets it to verbose</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>data.frame</code> with 835 rows and 5 columns.</p>
+    <p>A MOAS type file with one line per subject and timepoint.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='data.html'>data</a></span>(<span class='no'>variables</span>)</div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>filter_site</span>(<span class='no'>MOAS</span>)
+<span class='fu'>filter_site</span>(<span class='no'>MOAS</span>, <span class='st'>'ousSkyra'</span>)
+<span class='fu'>filter_site</span>(<span class='no'>MOAS</span>, <span class='st'>'ousAvanto'</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

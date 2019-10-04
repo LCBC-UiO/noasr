@@ -80,7 +80,7 @@ fs_lmm = function(data,
   data = cbind.data.frame(orig_data,N=1:nrow(orig_data))
 
   # Decide which data to keep from double/triple scans
-  data = data %>% MOAS::site_keeper(keep, quiet=T)
+  data = data %>% MOAS::filter_site(keep, quiet=T)
 
   data = data %>% dplyr::filter(!is.na(get(dt)))
 

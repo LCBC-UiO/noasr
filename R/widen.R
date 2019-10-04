@@ -34,8 +34,8 @@
 
 widen = function(data, by, keep=NULL){
 
-  ColumnList = data %>% 
-    dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>% 
+  ColumnList = data %>%
+    dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>%
     names()
 
   SEP = switch(by,
@@ -50,7 +50,7 @@ widen = function(data, by, keep=NULL){
 
   if(!is.null(keep)){
     data = data %>%
-      site_keeper(keep=keep)
+      filter_site(keep=keep)
   }
 
   if(purrr::is_empty(SEP)) stop(paste("There is no way to make wide by '", by, "'", sep=""))
@@ -61,18 +61,18 @@ widen = function(data, by, keep=NULL){
   }else if(SEP %in% c("W","tp")){  #If going by wave or tp
 
     DATA = data
-    
+
     # Paste separator infront of the by
     DATA[,by] = paste0(SEP,DATA[,by] %>% unlist)
-    
+
     # Merge wave and project together to spread it, or else will fail with multi-project participants
     if(by == "Project_Wave"){
-      DATA <- DATA %>% 
+      DATA <- DATA %>%
         unite(Project_Wave, c(Project_Name, Project_Wave), sep=".")
     }else{
       DATA <- data
     }
-    
+
     COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
     COLS = COLS[COLS %in% names(DATA)]
 
@@ -186,7 +186,7 @@ widen = function(data, by, keep=NULL){
   DATA3 %>%
     dplyr::select(dplyr::one_of(ColumnList[ColumnList %in% names(DATA3)]),
                   dplyr::everything()) %>%
-    na.col.rm()
+    na_col_rm()
 }
 
 ## quiets concerns of R CMD check
@@ -206,13 +206,13 @@ safely_spread <- purrr::safely(spread)
 
 grab_error_slice <-   function(data){
   t <- data$error$message %>%
-    as.character() %>% 
+    as.character() %>%
     str_split(":")
-  
+
     gsub("[[:alpha:]]|[[:punct:]]", "", t[[1]][2]) %>%
     str_split("\\\n| ") %>%
     unlist() %>%
-    as.numeric() %>% 
-    na.omit() %>% 
+    as.numeric() %>%
+    na.omit() %>%
     as.numeric()
-}    
+}

@@ -205,7 +205,11 @@
 <p>All MOAS functions are pipe compatible, and should thus easily be incorporated into tidyverse-type syntax.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">simple_data =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MemC"</span>,<span class="st">"MemP"</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<<<<<<< HEAD
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/na.col.rm.html">na.col.rm</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see section on Utility functions</span></a>
+=======
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw">na.col.rm</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see section on Utility functions</span></a>
+>>>>>>> 0e43ce37a3455196d725cc93a8aa092500ce1046
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/site_keeper.html">site_keeper</a></span>(<span class="st">"ousPrisma"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/widen.html">widen</a></span>(<span class="st">"Project_Wave"</span>)</a></code></pre></div>
 </div>
@@ -253,9 +257,13 @@
 <p>Some functions in the MOAS package are what we call utility functions. They do not exclusively work on MOAS data, they will work well on other data.frames or vectors. These funtions perform operations to help clean up data or perform simple and useful operations.</p>
 <div id="na-col-rm" class="section level4">
 <h4 class="hasAnchor">
-<a href="#na-col-rm" class="anchor"></a>The <code><a href="../reference/na.col.rm.html">na.col.rm()</a></code> function</h4>
+<a href="#na-col-rm" class="anchor"></a>The <code>na.col.rm()</code> function</h4>
 <p>This function locates any column in a data.frame that has no observations (only contains <code>NA</code> or <code>NaN</code>), and removes it from the data.frame. This particularly convenient if you have subsetted the rows of data to specific observations, and want to quickly remove any columns that no longer are of consequence for the data you have.</p>
+<<<<<<< HEAD
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">data2 =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> "NCP"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/na.col.rm.html">na.col.rm</a></span>()</a></code></pre></div>
+=======
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">data2 =<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(Project_Name <span class="op">%in%</span><span class="st"> "NCP"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">na.col.rm</span>()</a></code></pre></div>
+>>>>>>> 0e43ce37a3455196d725cc93a8aa092500ce1046
 </div>
 <div id="factor_times" class="section level4">
 <h4 class="hasAnchor">
@@ -282,6 +290,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>

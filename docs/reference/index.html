@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -37,10 +39,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
 
+<meta property="og:title" content="Function reference" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -110,7 +113,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/LCBC-UiO/MOAS">
@@ -163,18 +165,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="add_pgs.html">add_pgs()</a></code> </p>
-        </td>
-        <td><p>Add PGS data to the MOAS</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="add_pgs_all.html">add_pgs_all()</a></code> </p>
-        </td>
-        <td><p>Add all PGS data to the MOAS</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="baseCols.html">baseCols</a></code> </p>
         </td>
         <td><p>MOAS base columns</p></td>
@@ -212,6 +202,7 @@ calculated subject timepoints etc.</p></td>
       </tr><tr>
         
         <td>
+<<<<<<< HEAD
           <p><code><a href="docs_paradigm_order_chapter.html">docs_paradigm_order_chapter()</a></code> </p>
         </td>
         <td><p>Order the chapters of the Paradigm documentation</p></td>
@@ -237,8 +228,41 @@ calculated subject timepoints etc.</p></td>
         
         <td>
           <p><code><a href="factor_times.html">factor_times()</a></code> </p>
+=======
+          <p><code><a href="dbs_add.html">dbs_add()</a></code> </p>
+>>>>>>> 0e43ce37a3455196d725cc93a8aa092500ce1046
+        </td>
+        <td><p>Add DBS data to data frame</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dbs_get.html">dbs_get()</a></code> </p>
+        </td>
+        <td><p>Get DBS information from a file</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="epigen_add.html">epigen_add()</a></code> </p>
+        </td>
+        <td><p>Add epigenetic data to MOAS like data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="epigen_get.html">epigen_get()</a></code> </p>
+        </td>
+        <td><p>Get epigenetic data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="factor_times.html">factor_times()</a></code> <code><a href="factor_times.html">factor_times()</a></code> </p>
         </td>
         <td><p>Factor time of day into categories of 4.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="filter_site.html">filter_site()</a></code> </p>
+        </td>
+        <td><p>Utility function for reducing double/triple scans to a single row</p></td>
       </tr><tr>
         
         <td>
@@ -255,19 +279,7 @@ mixed models</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="get_pgs.html">get_pgs()</a></code> </p>
-        </td>
-        <td><p>Read in and sort PGS data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pgs_all.html">get_pgs_all()</a></code> </p>
-        </td>
-        <td><p>Get all PGS's</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is.hms.html">is.hms()</a></code> </p>
+          <p><code><a href="is_hms.html">is_hms()</a></code> </p>
         </td>
         <td><p>Utility function to locate hms columns</p></td>
       </tr><tr>
@@ -285,15 +297,45 @@ mixed models</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="na.col.rm.html">na.col.rm()</a></code> </p>
+          <p><code><a href="na_col_rm.html">na_col_rm()</a></code> </p>
         </td>
         <td><p>Utility function to remove columns with no data</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="pgs_add.html">pgs_add()</a></code> </p>
+        </td>
+        <td><p>Add PGS data to the MOAS</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pgs_add_all.html">pgs_add_all()</a></code> </p>
+        </td>
+        <td><p>Add all PGS data to the MOAS</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pgs_get.html">pgs_get()</a></code> </p>
+        </td>
+        <td><p>Read in and sort PGS data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pgs_get_all.html">pgs_get_all()</a></code> </p>
+        </td>
+        <td><p>Get all PGS's</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pgs_read.html">pgs_read()</a></code> </p>
+        </td>
+        <td><p>Read in a PGS file</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="site_keeper.html">site_keeper()</a></code> </p>
         </td>
-        <td><p>Utility function for reducing double/triple scans to a single row</p></td>
+        <td><p>Deprecated, use filter_site</p></td>
       </tr><tr>
         
         <td>

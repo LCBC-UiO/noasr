@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MOAS variables — variables • MOAS</title>
+<title>Read in and sort PGS data — pgs_get • MOAS</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -40,9 +40,12 @@
 
 
 
-<meta property="og:title" content="MOAS variables — variables" />
-<meta property="og:description" content="a data frame with information on the different MOAS variables and
-their content and types" />
+<meta property="og:title" content="Read in and sort PGS data — pgs_get" />
+<meta property="og:description" content="Given the path containing PGS data, this function will read in
+PGS data for the PGS's specified and the significance levels
+provided. In order to correctly only keep rows of data from
+verified sources, the genetic_match_file is necessary to
+provide for a check." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -106,9 +109,6 @@ their content and types" />
     <li>
       <a href="../articles/find-subject-timepoint.html">Find subject timepoint</a>
     </li>
-    <li>
-      <a href="../articles/make_documentation.html">Make documentation pages</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -134,30 +134,102 @@ their content and types" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>MOAS variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>variables.Rd</code></div>
+    <h1>Read in and sort PGS data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/MOAS/blob/master/R/genetic-funcs.R'><code>R/genetic-funcs.R</code></a></small>
+    <div class="hidden name"><code>pgs_get.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>a data frame with information on the different MOAS variables and
-their content and types</p>
+    <p>Given the path containing PGS data, this function will read in
+PGS data for the PGS's specified and the significance levels
+provided. In order to correctly only keep rows of data from
+verified sources, the genetic_match_file is necessary to
+provide for a check.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='data.html'>data</a></span>(<span class='no'>variables</span>)</pre>
+    <pre class="usage"><span class='fu'>pgs_get</span>(<span class='kw'>pgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"AD"</span>, <span class='st'>"AD_Jansen"</span>), <span class='kw'>s_levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"S1"</span>, <span class='st'>"S7"</span>, <span class='st'>"S11"</span>),
+  <span class='kw'>pgs_path</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/"</span>,
+  <span class='kw'>genetic_match_file</span> <span class='kw'>=</span> <span class='st'>"~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv"</span>,
+  <span class='kw'>include_cnt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_pheno</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>include_Genetic_debug</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pgs</th>
+      <td><p>character vector of the PGS wanted</p></td>
+    </tr>
+    <tr>
+      <th>s_levels</th>
+      <td><p>character vector of the significance levels wanted</p></td>
+    </tr>
+    <tr>
+      <th>pgs_path</th>
+      <td><p>path to the directory where the PGS's are stored</p></td>
+    </tr>
+    <tr>
+      <th>genetic_match_file</th>
+      <td><p>path to the file containing the MOAS-genetics
+matching and debugging information</p></td>
+    </tr>
+    <tr>
+      <th>include_cnt</th>
+      <td><p>logical, whether to keep SNP count information</p></td>
+    </tr>
+    <tr>
+      <th>include_pheno</th>
+      <td><p>logical, whether to keep PHENO information</p></td>
+    </tr>
+    <tr>
+      <th>include_Genetic_debug</th>
+      <td><p>logical, whether to keep all columns
+in the genetic_match_file in the final output</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>data.frame</code> with 835 rows and 5 columns.</p>
+    <p>a tibble / data.frame</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other pgs-functions: <code><a href='pgs_add_all.html'>pgs_add_all</a></code>,
+  <code><a href='pgs_add.html'>pgs_add</a></code>, <code><a href='pgs_get_all.html'>pgs_get_all</a></code>,
+  <code><a href='pgs_read.html'>pgs_read</a></code></p>
+<p>Other MOAS get-functions: <code><a href='dbs_get.html'>dbs_get</a></code>,
+  <code><a href='epigen_get.html'>epigen_get</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='data.html'>data</a></span>(<span class='no'>variables</span>)</div></pre>
+    <pre class="examples"># NOT RUN {
+# Here we assume you know the path to the LCBC
+# lagringshotell, you can substitute "~" in the
+# paths with the path to the lagringshotell
+
+pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+         s_levels = c("S1", "S7", "S11"),
+         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+)
+
+# You can also toggle adding the CNT columns from the PGS, by changing
+# include_cnt to TRUE
+pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018",
+         s_levels = c("S1", "S7", "S11"),
+         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+         include_cnt = FALSE
+)
+
+# }
+<div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

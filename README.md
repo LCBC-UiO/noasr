@@ -3,6 +3,14 @@
 
 # LCBC MOAS functions <img src="man/figures/hex.png" align="right" alt="" width="120" />
 
+<!-- badges: start -->
+
+[![CircleCI build
+status](https://circleci.com/gh/LCBC-UiO/MOAS.svg)](https://circleci.com/gh/LCBC-UiO/MOAS)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
 The functions in this package are intended for use on the Mother of All
 Spreadsheets (and related files) in LCBC. The functions will mostly not
 work on any other data, it is an in-house package of functions.
