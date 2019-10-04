@@ -40,7 +40,7 @@ Because `.RData` files are saved with the object name they had when saved, `.RDa
 To handle this, we assign the loading of the file to an object `nm`, which will capture the name of the object.
 We will then use the `get()` function to grab the data with name `nm` and assign it to the object `data`, so we have the data in an object with the name of our chosing.
 
-```{r "Load RData"}
+```{r "Load RData", eval=FALSE}
 # Loads in the data, and also stores the name of the data.frame in the object `nm`
 nm = load("LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
 
@@ -54,7 +54,7 @@ You now have MOAS-data in your environment stored in the object `data`.
 ### Function documentation
 Like all R-functions, the MOAS package functions have documentation that may be accessed by typing a question mark in the console, and the function you want to know more about.
 
-```{r "help"}
+```{r "help", eval=FALSE}
 # Base R
 ?anova
 ?t.test
@@ -70,7 +70,7 @@ It works "out-of-the-box" and will immediately launch the app in your browser
 without any extra inputs. You can then use the file browser in the application
 to upload the file you want to work on.
 
-```{r "shiny1"}
+```{r "shiny1", eval=FALSE}
 MOAS::launch_LCBCshiny()
 ```
 
@@ -103,7 +103,7 @@ widened_data = widen(data, by="Site_Name")
 ```
 
 Using `by="Subject_Timepoint"` or `by="Project_Wave"` the data must have only _one line per participant and timepoint_. For double and triple scanned, this is not the case. 
-In order to widen by these two options, you need to either run `widen()` with `by="Site_Name"` or `by="Site_Number"` first, run the [`site_keeper()`](#site_keeper) function, or provide `widen()` with the `keep` argument which will feed it to `site_keeper` for you.
+In order to widen by these two options, you need to either run `widen()` with `by="Site_Name"` or `by="Site_Number"` first, run the [`filter_site()`](#filter_site) function, or provide `widen()` with the `keep` argument which will feed it to `filter_site` for you.
 
 ```{r "widen examplel2"}
 widened_data1 = widen(data, by="Site_Name")
@@ -115,8 +115,8 @@ widened_data1 = widen(data, by="Site_Name", keep="ousAvanto")
 ```
 
 
-#### The `site_keeper()` function {#site_keeper} 
-The `site_keeper()` function is intended for use when you wish to reduce double and triple scanned data to a single line from one of the scanners. 
+#### The `filter_site()` function {#filter_site} 
+The `filter_site()` function is intended for use when you wish to reduce double and triple scanned data to a single line from one of the scanners. 
 This is necessary for all analyses not using the site as a variable of interest. 
 To run the function, you must choose which scanner you wish to keep data from.   
 
@@ -133,10 +133,10 @@ Lastly, if there is a tie for scanner also when taking into account the interval
 **Note**: the operation only affects double and triple scan timepoints.
 All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.
 
-```{r "site_keeper example1"}
-simple_data = site_keeper(data, "long", tie = "interval", site_order = c("ousPrisma", "ousSkyra", "ousAvanto"))
-simple_data = site_keeper(data, "ousAvanto")
-simple_data = site_keeper(data, "ourPrisma")
+```{r "filter_site example1"}
+simple_data = filter_site(data, "long", tie = "interval", site_order = c("ousPrisma", "ousSkyra", "ousAvanto"))
+simple_data = filter_site(data, "ousAvanto")
+simple_data = filter_site(data, "ourPrisma")
 ```
 
 ### The `fs_lmm()` function {#fs_lmm}
@@ -156,7 +156,7 @@ fs_lmm(data, grouping.var = c("Sex","Site_Name"), numeric.var="CVLT_A_Total")
 ```
 
 There are several other options to help you do different things.
-the `keep` option is passed to the [`site_keeper()`](#site_keeper) function to handle double and triple scanned data. 
+the `keep` option is passed to the [`filter_site()`](#filter_site) function to handle double and triple scanned data. 
 By default is uses the value "long", which will choose the scanner from a subject with the most data (in case of a tie, it picks the Skyra).
 
 Please see the documentation of this function for more options:
@@ -171,8 +171,8 @@ All MOAS functions are pipe compatible, and should thus easily be incorporated i
 ```{r "pipeExample"}
 simple_data = data %>% 
   filter(Project_Name %in% c("MemC","MemP")) %>% 
-  na.col.rm() %>% # see section on Utility functions
-  site_keeper("ousPrisma") %>% 
+  na_col_rm() %>% # see section on Utility functions
+  filter_site("ousPrisma") %>% 
   widen("Project_Wave")
 ```
 
@@ -200,12 +200,12 @@ They do not exclusively work on MOAS data, they will work well on other data.fra
 These funtions perform operations to help clean up data or perform simple and useful operations.
 
 
-#### The `na.col.rm()` function {#na.col.rm} 
+#### The `na_col_rm()` function {#na_col_rm} 
 This function locates any column in a data.frame that has no observations (only contains `NA` or `NaN`), and removes it from the data.frame.
 This particularly convenient if you have subsetted the rows of data to specific observations, and want to quickly remove any columns that no longer are of consequence for the data you have. 
 
-```{r "na.col.rm"}
-data2 = data %>% filter(Project_Name %in% "NCP") %>% na.col.rm()
+```{r "na_col_rm"}
+data2 = data %>% filter(Project_Name %in% "NCP") %>% na_col_rm()
 ```
 
 #### The `factor_times()` function {#factor_times} 

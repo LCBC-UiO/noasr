@@ -2,7 +2,7 @@
 title: "Make documentation pages"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{make_documentation}
+  %\VignetteIndexEntry{Make documentation pages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

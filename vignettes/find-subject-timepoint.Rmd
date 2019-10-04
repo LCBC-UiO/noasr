@@ -4,7 +4,7 @@ author: "Athanasia Monika Mowinckel"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Find subject timepoint}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -45,8 +45,8 @@ No matter which option you choose, the installation of the MOAS-packages takes s
 **Warning:** we know there is an issue with installing this package on the UiO office PCs. If the installation is failing, please follow [this troubleshoot](https://github.com/LCBC-UiO/Mini-Workshops/wiki/Analysis:-R), and see if that fixed your problem.
 
 After this, try installing again:
-```{r}
-devtools::install_github("LCBC-UiO/MOAS")
+```{r, eval=FALSE}
+remotes::install_github("LCBC-UiO/MOAS")
 ```
 
 Once everything has been installed sucessfully, your computer will have the necessary setup to run the function to find the subject timepoints. Thankfully, once it is all installed, you don't have to do these steps again!
