@@ -55,62 +55,62 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
                     include_cnt = FALSE,
                     include_pheno = FALSE,
                     include_genetic_debug = FALSE){
-  
+
   if(!dir.exists(pgs_path))
     stop(paste(pgs_path, "does not exist. Please check the path carefully."),
          call. = FALSE)
-  
+
   if(!file.exists(genetic_match_file))
     stop(paste(genetic_match_file, "does not exist or is not a path. Please check the path and file name carefully."),
          call. = FALSE)
-  
+
   if(!all(s_levels %in% paste0("S", 1:12)))
     stop(paste0("s_levels must be one or more of ", paste0("S", 1:12, collapse=", ")),
          call. = FALSE)
-  
+
   if(is.null(pgs)) stop("No PGS was requested, please provide PGS as a character vector",
                         call. = FALSE)
-  
+
   # Check is pgs's asked for exist
   pgs_alts <- list.dirs(pgs_path, full.names = FALSE)
   pgs_alts <- pgs_alts[-1] # Remove parent directory listing
-  
+
   if(!all(pgs %in% pgs_alts)){
     stop(paste0("Some PGS's cannot be located. Please check spelling for: ",
                 paste0(pgs[!pgs %in% pgs_alts], collapse=", ")),
          call. = FALSE)
   }
   rm(pgs_alts)
-  
+
   genetic_match = readr::read_tsv(genetic_match_file,
                                   col_type = readr::cols())
   genetic_match <- dplyr::filter(genetic_match, for_gwas == 1)
   names(genetic_match)[5:13] <- paste("Genetic", names(genetic_match)[5:13], sep="_")
-  
+
   if(!include_genetic_debug){
     genetic_match <- genetic_match[,c("FID", "IID", "Genetic_ID", "CrossProject_ID", "Genetic_european")]
   }
-  
+
   opts <- expand.grid(paste0("/", pgs), s_levels)
   all_pgs <- list.files(pgs_path, recursive = TRUE, full.names = TRUE)
   all_pgs <- all_pgs[grepl(paste(opts[,1], opts[,2], "profile", sep="\\.", collapse="|"), all_pgs)]
-  
+
   # lapply with progressbar
   pgs_data <- pbapply::pblapply(all_pgs, pgs_read)
-  
+
   pgs_data <- dplyr::bind_cols(pgs_data)
   pgs_data <- dplyr::select(pgs_data, -dplyr::matches("ID[1234567890]"))
-  
+
   pgs_data <- dplyr::left_join(genetic_match, pgs_data, by = c("FID", "IID"))
-  
+
   if(!include_cnt){
     pgs_data <- dplyr::select(pgs_data, -dplyr::matches(paste(s_levels, "CNT", sep="_", collapse = "|")))
   }
-  
+
   if(!include_pheno){
     pgs_data <- dplyr::select(pgs_data, -dplyr::matches(paste(s_levels, "PHENO", sep="_", collapse = "|")))
   }
-  
+
   pgs_data
 }
 
@@ -147,24 +147,24 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
 pgs_get_all <- function(s_levels = paste0("S", 1:12),
                         pgs_path = NULL,
                         genetic_match_file = NULL,
-                        include_cnt = FALSE, 
+                        include_cnt = FALSE,
                         include_genetic_debug = FALSE){
-  
+
   dt <- list()
   for(pp in 1:length(pgs_path)){
     pgs_alts <- list.dirs(pgs_path[[pp]], full.names = FALSE)
     pgs_alts <- pgs_alts[-1] # Remove parent directory listing
-    
-    dt[[pp]] <- pgs_get(pgs = pgs_alts, 
+
+    dt[[pp]] <- pgs_get(pgs = pgs_alts,
                   s_levels = s_levels,
                   pgs_path = pgs_path[[pp]],
                   genetic_match_file = genetic_match_file,
                   include_cnt = include_cnt,
                   include_genetic_debug = include_genetic_debug)
   }
-  
+
   do.call("full_join", dt)
-  
+
 }
 
 #' Add PGS data to the MOAS
@@ -198,23 +198,23 @@ pgs_get_all <- function(s_levels = paste0("S", 1:12),
 pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
                     pgs_path = NULL,
                     genetic_match_file = NULL,
-                    include_cnt = FALSE, 
+                    include_cnt = FALSE,
                     include_genetic_debug = FALSE){
-  
+
   if(is.null(MOAS)) stop("MOAS-type data is missing, please provide it. ")
   if(!any("data.frame" %in% class(MOAS))) stop("You need to provide the MOAS as an already loaded data.frame.")
-  
+
   MOAS <- dplyr::mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
-  pgs_data <- pgs_get(pgs = pgs, 
+  pgs_data <- pgs_get(pgs = pgs,
                       s_levels = s_levels,
                       pgs_path = pgs_path,
                       genetic_match_file = genetic_match_file,
                       include_cnt = include_cnt, include_genetic_debug = include_genetic_debug)
   pgs_data <- pgs_data[,c(1:2)*-1]
-  
+
   new_data <- dplyr::left_join(MOAS, pgs_data)
   new_data <- dplyr::mutate(new_data, CrossProject_ID = as.factor(CrossProject_ID))
-  
+
   new_data
 }
 
@@ -249,30 +249,30 @@ pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
 #'     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #' }
-pgs_add_all <- function(MOAS = NULL, 
+pgs_add_all <- function(MOAS = NULL,
                         s_levels = paste0("S", 1:12),
                         pgs_path = NULL,
                         genetic_match_file = NULL,
-                        include_cnt = FALSE, 
+                        include_cnt = FALSE,
                         include_genetic_debug = FALSE){
-  
+
   if(is.null(MOAS)) stop("MOAS-type data is missing, please provide it. ")
   if(!any("data.frame" %in% class(MOAS))) stop("You need to provide the MOAS as an already loaded data.frame.")
-  
+
   MOAS <- dplyr::mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
-  
+
   pgs_data <- pgs_get_all(s_levels = s_levels,
                     pgs_path = pgs_path,
                     genetic_match_file = genetic_match_file,
-                    include_cnt = include_cnt, 
+                    include_cnt = include_cnt,
                     include_genetic_debug = include_cnt)
-  
+
   pgs_data <- pgs_data[,c(1:2)*-1]
-  
+
   new_data <- dplyr::left_join(MOAS, pgs_data)
-  new_data <- dplyr::mutate(new_data, 
+  new_data <- dplyr::mutate(new_data,
                             CrossProject_ID = as.factor(CrossProject_ID))
-  
+
   new_data
 }
 
@@ -286,18 +286,19 @@ pgs_add_all <- function(MOAS = NULL,
 #' @family pgs-functions
 #'
 #' @return data frame
+#' @importFrom utils read.table
 #' @export
 pgs_read <- function(path, name = NULL){
   pgs_data <- read.table(path, header = TRUE, stringsAsFactors = FALSE)
-  
+
   if(is.null(name)){
     name <- gsub("\\.profile", "", basename(path))
     name <- gsub("\\.", "_", name)
   }
-  
+
   names(pgs_data)[3:6] <- paste("PGS", name, names(pgs_data)[3:6], sep="_")
   names(pgs_data)[6] <- gsub("_SCORE", "", names(pgs_data)[6])
-  
+
   pgs_data
 }
 

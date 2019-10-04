@@ -92,3 +92,7 @@ rm_chapter_num <- function(string){
 
   unname(t)
 }
+
+if(getRversion() >= "2.15.1"){
+  utils::globalVariables(c("orig", "type", "new","num"))
+}

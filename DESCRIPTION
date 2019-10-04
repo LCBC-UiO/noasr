@@ -35,7 +35,8 @@ Suggests:
     knitr,
     tidyverse,
     testthat (>= 2.1.0),
-    rmarkdown
+    rmarkdown,
+    covr
 VignetteBuilder: knitr
 Remotes: LCBC-UiO/ggbrain
 URL: https://github.com/LCBC-UiO/MOAS

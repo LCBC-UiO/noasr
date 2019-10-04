@@ -67,3 +67,8 @@ get_chapter_num <- function(string){
 
   as.numeric(unname(t))
 }
+
+## quiets concerns of R CMD check
+if(getRversion() >= "2.15.1"){
+  utils::globalVariables()
+}
