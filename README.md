@@ -9,6 +9,10 @@
 status](https://circleci.com/gh/LCBC-UiO/MOAS.svg)](https://circleci.com/gh/LCBC-UiO/MOAS)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/LCBC-UiO/MOAS.svg?branch=master)](https://travis-ci.org/LCBC-UiO/MOAS)
+[![Codecov test
+coverage](https://codecov.io/gh/LCBC-UiO/MOAS/branch/master/graph/badge.svg)](https://codecov.io/gh/LCBC-UiO/MOAS?branch=master)
 <!-- badges: end -->
 
 The functions in this package are intended for use on the Mother of All
