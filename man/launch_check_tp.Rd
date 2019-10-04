@@ -4,7 +4,10 @@
 \alias{launch_check_tp}
 \title{Launch shiny app to find subject timepoint}
 \usage{
-launch_check_tp()
+launch_check_tp(...)
+}
+\arguments{
+\item{...}{arguments to [\code{shiny::runApp}]}
 }
 \description{
 A companion function to [\code{check_tp}], which

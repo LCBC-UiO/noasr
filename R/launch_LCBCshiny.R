@@ -9,6 +9,7 @@
 #' already loaded in the application.
 #'
 #' @param data The MOAS or a MOAS generated file.
+#' @param ... arguments to [\code{shiny::runApp}]
 #'
 #' @examples
 #' \dontrun{
@@ -20,13 +21,13 @@
 #'
 #' @export
 
-launch_LCBCshiny <- function(data) {
+launch_LCBCshiny <- function(data, ...) {
   appDir <- system.file("shiny", "LCBCshiny", package = "MOAS")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `MOAS`.", call. = FALSE)
   }
 
-  sapply(list.files(paste0(appDir,"/globalVars/"), full.names = T), load, .GlobalEnv)
+  sapply(list.files(paste0(appDir,"/globalVars/"), full.names = TRUE), load, .GlobalEnv)
 
   if(!missing(data)){
     if(any(!baseCols %in% names(data))){
@@ -37,7 +38,7 @@ launch_LCBCshiny <- function(data) {
     on.exit(rm(inDATA, envir=.GlobalEnv))
   }
 
-  shiny::runApp(appDir, quiet = T)
+  shiny::runApp(appDir, quiet = TRUE, ...)
 }
 
 ## quiets concerns of R CMD check

@@ -4,10 +4,12 @@
 \alias{launch_LCBCshiny}
 \title{Function to launch the LCBC shiny data explorer}
 \usage{
-launch_LCBCshiny(data)
+launch_LCBCshiny(data, ...)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
+
+\item{...}{arguments to [\code{shiny::runApp}]}
 }
 \description{
 \code{launch_LCBCshiny} will launch the shiny app made to explore

@@ -54,12 +54,14 @@ check_tp <- function(ID=NULL, MOAS="//lagringshotell/sv-psi/LCBC/Projects/Cross_
 #' A companion function to [\code{check_tp}], which
 #' launches an interactive shiny app to find participant ID.
 #'
+#' @param ... arguments to [\code{shiny::runApp}]
+#'
 #' @export
-launch_check_tp <- function(){
+launch_check_tp <- function(...){
   appDir <- system.file("shiny", "check_tp", package = "MOAS")
   if (appDir == "") {
     stop("Could not find shiny directory. Try re-installing `MOAS`.", call. = FALSE)
   }
 
-  shiny::runApp(appDir, quiet = T)
+  shiny::runApp(appDir, quiet = T, ...)
 }
