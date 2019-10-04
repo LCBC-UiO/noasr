@@ -1,6 +1,7 @@
 ---
 title: "Make documentation pages"
 output: rmarkdown::html_vignette
+fig_width: 5 
 vignette: >
   %\VignetteIndexEntry{Make documentation pages}
   %\VignetteEngine{knitr::rmarkdown}
@@ -32,13 +33,13 @@ Doing this is the simplest for those who only need to make minor changes to alre
 It is not recommended to attempt more complex alterations on github than that.
 
 To edit a chapter .Rmd on github, go to the documentation you want to edit (links for each documentation comes below), and click on the .Rmd.
-![Find the Rmd you are looking for and click its name.](vignette_img/github_edit1.png)
+![Find the Rmd you are looking for and click its name.](vignette_img/github_edit1.png){width=100%}
 
 In the next window, click on the pencil icon to start editing in the browser. 
-![Click on the little pencil-icon to start editing in the browser](vignette_img/github_edit2.png)
+![Click on the little pencil-icon to start editing in the browser](vignette_img/github_edit2.png){width=100%}
 
 Once the changes you wanted to make are done, scroll to the bottom of the page, type in a message to be added with you changes, and then click "Commit". 
-![Commit your changes](vignette_img/github_edit3.png)
+![Commit your changes](vignette_img/github_edit3.png){width=100%}
 
 Once this is done, you changes are saved in the _source files_ for the documentation. 
 This will **not** alter the rendered version yet, someone needs to go over it and render it again.
@@ -72,7 +73,7 @@ When successfully installed, there should be some new `Addin` options for you in
 The most convenient it the shortcut `Preview book` which will attempt to render to book for you and display it in the RStudio Viewer in the bottom right.
 Once this had been activated once, it will continue to render the book for each change you save to any document affiliated to the book.
 
-![](vignette_img/bookdown_addin.png)
+![](vignette_img/bookdown_addin.png){width=100%}
 
 There are also some convenience functions for working with our documentation in the MOAS R-package. 
 You can install this and get all those conventient functions by doing do:
