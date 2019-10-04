@@ -65,7 +65,6 @@ select_sensitive <- function(data, remove = TRUE){
                   dplyr::contains("National"), # Anything with "national, can contain national ID
                   dplyr::contains("Medical")  # Anything relating to medical information
     )
-
   }
 }
 
