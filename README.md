@@ -22,8 +22,8 @@ work on any other data, it is an in-house package of functions.
 The package can be installed using devtools:
 
 ``` r
-install.packages("devtools")
-devtools::install_github("LCBC-UiO/MOAS", build_vignettes = TRUE)
+install.packages("remotes")
+remotes::install_github("LCBC-UiO/MOAS", build_vignettes = TRUE)
 ```
 
 The functions are now installed, and you may load them when you want to

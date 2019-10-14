@@ -7,8 +7,5 @@ deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github()'
   skip_cleanup: true
-<<<<<<< HEAD
-=======
 after_success:
   - Rscript -e 'covr::codecov()'
->>>>>>> 4be24afb0e6488045bb28bda464ac6bf3885ec2c
