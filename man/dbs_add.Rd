@@ -25,13 +25,8 @@ from file and add it to the MOAS-like dta frame
 \examples{
 \dontrun{
 dbs_add(MOAS_testing,
-<<<<<<< HEAD
-       file_path = "path/to/file"),
-       match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv"
-=======
        file_path = "path/to/file",
        match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv")
->>>>>>> 4be24afb0e6488045bb28bda464ac6bf3885ec2c
  }
 }
 \concept{MOAS add-funcions}

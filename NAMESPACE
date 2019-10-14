@@ -85,10 +85,7 @@ importFrom(tidyr,separate)
 importFrom(tidyr,spread)
 importFrom(tidyr,unite)
 importFrom(tidyr,unite_)
-<<<<<<< HEAD
-=======
 importFrom(utils,file.edit)
->>>>>>> 4be24afb0e6488045bb28bda464ac6bf3885ec2c
 importFrom(utils,read.table)
 importFrom(utils,type.convert)
 importFrom(utils,write.table)

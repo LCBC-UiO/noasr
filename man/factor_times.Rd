@@ -13,23 +13,9 @@ factor_times(x)
 factor vector
 }
 \description{
-<<<<<<< HEAD
-[\code{factor_times}] will categorise a time vector into one of
-four times of day: Morning, Afternoon, Evening, or Night.
-
-\code{factor_times} will categorise a time vector into one of
-four times of day: Morning, Afternoon, Evening, or Night.
-}
-\examples{
-factor_times(c("13:23", "22:30", "8:14"))
-
-factor_times(c("12:34","23:35","10:23","15:15"))
-
-=======
 Takes a vector of HH:MM (HH:MM:SS) information and
 categorises these by a 4 level factor of time of day.
 }
 \examples{
 factor_times(c("12:23", "15:59", "22:10", "8:13"))
->>>>>>> 4be24afb0e6488045bb28bda464ac6bf3885ec2c
 }
