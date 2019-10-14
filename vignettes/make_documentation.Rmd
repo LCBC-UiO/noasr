@@ -34,22 +34,22 @@ It is not recommended to attempt more complex alterations on github than that.
 
 To edit a chapter .Rmd on github, go to the documentation you want to edit (links for each documentation comes below), and click on the .Rmd.
 
-```{r, fig.cap="Find the Rmd you are looking for and click its name.", out.width="100%", echo=FALSE}
-knitr::include_graphics("vignette_img/github_edit1.png")
-```
+<!-- ```{r, fig.cap="Find the Rmd you are looking for and click its name.", out.width="100%", echo=FALSE} -->
+<!-- knitr::include_graphics("vignette_img/github_edit1.png") -->
+<!-- ``` -->
 
 
 In the next window, click on the pencil icon to start editing in the browser. 
 
-```{r, fig.cap="Click on the little pencil-icon to start editing in the browser", out.width="100%", echo=FALSE}
-knitr::include_graphics("vignette_img/github_edit2.png")
-```
+<!-- ```{r, fig.cap="Click on the little pencil-icon to start editing in the browser", out.width="100%", echo=FALSE} -->
+<!-- knitr::include_graphics("vignette_img/github_edit2.png") -->
+<!-- ``` -->
 
 Once the changes you wanted to make are done, scroll to the bottom of the page, type in a message to be added with you changes, and then click "Commit". 
 
-```{r, fig.cap="Commit your changes", out.width="100%", echo=FALSE}
-knitr::include_graphics("vignette_img/github_edit3.png")
-```
+<!-- ```{r, fig.cap="Commit your changes", out.width="100%", echo=FALSE} -->
+<!-- knitr::include_graphics("vignette_img/github_edit3.png") -->
+<!-- ``` -->
 
 Once this is done, you changes are saved in the _source files_ for the documentation. 
 This will **not** alter the rendered version yet, someone needs to go over it and render it again.
@@ -83,7 +83,6 @@ When successfully installed, there should be some new `Addin` options for you in
 The most convenient it the shortcut `Preview book` which will attempt to render to book for you and display it in the RStudio Viewer in the bottom right.
 Once this had been activated once, it will continue to render the book for each change you save to any document affiliated to the book.
 
-![](vignette_img/bookdown_addin.png){width=100%}
 ```{r, fig.cap="Option to preview the book should appear in the Addins menu", out.width="100%", echo=FALSE}
 knitr::include_graphics("vignette_img/bookdown_addin.png")
 ```
