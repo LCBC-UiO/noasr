@@ -61,6 +61,7 @@ epigen_get <- function(file_path,
 #'
 #' @importFrom dplyr mutate left_join
 #' @importFrom magrittr '%>%'
+#' @export
 epigen_add <- function(MOAS,
                        file_path,
                        match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
