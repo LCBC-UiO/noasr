@@ -1,12 +1,18 @@
-filter_sensitive <- function(MOAS){
+#' Filter sensitive data out of the MOAS
+#'
+#' @inheritParams filter_site
+#'
+#' @return tibble
+#' @importFrom dplyr filter contains ends_with
+filter_sensitive <- function(data){
 
-  filter(MOAS,
-         contains("Comment"),
-         contains("Note"),
-         ends_with("Desc"),    # All freetext columns, may contain medical information
-         contains("Date"),     # All dates, may be able to trace participant
-         contains("National"), # Anything with "national, can contain national ID
-         contains("Medical"),  # Anything relating to medical information
+  dplyr::filter(data,
+         dplyr::contains("Comment"),
+         dplyr::contains("Note"),
+         dplyr::ends_with("Desc"),    # All freetext columns, may contain medical information
+         dplyr::contains("Date"),     # All dates, may be able to trace participant
+         dplyr::contains("National"), # Anything with "national, can contain national ID
+         dplyr::contains("Medical"),  # Anything relating to medical information
   )
 
 }

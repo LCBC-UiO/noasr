@@ -5,17 +5,17 @@
 \title{Get epigenetic data}
 \usage{
 epigen_get(file_path,
-  match_path = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+  match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
   debug = FALSE)
 }
 \arguments{
 \item{file_path}{path to excel file containing epigenetic
 data}
 
-\item{match_path}{path to file that matches genetic ID to 
+\item{match_path}{path to file that matches genetic ID to
 CrossProject_ID}
 
-\item{debug}{logical, if debugging informaition should be added. 
+\item{debug}{logical, if debugging informaition should be added.
 Defaults to FALSE}
 }
 \description{

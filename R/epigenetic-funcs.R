@@ -17,7 +17,7 @@
 #' @importFrom magrittr '%>%'
 #' @export
 epigen_get <- function(file_path,
-                       match_path = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+                       match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
                        debug = FALSE){
 
   if(!file.exists(file_path))
@@ -63,16 +63,20 @@ epigen_get <- function(file_path,
 #' @importFrom magrittr '%>%'
 epigen_add <- function(MOAS,
                        file_path,
-                       match_path = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+                       match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
                        debug = FALSE){
 
   if(is.null(MOAS)) stop("MOAS-type data is missing, please provide it. ")
-  if(!any("data.frame" %in% class(MOAS))) stop("You need to provide the MOAS as an already loaded data.frame.")
+  if(!any("data.frame" %in% class(MOAS))) stop("You need to provide the MOAS as an already loaded data.frame.",
+                                               call.=FALSE)
+  if(any(!c("CrossProject_ID", "Project_Name", "Project_Wave") %in% names(MOAS)))
+    stop("One of 'CrossProject_ID', 'Project_Name', 'Project_Wave' is missing from the MOAS-like data. These are needed for merging.",
+     call.=FALSE)
 
   MOAS <- dplyr::mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
   epigen_data <- epigen_get(file_path, match_path, debug)
 
-  dplyr::left_join(MOAS, epigen_data, by="CrossProject_ID") %>%
+  dplyr::left_join(MOAS, epigen_data, by=c("CrossProject_ID", "Project_Name", "Project_Wave")) %>%
     dplyr::mutate(CrossProject_ID = as.factor(CrossProject_ID))
 }
 

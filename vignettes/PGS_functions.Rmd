@@ -1,8 +1,8 @@
 ---
-title: "PGS functions"
+title: "Using the PGS functions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{PGS_functions}
+  %\VignetteIndexEntry{Using the PGS functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -31,10 +31,12 @@ Imports:
     crayon,
     pbapply,
     readr
-Suggests: knitr,
+Suggests: 
+    knitr,
     tidyverse,
     testthat,
-    rmarkdown
+    rmarkdown,
+    covr
 VignetteBuilder: knitr
 Remotes: LCBC-UiO/ggbrain
 URL: https://github.com/LCBC-UiO/MOAS

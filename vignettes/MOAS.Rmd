@@ -1,5 +1,5 @@
 ---
-title: "MOAS-package with LCBC custom functions"
+title: "Using the MOAS-package for LCBC custom functions"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using the MOAS-package for LCBC custom functions}

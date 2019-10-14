@@ -1,19 +1,16 @@
 #' Factor time of day into categories of 4.
 #'
-#' \code{factor_times} will categorise a time vector into one of
+#' [\code{factor_times}] will categorise a time vector into one of
 #' four times of day: Morning, Afternoon, Evening, or Night.
 #'
 #' @param TimeVector String or time data in 'HH:MM' format
 #'
 #' @return A string vector with up to 4 levels.
-
 #' @examples
-#' \dontrun{
-#' factor_times(data)
-#' }
-#' @importFrom lubridate hm hms
+#' factor_times(c("13:23", "22:30", "8:14"))
+#'
+#' @importFrom lubridate hms
 #' @export
-
 factor_times = function(TimeVector) {
 
     DATA2 = as.data.frame(lubridate::hms(TimeVector))

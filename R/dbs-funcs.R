@@ -11,11 +11,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' dbs_get(file_path = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/Blood_data/docs/d2019-08-27_Vitas-P916Resultsreport_ver3-0_final_190822.xlsx"),
-#'        match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv")
+#' dbs_get(file_path = "path/to/file"),
+#'        match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv")
 #'
-#' dbs_get(file_path = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/Blood_data/docs/d2019-08-27_Vitas-P916Resultsreport_ver3-0_final_190822.xlsx"),
-#'        match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv",
+#' dbs_get(file_path = "path/to/file"),
+#'        match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv",
 #'        debug = TRUE)
 #'  }
 dbs_get <- function(file_path,
@@ -93,8 +93,8 @@ dbs_get <- function(file_path,
 #' @examples
 #' \dontrun{
 #' dbs_add(MOAS_testing,
-#'        file_path = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/Blood_data/docs/d2019-08-27_Vitas-P916Resultsreport_ver3-0_final_190822.xlsx"),
-#'        match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv"
+#'        file_path = "path/to/file"),
+#'        match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv"
 #'  }
 dbs_add <- function(data,
                     file_path,

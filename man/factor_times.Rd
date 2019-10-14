@@ -19,16 +19,15 @@ A string vector with up to 4 levels.
 A string vector with up to 4 levels.
 }
 \description{
-\code{factor_times} will categorise a time vector into one of
+[\code{factor_times}] will categorise a time vector into one of
 four times of day: Morning, Afternoon, Evening, or Night.
 
 \code{factor_times} will categorise a time vector into one of
 four times of day: Morning, Afternoon, Evening, or Night.
 }
 \examples{
-\dontrun{
-factor_times(data)
-}
+factor_times(c("13:23", "22:30", "8:14"))
+
 factor_times(c("12:34","23:35","10:23","15:15"))
 
 }
