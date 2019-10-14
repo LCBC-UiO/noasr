@@ -16,34 +16,38 @@ is_hms = function(data){
 }
 
 
-#' Factor time of day into categories of 4.
-#'
-#' \code{factor_times} will categorise a time vector into one of
-#' four times of day: Morning, Afternoon, Evening, or Night.
-#'
-#' @param TimeVector String or time data in 'HH:MM' format
-#'
-#' @return A string vector with up to 4 levels.
 
-#' @examples
-#' factor_times(c("12:34","23:35","10:23","15:15"))
+#' Factor time of day
 #'
-#' @importFrom lubridate hm hms
-#' @importFrom dplyr as_tibble mutate case_when
-#' @importFrom magrittr '%>%'
+#' Takes a vector of HH:MM (HH:MM:SS) information and
+#' categorises these by a 4 level factor of time of day.
+#'
+#' @param x character or hms vector
+#'
+#' @return factor vector
 #' @export
+#'
+#' @examples
+#' factor_times(c("12:23", "15:59", "22:10", "8:13"))
+factor_times = function(x) {
 
-factor_times = function(TimeVector) {
-
-  DATA2 = dplyr::tibble(Time = lubridate::hms(TimeVector)) %>%
-    dplyr::mutate(
-      TimeOfDay = dplyr::case_when(
-                            Time@hour >= 5 & Time@hour < 12 ~ "Morning",
-                            Time@hour >= 12 & Time@hour < 17 ~ "Afternoon",
-                            Time@hour >= 17 & Time@hour < 21 ~ "Evening",
-                            TRUE  ~  "Night")
+  DATA2 = suppressWarnings(dplyr::tibble(Time = lubridate::hms(x))) %>%
+    mutate(TimeOfDay = dplyr::case_when(
+      Time@hour >= 5 & Time@hour < 12 ~ "Morning",
+      Time@hour >= 12 & Time@hour < 17 ~ "Afternoon",
+      Time@hour >= 17 & Time@hour < 21 ~ "Evening",
+      TRUE ~ "Night"
+    ),
+    TimeOfDay = factor(TimeOfDay,
+                       levels = c("Morning", "Afternoon", "Evening", "Night"),
+                       ordered = TRUE)
     )
 
   return(DATA2$TimeOfDay)
+}
+
+## quiets concerns of R CMD check
+if(getRversion() >= "2.15.1"){
+  utils::globalVariables(c("TimeOfDay"))
 }
 

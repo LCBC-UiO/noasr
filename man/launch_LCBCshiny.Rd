@@ -9,7 +9,11 @@ launch_LCBCshiny(data, ...)
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
 
+<<<<<<< HEAD
 \item{...}{any arguments to [\code{shiny::runApp}]}
+=======
+\item{...}{arguments to [\code{shiny::runApp}]}
+>>>>>>> 4be24afb0e6488045bb28bda464ac6bf3885ec2c
 }
 \description{
 \code{launch_LCBCshiny} will launch the shiny app made to explore

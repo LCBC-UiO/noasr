@@ -50,7 +50,7 @@ pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
 
 # You can also toggle adding the CNT columns from the PGS, by changing
 # include_cnt to TRUE
-pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018",
+pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
          s_levels = c("S1", "S7", "S11"),
          pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
          genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",

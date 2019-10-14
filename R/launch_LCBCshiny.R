@@ -9,7 +9,7 @@
 #' already loaded in the application.
 #'
 #' @param data The MOAS or a MOAS generated file.
-#' @param ... any arguments to [\code{shiny::runApp}]
+#' @param ... arguments to [\code{shiny::runApp}]
 #'
 #' @examples
 #' \dontrun{

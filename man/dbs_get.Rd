@@ -22,10 +22,17 @@ Get DBS information from a file
 }
 \examples{
 \dontrun{
+<<<<<<< HEAD
 dbs_get(file_path = "path/to/file"),
        match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv")
 
 dbs_get(file_path = "path/to/file"),
+=======
+dbs_get(file_path = "path/to/file",
+       match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv")
+
+dbs_get(file_path = "path/to/file",
+>>>>>>> 4be24afb0e6488045bb28bda464ac6bf3885ec2c
        match_file = "path/to/MOAS/data-raw/Blood_data/DBS_MOAS_match.tsv",
        debug = TRUE)
  }
