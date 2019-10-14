@@ -2,7 +2,7 @@
 title: "Epigenetic functions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Epigenetic functions}
+  %\VignetteIndexEntry{epigenetics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
