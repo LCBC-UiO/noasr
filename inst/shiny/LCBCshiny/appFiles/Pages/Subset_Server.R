@@ -72,7 +72,7 @@ subDATA = shiny::eventReactive({input$goClick_DATA; input$actionTable; input$act
   if(input$actionDoubles != "asis") tmp = tmp %>%
       MOAS::site_keeper(keep = input$actionDoubles, quiet = T)
 
-  return(tmp %>% MOAS::na.col.rm())
+  return(tmp %>% MOAS::na_col_rm())
 })
 
 subDATA_structured = shiny::eventReactive({input$goClick_DATA; input$actionTable; input$actionDoubles},{
@@ -94,7 +94,7 @@ subDATA_structured = shiny::eventReactive({input$goClick_DATA; input$actionTable
       MOAS::widen(by = input$actionTable)
   }
 
-  return(tmp %>% MOAS::na.col.rm())
+  return(tmp %>% MOAS::na_col_rm())
 })
 
 
