@@ -33,18 +33,18 @@ will be reduced. All timepoints will be retained.
 \details{
 Available options for 'keep' are:
 \itemize{
-'long' - keep data from scanner with most data (default),
-'ousAvanto' = keep 'ousAvanto',
-'ousSkyra' = keep 'ousSkyra', or
-'ousPrisma' = keep 'ousPrisma'.
+ \item{"long"}{keep data from scanner with most data (default)}
+ \item{"ousAvanto"}{keep 'ousAvanto'}
+ \item{"ousSkyra"}{keep 'ousSkyra'}
+ \item{"ousPrisma"}{'ousPrisma'}
 }
 
 Available options for 'tie' are:
 \itemize{
-'interval' - keep data from scanner with longest data interval (default),
-'ousAvanto' = keep 'ousAvanto',
-'ousSkyra' = keep 'ousSkyra', or
-'ousPrisma' = keep 'ousPrisma'.
+ \item{"interval"}{keep data from scanner with longest data interval (default)}
+ \item{"ousAvanto"}{keep 'ousAvanto'}
+ \item{"ousSkyra"}{keep 'ousSkyra'}
+ \item{"ousPrisma"}{'ousPrisma'}
 }
 }
 \examples{

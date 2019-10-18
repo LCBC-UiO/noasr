@@ -47,7 +47,7 @@ pgs_add_all(
     MOAS,
     s_levels = c("S1", "S7", "S11"),
     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+    genetic_match_file = character(),
 )
 }
 }

@@ -9,21 +9,22 @@
 #' Only subject timepoints that have several entries (i.e. several scan sites),
 #' will be reduced. All timepoints will be retained.
 #'
-#' Available options for 'keep' are:
-#'\itemize{
-#' 'long' - keep data from scanner with most data (default),
-#' 'ousAvanto' = keep 'ousAvanto',
-#' 'ousSkyra' = keep 'ousSkyra', or
-#' 'ousPrisma' = keep 'ousPrisma'.
+#' @details Available options for 'keep' are:
+#' \itemize{
+#'  \item{"long"}{keep data from scanner with most data (default)}
+#'  \item{"ousAvanto"}{keep 'ousAvanto'}
+#'  \item{"ousSkyra"}{keep 'ousSkyra'}
+#'  \item{"ousPrisma"}{'ousPrisma'}
 #' }
 #'
-#' Available options for 'tie' are:
-#'\itemize{
-#' 'interval' - keep data from scanner with longest data interval (default),
-#' 'ousAvanto' = keep 'ousAvanto',
-#' 'ousSkyra' = keep 'ousSkyra', or
-#' 'ousPrisma' = keep 'ousPrisma'.
+#' @details Available options for 'tie' are:
+#' \itemize{
+#'  \item{"interval"}{keep data from scanner with longest data interval (default)}
+#'  \item{"ousAvanto"}{keep 'ousAvanto'}
+#'  \item{"ousSkyra"}{keep 'ousSkyra'}
+#'  \item{"ousPrisma"}{'ousPrisma'}
 #' }
+#'
 #'
 #' @param data The MOAS or a MOAS generated file.
 #' @param keep A string specifying which data from double/triple scans to keep.

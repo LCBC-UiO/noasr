@@ -4,9 +4,9 @@
 \alias{pgs_get_single}
 \title{Read in and sort a single PGS profile}
 \usage{
-pgs_get_single(pgs_file = NULL, genetic_match_file = NULL,
-  include_cnt = FALSE, include_pheno = FALSE,
-  include_genetic_debug = FALSE)
+pgs_get_single(pgs_file = character(),
+  genetic_match_file = character(), include_cnt = FALSE,
+  include_pheno = FALSE, include_genetic_debug = FALSE)
 }
 \arguments{
 \item{pgs_file}{path to PGS.profile}
@@ -15,8 +15,6 @@ pgs_get_single(pgs_file = NULL, genetic_match_file = NULL,
 matching and debugging information}
 
 \item{include_cnt}{logical, whether to keep SNP count information}
-
-\item{include_pheno}{logical, whether to keep PHENO information}
 
 \item{include_genetic_debug}{logical, whether to keep all columns
 in the genetic_match_file in the final output}
@@ -37,8 +35,8 @@ necessary to provide for a check.
 # lagringshotell, you can substitute "~" in the
 # paths with the path to the lagringshotell
 
-pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_CRP/CRP_2011/CRP_2011_sigOnly.profile",
-         genetic_match_file = "path/to//MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+         genetic_match_file =  "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 )
 
 # You can also toggle adding the CNT columns from the PGS, by changing

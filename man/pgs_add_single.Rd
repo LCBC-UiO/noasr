@@ -4,8 +4,8 @@
 \alias{pgs_add_single}
 \title{Add single PGS data to the MOAS}
 \usage{
-pgs_add_single(MOAS = NULL, pgs_file = NULL,
-  genetic_match_file = NULL, include_cnt = FALSE,
+pgs_add_single(MOAS = NULL, pgs_file = character(),
+  genetic_match_file = character(), include_cnt = FALSE,
   include_genetic_debug = FALSE)
 }
 \arguments{

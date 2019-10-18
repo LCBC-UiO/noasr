@@ -5,8 +5,9 @@
 \title{Read in and sort PGS data}
 \usage{
 pgs_get(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
-  pgs_path = NULL, genetic_match_file = NULL, include_cnt = FALSE,
-  include_pheno = FALSE, include_genetic_debug = FALSE)
+  pgs_path = character(), genetic_match_file = character(),
+  include_cnt = FALSE, include_pheno = FALSE,
+  include_genetic_debug = FALSE)
 }
 \arguments{
 \item{pgs}{character vector of the PGS wanted}
@@ -42,15 +43,15 @@ provide for a check.
 # lagringshotell, you can substitute "~" in the
 # paths with the path to the lagringshotell
 
-pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+pgs_get( pgs = character(),
          s_levels = c("S1", "S7", "S11"),
          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-         genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+         genetic_match_file = character(),
 )
 
 # You can also toggle adding the CNT columns from the PGS, by changing
 # include_cnt to TRUE
-pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+pgs_get( pgs = character(),
          s_levels = c("S1", "S7", "S11"),
          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
