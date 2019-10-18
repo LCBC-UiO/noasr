@@ -22,7 +22,7 @@ filter_site(data, keep = "long", tie = "interval",
 A MOAS type file with one line per subject and timepoint.
 }
 \description{
-[\code{filter_site}] returns a MOAS data.frame with one row per
+returns a MOAS data.frame with one row per
 participant and timepoint (i.e. removes double/triple scan entries).
 For analyses not intending to use the power of double/triple scans,
 or for data which will be widened and scanner type/site is not of

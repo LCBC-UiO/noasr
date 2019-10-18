@@ -11,6 +11,9 @@
 #' @family epigen-functions
 #' @family MOAS get-functions
 #'
+#' @importFrom dplyr starts_with rename_at rename mutate
+#' @importFrom dplyr as_tibble select contains everything left_join
+#' @importFrom rio import
 #' @export
 epigen_get <- function(file_path,
                        match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",

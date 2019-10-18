@@ -1,7 +1,7 @@
 
 #' Utility function for reducing double/triple scans to a single row
 #'
-#' [\code{filter_site}] returns a MOAS data.frame with one row per
+#'  returns a MOAS data.frame with one row per
 #' participant and timepoint (i.e. removes double/triple scan entries).
 #' For analyses not intending to use the power of double/triple scans,
 #' or for data which will be widened and scanner type/site is not of
@@ -103,7 +103,8 @@ filter_site = function(data,
   }
 
   data2 %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::as_tibble()
 }
 
 #' Deprecated, use filter_site
@@ -130,6 +131,9 @@ site_keeper <- function(...){
 #' @param training_column column specifying row by ro
 #' if an observation is after a training period
 #'
+#' @importFrom dplyr case_when rename_at starts_with as_tibble
+#' @importFrom tidyr fill
+#' @importFrom rio import
 #' @return tibble
 filter_trainingexposed <- function(data, training_column){
 
@@ -144,7 +148,8 @@ filter_trainingexposed <- function(data, training_column){
     mutate(TrainExposed = ifelse(is.na(TrainExposed), 0, TrainExposed)) %>% #NBM will have some NAs here, make them 0
     filter(TrainExposed != 1) %>%
     ungroup() %>%
-    select(-TrainExposed)
+    select(-TrainExposed) %>%
+    as_tibble()
 }
 
 
@@ -175,7 +180,7 @@ find_scanner <- function(data, keep){
 
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
-  utils::globalVariables(c("n",
+  utils::globalVariables(c("n","TrainExposed",
                            "CrossProject_ID",
                            "Keep", "site", "n_replicates_at_tp",
                            "Subject_Timepoint",
