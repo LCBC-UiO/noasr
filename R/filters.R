@@ -1,25 +1,7 @@
-#' Filter sensitive data out of the MOAS
-#'
-#' @inheritParams filter_site
-#'
-#' @return tibble
-#' @importFrom dplyr filter contains ends_with
-filter_sensitive <- function(data){
-
-  dplyr::filter(data,
-         dplyr::contains("Comment"),
-         dplyr::contains("Note"),
-         dplyr::ends_with("Desc"),    # All freetext columns, may contain medical information
-         dplyr::contains("Date"),     # All dates, may be able to trace participant
-         dplyr::contains("National"), # Anything with "national, can contain national ID
-         dplyr::contains("Medical"),  # Anything relating to medical information
-  )
-
-}
 
 #' Utility function for reducing double/triple scans to a single row
 #'
-#' \code{filter_site} returns a MOAS data.frame with one row per
+#' [\code{filter_site}] returns a MOAS data.frame with one row per
 #' participant and timepoint (i.e. removes double/triple scan entries).
 #' For analyses not intending to use the power of double/triple scans,
 #' or for data which will be widened and scanner type/site is not of
@@ -27,20 +9,25 @@ filter_sensitive <- function(data){
 #' Only subject timepoints that have several entries (i.e. several scan sites),
 #' will be reduced. All timepoints will be retained.
 #'
-#'
-#' @param data The MOAS or a MOAS generated file.
-#' @param keep A string specifying which data from double/triple scans to keep.
-#' Available options are:
+#' Available options for 'keep' are:
+#'\itemize{
 #' 'long' - keep data from scanner with most data (default),
 #' 'ousAvanto' = keep 'ousAvanto',
 #' 'ousSkyra' = keep 'ousSkyra', or
 #' 'ousPrisma' = keep 'ousPrisma'.
-#' @param tie string indicating given a tie in the "long" keep option, what to keep.
-#' Available options are:
+#' }
+#'
+#' Available options for 'tie' are:
+#'\itemize{
 #' 'interval' - keep data from scanner with longest data interval (default),
 #' 'ousAvanto' = keep 'ousAvanto',
 #' 'ousSkyra' = keep 'ousSkyra', or
 #' 'ousPrisma' = keep 'ousPrisma'.
+#' }
+#'
+#' @param data The MOAS or a MOAS generated file.
+#' @param keep A string specifying which data from double/triple scans to keep.
+#' @param tie string indicating given a tie in the "long" keep option, what to keep.
 #' @param site_order string vector of the scanner priority given a tie between scanners
 #' @param quiet logical, TRUE sets it to verbose
 
@@ -130,7 +117,38 @@ site_keeper <- function(...){
   filter_site(...)
 }
 
+#' Filter out when a participant has trained
+#'
+#' Several LCBC projects have some memory training
+#' experimental procedure. For some papers, this
+#' might come in the way of answering hypotheses.
+#' This function helps filter out participants data
+#' after they have been exposed to training. Meaning
+#' data before training remain, data after do not.
+#'
+#' @inheritParams filter_site
+#' @param training_column column specifying row by ro
+#' if an observation is after a training period
+#'
+#' @return tibble
+filter_trainingexposed <- function(data, training_column){
 
+  data %>%
+    group_by(CrossProject_ID) %>%
+    mutate(TrainExposed = case_when(
+      Project_Wave == 1 ~ 0,  #set so that wave 1 always is without training exposure
+      grepl("train", {{training_column}}) ~ 1 #set all NCP rows with "train" to be training exposed
+    )
+    ) %>%
+    fill(TrainExposed) %>%  # Will, per participant, fill inn the NA with the previous non NA value in a row-sequential manner
+    mutate(TrainExposed = ifelse(is.na(TrainExposed), 0, TrainExposed)) %>% #NBM will have some NAs here, make them 0
+    filter(TrainExposed != 1) %>%
+    ungroup() %>%
+    select(-TrainExposed)
+}
+
+
+# helpers ----
 find_long <- function(data){
   data %>%
     dplyr::group_by(CrossProject_ID, Site_Name) %>%

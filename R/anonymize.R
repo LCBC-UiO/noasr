@@ -1,7 +1,13 @@
 #' Alter sensitive columns to make them less sensitive
 #'
-#' THe function will round Age to nearest integer, and
-#' scramble participants ids, to make data less sensitive
+#' The function will round Age to nearest integer, and
+#' scramble participants ids, to make data less sensitive.
+#'
+#' Scrambling IDs is default behaviour, set this to FALSE
+#' if you do not wish to do so. Note that the data is then
+#' still considered sensitive to some degree, be careful with it.
+#' If you want your ID scramble to be reproducible, set a seed
+#' before running the function.
 #'
 #' @inheritParams filter_site
 #' @param scramble_ids make IDs anonymous
@@ -30,10 +36,41 @@ mutate_sensitive <- function(data, scramble_ids = TRUE){
 
 
 
-#' Select away sensitive columns
+#' Deselect sensitive columns
 #'
 #' This function will remove all the columns from
-#' a MOAS-like data.frame that is known to include
+#' a MOAS-like data.frame that are known to include
+#' possible sensitive information.
+#'
+#' @inheritParams filter_site
+#' or select them
+#'
+#' @return tibble
+#' @export
+#' @importFrom dplyr select contains ends_with
+#' @examples
+#' dt <- data.frame(ID = 1:3,
+#'     Birth_Date = c("1997-01-12", "1984-01-01", "1953-09-16"),
+#'    Comment = c("", "Has leukemia", "is on diazepam"),
+#'    CVLT_A = c(19, 25, 29),
+#'    stringsAsFactors = FALSE)
+#' deselect_sensitive(dt)
+deselect_sensitive <- function(data){
+  dplyr::select(data,
+                -one_of(c("Site_BIDS", "Folder","Project_Wave_ID")),
+                -dplyr::contains("Comment"),
+                -dplyr::contains("Note"),
+                -dplyr::ends_with("_Desc"),    # All freetext columns, may contain medical information
+                -dplyr::ends_with("_Date"),    # All dates, may be able to trace participant
+                -dplyr::contains("National"),  # Anything with "national, can contain national ID
+                -dplyr::contains("Medical")    # Anything relating to medical information
+  )
+}
+
+#' Select sensitive columns
+#'
+#' This function will select all the columns from
+#' a MOAS-like data.frame that are known to include
 #' possible sensitive information.
 #'
 #' @inheritParams filter_site
@@ -43,34 +80,28 @@ mutate_sensitive <- function(data, scramble_ids = TRUE){
 #' @return tibble
 #' @export
 #' @importFrom dplyr select contains ends_with
-select_sensitive <- function(data, remove = TRUE){
-
-  if(remove){
-    dplyr::select(data,
-                  -one_of(c("Site_BIDS", "Folder","Project_Wave_ID")),
-                  -dplyr::contains("Comment"),
-                  -dplyr::contains("Note"),
-                  -dplyr::ends_with("_Desc"),    # All freetext columns, may contain medical information
-                  -dplyr::ends_with("_Date"),     # All dates, may be able to trace participant
-                  -dplyr::contains("National"), # Anything with "national, can contain national ID
-                  -dplyr::contains("Medical")  # Anything relating to medical information
-    )
-  }else{
-    dplyr::select(data,
-                  one_of(c("Site_BIDS", "Folder","Project_Wave_ID")),
-                  dplyr::contains("Comment"),
-                  dplyr::contains("Note"),
-                  dplyr::ends_with("_Desc"),    # All freetext columns, may contain medical information
-                  dplyr::ends_with("_Date"),     # All dates, may be able to trace participant
-                  dplyr::contains("National"), # Anything with "national, can contain national ID
-                  dplyr::contains("Medical")  # Anything relating to medical information
-    )
-  }
+#' @examples
+#' dt <- data.frame(ID = 1:3,
+#'     Birth_Date = c("1997-01-12", "1984-01-01", "1953-09-16"),
+#'    Comment = c("", "Has leukemia", "is on diazepam"),
+#'    CVLT_A = c(19, 25, 29),
+#'    stringsAsFactors = FALSE)
+#' select_sensitive(dt)
+select_sensitive <- function(data){
+  dplyr::select(data,
+                one_of(c("CrossProject_ID", "Site_BIDS", "Folder","Project_Wave_ID")),
+                dplyr::contains("Comment"),  # All freetext columns, may contain medical information
+                dplyr::contains("Note"),     # All freetext columns, may contain medical information
+                dplyr::ends_with("_Desc"),   # All freetext columns, may contain medical information
+                dplyr::ends_with("_Date"),   # All dates, may be able to trace participant
+                dplyr::contains("National"), # Anything with "national, can contain national ID
+                dplyr::contains("Medical")   # Anything relating to medical information
+  )
 }
 
 #' Anonymise the MOAS
 #'
-#' The function calls both [\code{select_sensitive}] and [\code{mutate_sensitive}]
+#' The function calls both [\code{deselect_sensitive}] and [\code{mutate_sensitive}]
 #' to remove sensitive columns, and alter data in the MOAS to have a less
 #' sensitive nature.
 #'
@@ -81,7 +112,7 @@ select_sensitive <- function(data, remove = TRUE){
 #' @importFrom magrittr '%>%'
 #' @export
 anonymize_moas <- function(data, scramble_ids = TRUE){
-  select_sensitive(data, remove = TRUE) %>%
+  deselect_sensitive(data) %>%
     mutate_sensitive(scramble_ids = scramble_ids)
 }
 

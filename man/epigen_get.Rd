@@ -25,7 +25,7 @@ Get epigenetic data
 Other epigen-functions: \code{\link{epigen_add}}
 
 Other MOAS get-functions: \code{\link{dbs_get}},
-  \code{\link{pgs_get}}
+  \code{\link{pgs_get_single}}, \code{\link{pgs_get}}
 }
 \concept{MOAS get-functions}
 \concept{epigen-functions}

@@ -19,7 +19,8 @@ Read in a PGS file
 }
 \seealso{
 Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add}}, \code{\link{pgs_get_all}},
+  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
+  \code{\link{pgs_get_all}}, \code{\link{pgs_get_single}},
   \code{\link{pgs_get}}
 }
 \concept{pgs-functions}

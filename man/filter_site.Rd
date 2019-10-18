@@ -10,19 +10,9 @@ filter_site(data, keep = "long", tie = "interval",
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
 
-\item{keep}{A string specifying which data from double/triple scans to keep.
-Available options are:
-'long' - keep data from scanner with most data (default),
-'ousAvanto' = keep 'ousAvanto',
-'ousSkyra' = keep 'ousSkyra', or
-'ousPrisma' = keep 'ousPrisma'.}
+\item{keep}{A string specifying which data from double/triple scans to keep.}
 
-\item{tie}{string indicating given a tie in the "long" keep option, what to keep.
-Available options are:
-'interval' - keep data from scanner with longest data interval (default),
-'ousAvanto' = keep 'ousAvanto',
-'ousSkyra' = keep 'ousSkyra', or
-'ousPrisma' = keep 'ousPrisma'.}
+\item{tie}{string indicating given a tie in the "long" keep option, what to keep.}
 
 \item{site_order}{string vector of the scanner priority given a tie between scanners}
 
@@ -32,13 +22,30 @@ Available options are:
 A MOAS type file with one line per subject and timepoint.
 }
 \description{
-\code{filter_site} returns a MOAS data.frame with one row per
+[\code{filter_site}] returns a MOAS data.frame with one row per
 participant and timepoint (i.e. removes double/triple scan entries).
 For analyses not intending to use the power of double/triple scans,
 or for data which will be widened and scanner type/site is not of
 interest.
 Only subject timepoints that have several entries (i.e. several scan sites),
 will be reduced. All timepoints will be retained.
+}
+\details{
+Available options for 'keep' are:
+\itemize{
+'long' - keep data from scanner with most data (default),
+'ousAvanto' = keep 'ousAvanto',
+'ousSkyra' = keep 'ousSkyra', or
+'ousPrisma' = keep 'ousPrisma'.
+}
+
+Available options for 'tie' are:
+\itemize{
+'interval' - keep data from scanner with longest data interval (default),
+'ousAvanto' = keep 'ousAvanto',
+'ousSkyra' = keep 'ousSkyra', or
+'ousPrisma' = keep 'ousPrisma'.
+}
 }
 \examples{
 \dontrun{

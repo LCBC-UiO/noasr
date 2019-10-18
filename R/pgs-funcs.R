@@ -30,16 +30,16 @@
 #'
 #' pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
 #'          s_levels = c("S1", "S7", "S11"),
-#'          pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'          genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #'
 #' # You can also toggle adding the CNT columns from the PGS, by changing
 #' # include_cnt to TRUE
 #' pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
 #'          s_levels = c("S1", "S7", "S11"),
-#'          pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'          genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #'          include_cnt = FALSE
 #' )
 #'
@@ -82,14 +82,8 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
   }
   rm(pgs_alts)
 
-  genetic_match = readr::read_tsv(genetic_match_file,
-                                  col_type = readr::cols())
-  genetic_match <- dplyr::filter(genetic_match, for_gwas == 1)
-  names(genetic_match)[5:13] <- paste("Genetic", names(genetic_match)[5:13], sep="_")
-
-  if(!include_genetic_debug){
-    genetic_match <- genetic_match[,c("FID", "IID", "Genetic_ID", "CrossProject_ID", "Genetic_european")]
-  }
+  genetic_match <- genetic_match_data(genetic_match_file,
+                                      include_genetic_debug)
 
   opts <- expand.grid(paste0("/", pgs), s_levels)
   all_pgs <- list.files(pgs_path, recursive = TRUE, full.names = TRUE)
@@ -140,8 +134,8 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
 #'
 #' pgs_get_all(
 #'     s_levels = c("S1", "S7", "S11"),
-#'     pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #' }
 pgs_get_all <- function(s_levels = paste0("S", 1:12),
@@ -156,11 +150,11 @@ pgs_get_all <- function(s_levels = paste0("S", 1:12),
     pgs_alts <- pgs_alts[-1] # Remove parent directory listing
 
     dt[[pp]] <- pgs_get(pgs = pgs_alts,
-                  s_levels = s_levels,
-                  pgs_path = pgs_path[[pp]],
-                  genetic_match_file = genetic_match_file,
-                  include_cnt = include_cnt,
-                  include_genetic_debug = include_genetic_debug)
+                        s_levels = s_levels,
+                        pgs_path = pgs_path[[pp]],
+                        genetic_match_file = genetic_match_file,
+                        include_cnt = include_cnt,
+                        include_genetic_debug = include_genetic_debug)
   }
 
   do.call("full_join", dt)
@@ -190,8 +184,8 @@ pgs_get_all <- function(s_levels = paste0("S", 1:12),
 #'
 #' pgs_add(pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
 #'     s_levels = c("S1", "S7", "S11"),
-#'     pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #' }
 #' @importFrom dplyr mutate left_join
@@ -244,9 +238,10 @@ pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
 #' # data you provided
 #'
 #' pgs_add_all(
+#'     MOAS,
 #'     s_levels = c("S1", "S7", "S11"),
-#'     pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #' }
 pgs_add_all <- function(MOAS = NULL,
@@ -262,10 +257,10 @@ pgs_add_all <- function(MOAS = NULL,
   MOAS <- dplyr::mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
 
   pgs_data <- pgs_get_all(s_levels = s_levels,
-                    pgs_path = pgs_path,
-                    genetic_match_file = genetic_match_file,
-                    include_cnt = include_cnt,
-                    include_genetic_debug = include_cnt)
+                          pgs_path = pgs_path,
+                          genetic_match_file = genetic_match_file,
+                          include_cnt = include_cnt,
+                          include_genetic_debug = include_cnt)
 
   pgs_data <- pgs_data[,c(1:2)*-1]
 
@@ -276,7 +271,137 @@ pgs_add_all <- function(MOAS = NULL,
   new_data
 }
 
+#' Read in and sort a single PGS profile
+#'
+#' Given the path containing PGS profile, this function will read in
+#' PGS data for the singe pgs file. In order to correctly only keep
+#' rows of data from verified sources, the genetic_match_file is
+#' necessary to provide for a check.
+#'
+#' @param pgs_file path to PGS.profile
+#' @param genetic_match_file path to the file containing the MOAS-genetics
+#' matching and debugging information
+#' @param include_cnt logical, whether to keep SNP count information
+#' @param include_pheno  logical, whether to keep PHENO information
+#' @param include_genetic_debug logical, whether to keep all columns
+#' in the genetic_match_file in the final output
+#'
+#' @return a tibble / data.frame
+#' @family pgs-functions
+#' @family MOAS get-functions
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # Here we assume you know the path to the LCBC
+#' # lagringshotell, you can substitute "~" in the
+#' # paths with the path to the lagringshotell
+#'
+#' pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_CRP/CRP_2011/CRP_2011_sigOnly.profile",
+#'          genetic_match_file = "path/to//MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#' )
+#'
+#' # You can also toggle adding the CNT columns from the PGS, by changing
+#' # include_cnt to TRUE
+#' pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'          include_cnt = TRUE
+#' )
+#'
+#' }
+#'
+#' @importFrom dplyr filter bind_cols select matches left_join
+#' @importFrom pbapply pblapply
+#' @importFrom readr read_tsv cols
+pgs_get_single <- function(pgs_file = NULL,
+                    genetic_match_file = NULL,
+                    include_cnt = FALSE,
+                    include_pheno = FALSE,
+                    include_genetic_debug = FALSE){
 
+  if(!file.exists(pgs_file))
+    stop(paste(pgs_file, "does not exist. Please check the path carefully."),
+         call. = FALSE)
+
+  if(!file.exists(genetic_match_file))
+    stop(paste(genetic_match_file, "does not exist or is not a path. Please check the path and file name carefully."),
+         call. = FALSE)
+
+  genetic_match <- genetic_match_data(genetic_match_file,
+                                      include_genetic_debug)
+
+  # lapply with progressbar
+  pgs_data <- pgs_read(pgs_file)
+
+  pgs_data <- dplyr::left_join(genetic_match, pgs_data, by = c("FID", "IID"))
+
+  if(!include_cnt){
+    pgs_data <- dplyr::select(pgs_data, -dplyr::contains("_CNT"))
+  }
+
+  if(!include_pheno){
+    pgs_data <- dplyr::select(pgs_data, -dplyr::contains("_PHENO"))
+  }
+
+  pgs_data
+}
+
+#' Add single PGS data to the MOAS
+#'
+#' This function calls on [\code{pgs_add}] to read in all
+#' PGS at specified significance levels, and adds that data
+#' to the MOAS-type data provided.
+#'
+#' @inheritParams pgs_add
+#' @inheritParams pgs_get_single
+#'
+#' @return a tibble / data.frame
+#' @family pgs-functions
+#' @family MOAS add-functions
+#' @export
+#' @examples
+#' \dontrun{
+#'
+#' # Here we assume you know the path to the LCBC
+#' # lagringshotell, you can substitute "~" in the
+#' # paths with the path to the lagringshotell
+#'
+#' # In this version you dont need to specify the
+#' # PGS you want, it will take all it finds in the
+#' # folder path provided, and add them to the MOAS
+#' # data you provided
+#'
+#' pgs_add_all(
+#'     MOAS
+#'     pgs_file = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#' )
+#' }
+pgs_add_single <- function(MOAS = NULL,
+                        pgs_file = NULL,
+                        genetic_match_file = NULL,
+                        include_cnt = FALSE,
+                        include_genetic_debug = FALSE){
+
+  if(is.null(MOAS)) stop("MOAS-type data is missing, please provide it. ")
+  if(!any("data.frame" %in% class(MOAS))) stop("You need to provide the MOAS as an already loaded data.frame.")
+
+  MOAS <- dplyr::mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
+
+  pgs_data <- pgs_get_single(pgs_file = pgs_file,
+                          genetic_match_file = genetic_match_file,
+                          include_cnt = include_cnt,
+                          include_genetic_debug = include_cnt)
+
+  pgs_data <- pgs_data[,c(1:2)*-1]
+
+  new_data <- dplyr::left_join(MOAS, pgs_data)
+  new_data <- dplyr::mutate(new_data,
+                            CrossProject_ID = as.factor(CrossProject_ID))
+
+  new_data
+}
 
 #' Read in a PGS file
 #'
@@ -300,6 +425,23 @@ pgs_read <- function(path, name = NULL){
   names(pgs_data)[6] <- gsub("_SCORE", "", names(pgs_data)[6])
 
   pgs_data
+}
+
+
+genetic_match_data <- function(genetic_match_file,
+                               include_genetic_debug){
+
+  genetic_match = readr::read_tsv(genetic_match_file,
+                                  col_type = readr::cols())
+
+  genetic_match <- dplyr::filter(genetic_match, for_gwas == 1)
+  names(genetic_match)[5:13] <- paste("Genetic", names(genetic_match)[5:13], sep="_")
+
+  if(!include_genetic_debug){
+    genetic_match <- genetic_match[,c("FID", "IID", "Genetic_ID", "CrossProject_ID", "Genetic_european")]
+  }
+
+  genetic_match
 }
 
 

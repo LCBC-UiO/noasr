@@ -29,8 +29,7 @@ Given these two things, the functions should be fairly simple to use.
 
 ## The two main functions
 
-In the following examples the "~" (tilde) sign is a short-hand for where-ever on your system the LCBC lagringshotell is mounted. 
-Depending on your OS and setup, you may need to change "~" to something else to make this work. 
+Depending on your OS and setup, you may need to change `path/to` to something else to make this work. 
 The remaining paths point to two important places.
 The first being the path containing the PGS subdirectories, and the second to the cleaned file that enables matching between the PGS data and the MOAS.
 A consequence of using the `genetic_match_file` is also that the number of rows in the source PGS files are reduced to only those samples that we have verified as trustworty.
@@ -39,19 +38,23 @@ A consequence of using the `genetic_match_file` is also that the number of rows 
 The first key function is `pgs_get` which will create a data.frame of the PGS's you have asked for with the command.
 
 ```{r, eval=FALSE}
-pgs_get(pgs = c("AD", "AD_Jansen"),
-        pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-        genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+pgs_get(
+  pgs = c("AD", "AD_Jansen"),
+  pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+)
 ```
 
 In this example, the user is asking for PGS for AD, and AD_Jansen, and will be given back a data.frame with these PGSs. 
 The functions by default assumes you want the significance levels S1, S7, and S11, but you may overwrite this by using the `s_levels` argument.
 
 ```{r, eval=FALSE}
-pgs_get(pgs = c("AD", "AD_Jansen"),
-        s_levels = c("S1", "S5", "S12", "S7")
-        pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-        genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+pgs_get(
+  pgs = c("AD", "AD_Jansen"),
+  s_levels = c("S1", "S5", "S12", "S7")
+  pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+)
 ```
 
 
@@ -63,11 +66,13 @@ You need not use the entire MOAS for these two functions to work, you can be wor
 The key feature must be that the data is MOAS-derived, as the functions assume a certain structure to the data. 
 
 ```{r, eval=FALSE}
-pgs_add(MOAS, 
-        pgs = c("AD", "AD_Jansen",
-        pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-        genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
-        s_levels = c("S1", "S7", "S11"))      
+pgs_add(
+  MOAS, 
+  pgs = c("AD", "AD_Jansen"),
+  pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+  s_levels = c("S1", "S7", "S11")
+)      
 ```
 
 The `pgs_add` function takes all the same arguments as the `pgs_get` function, with the addition of needing the MOAS-derived data. 
@@ -76,10 +81,12 @@ This function is also created such that you may use the pipe (`%>%`) operator on
 
 ```{r, eval=FALSE}
 MOAS %>% 
-  pgs_add(pgs = c("AD", "AD_Jansen",
-          pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-          genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
-          s_levels = c("S1", "S7", "S11"))      
+  pgs_add(
+    pgs = c("AD", "AD_Jansen"),
+    pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+    s_levels = c("S1", "S7", "S11")
+  )      
 ```
 
 
@@ -88,20 +95,62 @@ The two functions above have two companions, that end with `_all`.
 The two `_all`-functions are made to easily add/get all the available PFS's from the path specified.
 
 ```{r, eval=FALSE}
-pgs_get_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+pgs_get_all(
+  pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+)
 ```
 
 In particular, most will not want all the significance levels outputted (there are 12, and this is the default behaviour for the `_all` functions).
 You may specify which significance levels you want by providing a character vector to the `s_levels` argument.
 
 ```{r, eval=FALSE}
-pgs_add_all(MOAS, 
-            s_levels = c("S1", "S7", "S11"),
-            pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv")
+pgs_add_all(
+  MOAS, 
+  s_levels = c("S1", "S7", "S11"),
+  pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+)
 ```
 
+##S The `_single` functions
+There is a new function pair, that will allow you to add/get a single PGS from its `.profile`.
+This should enable you to grab and safely merge new PGS data as they come in, and not have to wait for assistance before you can start working with the data. 
+
+As the other functions, they come in both `get` and `add` variety. 
+You'll need to specify the entire path, all the way to the `.profile` file you want to add.
+This means the folder structure etc. for using this function is not very strict, as the other functions.
+The name used in the PGS file will be the file name up untill `.profile`.
+
+
+```{r, eval=FALSE}
+pgs_get_single(
+  pgs_file = "path/to/Genetics/PGS/PGS_XX/PGS_XX.profile",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+)
+```
+
+likewise, if you want to add directly to the MOAS or a MOAS-like file
+```{r, eval=FALSE}
+pgs_add_single(
+  MOAS,
+  pgs_file = "path/to/Genetics/PGS/PGS_XX/PGS_XX.profile",
+  genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+)
+```
+
+If you need to add several single PGS', you can make a chain of operations to add them.
+```{r, eval=FALSE}
+MOAS %>% 
+  pgs_add_single(
+    pgs_file = "path/to/Genetics/PGS/PGS_XX/PGS_XX.profile",
+    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+  ) %>% 
+    pgs_add_single(
+    pgs_file = "path/to/Genetics/PGS/PGS_YY/PGS_YY.profile",
+    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv"
+  )
+```
 
 ## Extra options to all functions
 All the above functions also have a couple of extra arguments, for those interested in keeping certain information that is removed by default
@@ -111,8 +160,8 @@ Some are also interested in keeping the two `CNT` columns from the PGS data, as 
 To do this, you can provide the `include_cnt = TRUE` to the funciton, and those columns will also be added.
 
 ```{r, eval=FALSE}
-pgs_get_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+pgs_get_all(pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+            genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
             s_levels = c("S1", "S7", "S11"),
             include_cnt = TRUE)
 ```
@@ -122,8 +171,8 @@ Some might be debugging the data, or want to find some extra information about t
 In this case, one can use the `include_genetics_debug = TRUE` argument, which will keep all the columns from the genetics-MOAS matching file in the outputted data.
 
 ```{r, eval=FALSE}
-pgs_get_all(pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-            genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+pgs_get_all(pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+            genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
             s_levels = c("S1", "S7", "S11"),
             include_genetics_debug = TRUE)
 ```

@@ -44,16 +44,16 @@ provide for a check.
 
 pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
          s_levels = c("S1", "S7", "S11"),
-         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+         pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+         genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 )
 
 # You can also toggle adding the CNT columns from the PGS, by changing
 # include_cnt to TRUE
 pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
          s_levels = c("S1", "S7", "S11"),
-         pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-         genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+         pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+         genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
          include_cnt = FALSE
 )
 
@@ -62,11 +62,12 @@ pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
 }
 \seealso{
 Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add}}, \code{\link{pgs_get_all}},
+  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
+  \code{\link{pgs_get_all}}, \code{\link{pgs_get_single}},
   \code{\link{pgs_read}}
 
 Other MOAS get-functions: \code{\link{dbs_get}},
-  \code{\link{epigen_get}}
+  \code{\link{epigen_get}}, \code{\link{pgs_get_single}}
 }
 \concept{MOAS get-functions}
 \concept{pgs-functions}

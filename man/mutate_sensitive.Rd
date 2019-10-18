@@ -15,6 +15,13 @@ mutate_sensitive(data, scramble_ids = TRUE)
 tibble
 }
 \description{
-THe function will round Age to nearest integer, and
-scramble participants ids, to make data less sensitive
+The function will round Age to nearest integer, and
+scramble participants ids, to make data less sensitive.
+}
+\details{
+Scrambling IDs is default behaviour, set this to FALSE
+if you do not wish to do so. Note that the data is then
+still considered sensitive to some degree, be careful with it.
+If you want your ID scramble to be reproducible, set a seed
+before running the function.
 }

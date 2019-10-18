@@ -44,19 +44,22 @@ to the MOAS-type data provided.
 # data you provided
 
 pgs_add_all(
+    MOAS,
     s_levels = c("S1", "S7", "S11"),
-    pgs_path = "~/LCBC/Projects/Cross_projects/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-    genetic_match_file = "~/LCBC/Projects/Cross_projects/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+    pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 )
 }
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}, \code{\link{pgs_get}},
+Other pgs-functions: \code{\link{pgs_add_single}},
+  \code{\link{pgs_add}}, \code{\link{pgs_get_all}},
+  \code{\link{pgs_get_single}}, \code{\link{pgs_get}},
   \code{\link{pgs_read}}
 
 Other MOAS add-functions: \code{\link{epigen_add}},
-  \code{\link{pgs_add}}, \code{\link{pgs_get_all}}
+  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
+  \code{\link{pgs_get_all}}
 }
 \concept{MOAS add-functions}
 \concept{pgs-functions}
