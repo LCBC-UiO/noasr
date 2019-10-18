@@ -28,15 +28,15 @@
 #' # lagringshotell, you can substitute "~" in the
 #' # paths with the path to the lagringshotell
 #'
-#' pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+#' pgs_get( pgs = character(),
 #'          s_levels = c("S1", "S7", "S11"),
 #'          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'          genetic_match_file = character(),
 #' )
 #'
 #' # You can also toggle adding the CNT columns from the PGS, by changing
 #' # include_cnt to TRUE
-#' pgs_get( pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+#' pgs_get( pgs = character(),
 #'          s_levels = c("S1", "S7", "S11"),
 #'          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
 #'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
@@ -50,8 +50,8 @@
 #' @importFrom readr read_tsv cols
 pgs_get <- function(pgs = c("AD", "AD_Jansen"),
                     s_levels = c("S1", "S7", "S11"),
-                    pgs_path = NULL,
-                    genetic_match_file = NULL,
+                    pgs_path = character(),
+                    genetic_match_file = character(),
                     include_cnt = FALSE,
                     include_pheno = FALSE,
                     include_genetic_debug = FALSE){
@@ -241,7 +241,7 @@ pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
 #'     MOAS,
 #'     s_levels = c("S1", "S7", "S11"),
 #'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     genetic_match_file = character(),
 #' )
 #' }
 pgs_add_all <- function(MOAS = NULL,
@@ -279,12 +279,7 @@ pgs_add_all <- function(MOAS = NULL,
 #' necessary to provide for a check.
 #'
 #' @param pgs_file path to PGS.profile
-#' @param genetic_match_file path to the file containing the MOAS-genetics
-#' matching and debugging information
-#' @param include_cnt logical, whether to keep SNP count information
-#' @param include_pheno  logical, whether to keep PHENO information
-#' @param include_genetic_debug logical, whether to keep all columns
-#' in the genetic_match_file in the final output
+#' @inheritParams pgs_add
 #'
 #' @return a tibble / data.frame
 #' @family pgs-functions
@@ -298,8 +293,8 @@ pgs_add_all <- function(MOAS = NULL,
 #' # lagringshotell, you can substitute "~" in the
 #' # paths with the path to the lagringshotell
 #'
-#' pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_CRP/CRP_2011/CRP_2011_sigOnly.profile",
-#'          genetic_match_file = "path/to//MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#' pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'          genetic_match_file =  "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
 #' )
 #'
 #' # You can also toggle adding the CNT columns from the PGS, by changing
@@ -314,8 +309,8 @@ pgs_add_all <- function(MOAS = NULL,
 #' @importFrom dplyr filter bind_cols select matches left_join
 #' @importFrom pbapply pblapply
 #' @importFrom readr read_tsv cols
-pgs_get_single <- function(pgs_file = NULL,
-                    genetic_match_file = NULL,
+pgs_get_single <- function(pgs_file = character(),
+                    genetic_match_file = character(),
                     include_cnt = FALSE,
                     include_pheno = FALSE,
                     include_genetic_debug = FALSE){
@@ -379,8 +374,8 @@ pgs_get_single <- function(pgs_file = NULL,
 #' )
 #' }
 pgs_add_single <- function(MOAS = NULL,
-                        pgs_file = NULL,
-                        genetic_match_file = NULL,
+                        pgs_file = character(),
+                        genetic_match_file = character(),
                         include_cnt = FALSE,
                         include_genetic_debug = FALSE){
 
@@ -428,8 +423,8 @@ pgs_read <- function(path, name = NULL){
 }
 
 
-genetic_match_data <- function(genetic_match_file,
-                               include_genetic_debug){
+genetic_match_data <- function(genetic_match_file = character(),
+                               include_genetic_debug = FALSE){
 
   genetic_match = readr::read_tsv(genetic_match_file,
                                   col_type = readr::cols())

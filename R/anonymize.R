@@ -56,13 +56,19 @@ mutate_sensitive <- function(data, scramble_ids = TRUE){
 #' deselect_sensitive(dt)
 deselect_sensitive <- function(data){
   dplyr::select(data,
-                -one_of(c("Site_BIDS", "Folder","Project_Wave_ID")),
+                # All freetext columns, may contain medical information
                 -dplyr::contains("Comment"),
                 -dplyr::contains("Note"),
-                -dplyr::ends_with("_Desc"),    # All freetext columns, may contain medical information
-                -dplyr::ends_with("_Date"),    # All dates, may be able to trace participant
-                -dplyr::contains("National"),  # Anything with "national, can contain national ID
-                -dplyr::contains("Medical")    # Anything relating to medical information
+                -dplyr::ends_with("_Desc"),
+
+                # All dates, may be able to trace participant
+                -dplyr::ends_with("_Date"),
+
+                # Anything with "national, can contain national ID
+                -dplyr::contains("National"),
+
+                # Anything relating to medical information
+                -dplyr::contains("Medical")
   )
 }
 
@@ -86,20 +92,33 @@ deselect_sensitive <- function(data){
 #' select_sensitive(dt)
 select_sensitive <- function(data){
   dplyr::select(data,
-                one_of(c("CrossProject_ID", "Site_BIDS", "Folder","Project_Wave_ID")),
-                dplyr::contains("Comment"),  # All freetext columns, may contain medical information
-                dplyr::contains("Note"),     # All freetext columns, may contain medical information
-                dplyr::ends_with("_Desc"),   # All freetext columns, may contain medical information
-                dplyr::ends_with("_Date"),   # All dates, may be able to trace participant
-                dplyr::contains("National"), # Anything with "national, can contain national ID
-                dplyr::contains("Medical")   # Anything relating to medical information
+                one_of(c("CrossProject_ID",
+                         "Site_BIDS",
+                         "Folder",
+                         "Project_Wave_ID")),
+
+                # All freetext columns, may contain medical information
+                dplyr::contains("Comment"),
+                dplyr::contains("Note"),
+                dplyr::ends_with("_Desc"),
+
+                # All dates, may be able to trace participant
+                dplyr::ends_with("_Date"),
+
+                # Anything with "national, can contain national ID
+                dplyr::contains("National"),
+
+                # Anything relating to medical information
+                dplyr::contains("Medical")
   )
 }
 
 #' Anonymise the MOAS
 #'
-#' The function calls both [\code{deselect_sensitive}] and [\code{mutate_sensitive}]
-#' to remove sensitive columns, and alter data in the MOAS to have a less
+#' The function calls both [\code{deselect_sensitive}]
+#' and [\code{mutate_sensitive}]
+#' to remove sensitive columns, and alter data in the
+#' MOAS to have a less
 #' sensitive nature.
 #'
 #' @inheritParams filter_site
@@ -116,5 +135,6 @@ anonymize_moas <- function(data, scramble_ids = TRUE){
 
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
-  utils::globalVariables(c("CrossProject_ID2", "scramble_ids"))
+  utils::globalVariables(c("CrossProject_ID2",
+                           "scramble_ids"))
 }

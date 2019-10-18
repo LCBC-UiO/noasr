@@ -15,7 +15,9 @@ anonymize_moas(data, scramble_ids = TRUE)
 tibble
 }
 \description{
-The function calls both [\code{deselect_sensitive}] and [\code{mutate_sensitive}]
-to remove sensitive columns, and alter data in the MOAS to have a less
+The function calls both [\code{deselect_sensitive}]
+and [\code{mutate_sensitive}]
+to remove sensitive columns, and alter data in the
+MOAS to have a less
 sensitive nature.
 }
