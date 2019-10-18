@@ -6,6 +6,9 @@
 \usage{
 deselect_sensitive(data)
 }
+\arguments{
+\item{data}{The MOAS or a MOAS generated file.}
+}
 \value{
 tibble
 }

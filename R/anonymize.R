@@ -43,7 +43,6 @@ mutate_sensitive <- function(data, scramble_ids = TRUE){
 #' possible sensitive information.
 #'
 #' @inheritParams filter_site
-#' or select them
 #'
 #' @return tibble
 #' @export
@@ -74,8 +73,6 @@ deselect_sensitive <- function(data){
 #' possible sensitive information.
 #'
 #' @inheritParams filter_site
-#' @param remove  logical, to remove (default) sensitive columns,
-#' or select them
 #'
 #' @return tibble
 #' @export

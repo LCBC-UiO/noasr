@@ -8,9 +8,6 @@ select_sensitive(data)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
-
-\item{remove}{logical, to remove (default) sensitive columns,
-or select them}
 }
 \value{
 tibble
