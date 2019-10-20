@@ -279,7 +279,7 @@ pgs_add_all <- function(MOAS = NULL,
 #' necessary to provide for a check.
 #'
 #' @param pgs_file path to PGS.profile
-#' @inheritParams pgs_add
+#' @inheritParams pgs_get
 #'
 #' @return a tibble / data.frame
 #' @family pgs-functions
@@ -348,6 +348,7 @@ pgs_get_single <- function(pgs_file = character(),
 #' PGS at specified significance levels, and adds that data
 #' to the MOAS-type data provided.
 #'
+#' @inheritParams pgs_get
 #' @inheritParams pgs_add
 #' @inheritParams pgs_get_single
 #'

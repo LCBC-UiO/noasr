@@ -129,24 +129,30 @@ site_keeper <- function(...){
 #' data before training remain, data after do not.
 #'
 #' @inheritParams filter_site
-#' @param training_column column specifying row by ro
-#' if an observation is after a training period
+#' @param predicate a logical statement to identify
+#' rows of data under memory experimentation
 #'
-#' @importFrom dplyr case_when rename_at starts_with as_tibble
+#' @importFrom dplyr case_when rename_at starts_with as_tibble arrange
 #' @importFrom tidyr fill
 #' @importFrom rio import
 #' @return tibble
-filter_trainingexposed <- function(data, training_column){
+filter_trainingexposed <- function(data, predicate){
+
+  if(any(!c("CrossProject_ID", "Age") %in% names(data)))
+    stop("CrossProject_ID and Age are necessary columns, make sure they are in the data",
+         call. = FALSE)
+
 
   data %>%
     group_by(CrossProject_ID) %>%
+    arrange(Age) %>%
     mutate(TrainExposed = case_when(
-      Project_Wave == 1 ~ 0,  #set so that wave 1 always is without training exposure
-      grepl("train", {{training_column}}) ~ 1 #set all NCP rows with "train" to be training exposed
+      !duplicated(CrossProject_ID) ~ 0,  #set so that first obvservation always is without training exposure
+      {{predicate}} ~ 1 #set all fulfilling the predicate to be training exposed
     )
     ) %>%
     fill(TrainExposed) %>%  # Will, per participant, fill inn the NA with the previous non NA value in a row-sequential manner
-    mutate(TrainExposed = ifelse(is.na(TrainExposed), 0, TrainExposed)) %>% #NBM will have some NAs here, make them 0
+    mutate(TrainExposed = ifelse(is.na(TrainExposed), 0, TrainExposed)) %>% # in case subsetting ruins the wranling
     filter(TrainExposed != 1) %>%
     ungroup() %>%
     select(-TrainExposed) %>%

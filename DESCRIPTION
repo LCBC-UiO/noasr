@@ -34,7 +34,7 @@ Imports:
 Suggests: 
     knitr,
     tidyverse,
-    testthat,
+    testthat (>= 2.1.0),
     rmarkdown,
     covr
 VignetteBuilder: knitr

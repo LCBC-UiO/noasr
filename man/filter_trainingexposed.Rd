@@ -4,13 +4,13 @@
 \alias{filter_trainingexposed}
 \title{Filter out when a participant has trained}
 \usage{
-filter_trainingexposed(data, training_column)
+filter_trainingexposed(data, predicate)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
 
-\item{training_column}{column specifying row by ro
-if an observation is after a training period}
+\item{predicate}{a logical statement to identify
+rows of data under memory experimentation}
 }
 \value{
 tibble

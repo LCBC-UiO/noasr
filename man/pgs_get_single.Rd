@@ -16,6 +16,8 @@ matching and debugging information}
 
 \item{include_cnt}{logical, whether to keep SNP count information}
 
+\item{include_pheno}{logical, whether to keep PHENO information}
+
 \item{include_genetic_debug}{logical, whether to keep all columns
 in the genetic_match_file in the final output}
 }

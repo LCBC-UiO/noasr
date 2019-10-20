@@ -100,3 +100,41 @@ test_that("filter_site works", {
                ))
 
 })
+
+test_that("filter_trainexposed works",{
+
+
+  dt <- data.frame(
+    CrossProject_ID= c(rep(1:3, each=3),3),
+    Age = c(10,13,14,
+            23,27,34,
+            55, 56, 70, 73),
+    Project_Name = c(rep("HUK",9), "MEM"),
+    Project_Wave = c(rep(1:3, 3), 1),
+    training = c("baseline", "rest", "train",
+                 "baseline", "train", "rest",
+                 "baseline", "train", "train", "baseline"),
+    stringsAsFactors = FALSE
+  )
+
+ dt_f <- filter_trainingexposed(dt, grepl("train", training))
+
+ expect_false(any(grepl("train", dt_f$training)))
+
+ expect_equal(class(dt_f), c("tbl_df", "tbl", "data.frame"))
+ expect_equal(nrow(dt_f), 4)
+
+
+ dt_f <- filter_trainingexposed(dt, grepl("rest", training))
+
+ expect_false(any(grepl("rest", dt_f$training)))
+
+ expect_equal(class(dt_f), c("tbl_df", "tbl", "data.frame"))
+ expect_equal(nrow(dt_f), 7)
+
+ expect_error(
+   filter_trainingexposed(select(dt, - Age), grepl("rest", training)),
+   "necessary columns"
+   )
+
+})
