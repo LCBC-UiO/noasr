@@ -4,9 +4,11 @@
 #' @param type type of chapter (one of "rt", "sp", "fmri", "erp")
 #' @param path path to Paradigm documentation
 #' @param bib logical, initiate bibTex file or not
+#' @param open open the file for editing after creation
 #' @export
 #' @importFrom utils file.edit
-docs_paradigm_page <- function(name = NULL, type = NULL, path = ".", bib=TRUE){
+docs_paradigm_page <- function(name = NULL, type = NULL,
+                               path = ".", bib = TRUE){
 
   types <- c("rt", "sp", "fmri", "erp")
 
@@ -18,6 +20,11 @@ docs_paradigm_page <- function(name = NULL, type = NULL, path = ".", bib=TRUE){
   if(length(type)>1) stop("type can only have one value")
   if(!type %in% types) stop(paste0("type can only be one of either ",
                                    paste0(types, collapse=", ")))
+  if(!dir.exists(path)){
+    cat("path does not exist, creating path:\n")
+    cat(path)
+    dir.create(path)
+  }
 
   cnt <- length(list.files(path, pattern = type)) + 1
 
@@ -28,16 +35,18 @@ docs_paradigm_page <- function(name = NULL, type = NULL, path = ".", bib=TRUE){
 
     template_bib <- system.file("rmarkdown/templates/lcbc-paradigm-page/skeleton",
                                 "skeleton.bib", package = "MOAS")
-    out <- paste0("bibTex/", filename, '.bib')
+    out <- paste0(path, "/bibTex/", filename, '.bib')
     file.copy(template_bib, out)
-    utils::file.edit(out)
+
+    edit_file(out)
   }
 
   template_rmd <- system.file("rmarkdown/templates/lcbc-paradigm-page/skeleton",
                               "skeleton.Rmd", package = "MOAS")
   out <- paste0(path, "/", sprintf("%02d", cnt), "-", filename, '.Rmd')
   file.copy(template_rmd, out)
-  utils::file.edit(out)
+
+  edit_file(out)
 }
 
 
