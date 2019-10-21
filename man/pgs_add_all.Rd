@@ -34,9 +34,6 @@ to the MOAS-type data provided.
 \examples{
 \dontrun{
 
-# Here we assume you know the path to the LCBC
-# lagringshotell, you can substitute "~" in the
-# paths with the path to the lagringshotell
 
 # In this version you dont need to specify the
 # PGS you want, it will take all it finds in the

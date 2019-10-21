@@ -32,11 +32,6 @@ necessary to provide for a check.
 }
 \examples{
 \dontrun{
-
-# Here we assume you know the path to the LCBC
-# lagringshotell, you can substitute "~" in the
-# paths with the path to the lagringshotell
-
 pgs_get_single( pgs_path = "path/to//PGS_wAPOE/",
          genetic_match_file =  "path/to/gID_MOAS_match.tsv",
 )

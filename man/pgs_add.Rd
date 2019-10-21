@@ -36,10 +36,6 @@ to the MOAS-type data provided.
 \examples{
 \dontrun{
 
-# Here we assume you know the path to the LCBC
-# lagringshotell, you can substitute "~" in the
-# paths with the path to the lagringshotell
-
 pgs_add(pgs = c("AD", "EduYears_2016"),
     s_levels = c("S1", "S7", "S11"),
     pgs_path = "path/to/PGS_wAPOE/",

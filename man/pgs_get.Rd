@@ -39,11 +39,7 @@ provide for a check.
 \examples{
 \dontrun{
 
-# Here we assume you know the path to the LCBC
-# lagringshotell, you can substitute "~" in the
-# paths with the path to the lagringshotell
-
-pgs_get( pgs = character(),
+pgs_get( pgs = "JansenAD",
          s_levels = c("S1", "S7", "S11"),
          pgs_path = "path/to/PGS_wAPOE/",
          genetic_match_file = character(),

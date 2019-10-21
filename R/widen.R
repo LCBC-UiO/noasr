@@ -9,14 +9,18 @@
 #' must be run prior to by="Project_Wave".
 #'
 #' @param data The MOAS or a MOAS generated file.
-#' @param by Column which to widen by. Options are:
-#' "Subject_Timepoint","Project_Wave","Site_Name",
-#' or "Site_Number".
+#' @param by Column which to widen by
 #' @param keep Option to provide to [site_keeper()] for
 #' filtering the double/triple scanned
 #' @return A MOAS type file widened by selected column,
 #' prefixed with columns specifications
-
+#' @details 'by' options are:
+#' \itemize{
+#' \item{Subject_Timepoint}
+#' \item{Project_Wave}
+#' \item{Site_Name}
+#' \item{Site_Number}
+#' }
 #' @examples
 #' \dontrun{
 #' widen(MOAS, by="Site_Name")
