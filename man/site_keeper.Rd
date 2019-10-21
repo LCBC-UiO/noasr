@@ -18,7 +18,8 @@ participant and timepoint (i.e. removes double/triple scan entries).
 For analyses not intending to use the power of double/triple scans,
 or for data which will be widened and scanner type/site is not of
 interest.
-Only subject timepoints that have several entries (i.e. several scan sites),
+Only subject timepoints that have several entries
+(i.e. several scan sites),
 will be reduced. All timepoints will be retained.
 }
 \details{

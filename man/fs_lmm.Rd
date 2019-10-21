@@ -17,13 +17,8 @@ categorical/ordinal factors.}
 \item{numeric.var}{A string vector of column names for numeric,
 scalar co-variates.}
 
-\item{missing.action}{Action to take on missing data for the
-numeric.vars. Options are:
-'delete' - deletes observations with any missing numeric.vars,
-'mean' - replaces missing with mean for that participant,
-'all' - replaces all values with the mean for that participant,
-'first' - replaced all values with the first observation for that
-participant.}
+\item{missing.action}{Action to take on missing data i the
+numeric.var}
 
 \item{keep}{For double/triple scans, which data should be kept.
 option calls \code{site_keeper}.}
@@ -38,6 +33,16 @@ a data frame ready for Freesurfer LMM use.
 columns ready for use in Freesurfers (6.0) linear mixed models.
 Design matrices are created for the grouping.var factors, and numeric
 variables are z-transformed.
+}
+\details{
+Available options for 'missing.action' are:
+\itemize{
+ \item{"delete"}{delete observations with any missing numeric.vars}
+ \item{"mean"}{replace missing with mean for that participant}
+ \item{"all"}{replace all values with the mean for that participant}
+ \item{"first"}{replace all values with the first
+ observation for that participant}
+}
 }
 \examples{
 \dontrun{

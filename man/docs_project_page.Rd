@@ -10,7 +10,8 @@ docs_project_page(project_acronym = NULL, project_number = NULL,
 \arguments{
 \item{project_acronym}{acronym of chapter}
 
-\item{project_number}{type of chapter (one of "rt", "sp", "fmri", "erp")}
+\item{project_number}{type of chapter (one of "rt",
+"sp", "fmri", "erp")}
 
 \item{path}{path to Paradigm documentation}
 }

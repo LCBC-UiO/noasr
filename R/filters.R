@@ -6,7 +6,8 @@
 #' For analyses not intending to use the power of double/triple scans,
 #' or for data which will be widened and scanner type/site is not of
 #' interest.
-#' Only subject timepoints that have several entries (i.e. several scan sites),
+#' Only subject timepoints that have several entries
+#' (i.e. several scan sites),
 #' will be reduced. All timepoints will be retained.
 #'
 #' @details Available options for 'keep' are:
@@ -132,7 +133,8 @@ site_keeper <- function(...){
 #' @param predicate a logical statement to identify
 #' rows of data under memory experimentation
 #'
-#' @importFrom dplyr case_when rename_at starts_with as_tibble arrange
+#' @importFrom dplyr case_when rename_at starts_with
+#' @importFrom dplyr as_tibble arrange
 #' @importFrom tidyr fill
 #' @importFrom rio import
 #' @return tibble

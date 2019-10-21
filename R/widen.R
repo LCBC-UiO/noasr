@@ -1,7 +1,5 @@
 #' Widen the MOAS data.frame
 #'
-#' \code{widen} returns a widened data.frame by the columns specified
-#'
 #' This is a function to create a widened data.frame from the MOAS.
 #' Widening of the data is necessary for performing ANOVAs and
 #' other statistical analysis, particularly if intending to run
@@ -11,21 +9,29 @@
 #' must be run prior to by="Project_Wave".
 #'
 #' @param data The MOAS or a MOAS generated file.
-#' @param by Column which to widen by. Options are: "Subject_Timepoint","Project_Wave","Site_Name", or "Site_Number".
-#' @param keep Option to provide to [site_keeper()] for filtering the double/triple scanned
-#' @return A MOAS type file widened by selected column, prefixed with columns specifications
+#' @param by Column which to widen by. Options are:
+#' "Subject_Timepoint","Project_Wave","Site_Name",
+#' or "Site_Number".
+#' @param keep Option to provide to [site_keeper()] for
+#' filtering the double/triple scanned
+#' @return A MOAS type file widened by selected column,
+#' prefixed with columns specifications
 
 #' @examples
 #' \dontrun{
 #' widen(MOAS, by="Site_Name")
 #' widen(MOAS, by="Project_Wave")
 #'
-#' # Data with double/triple scans must be widened in a two-stage process
+#' # Data with double/triple scans must be widened
+#' # in a two-stage process
 #' dt = widen(MOAS, by="Site_Name")
 #' df = widen(dt, by="Project_Wave")
 #' }
 #'
-#' @importFrom dplyr select matches select_ one_of everything distinct arrange_ arrange filter group_by summarise anti_join group_by_at vars add_tally mutate
+#' @importFrom dplyr select matches select_ one_of everything
+#' @importFrom dplyr distinct arrange_ arrange filter
+#' @importFrom dplyr group_by summarise anti_join group_by_at
+#' @importFrom dplyr vars add_tally mutate
 #' @importFrom purrr is_empty safely
 #' @importFrom stats na.omit
 #' @importFrom tidyr gather unite_ spread drop_na_ unite

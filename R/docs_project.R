@@ -1,7 +1,8 @@
 #' Create new chapter for the Project documentation
 #'
 #' @param project_acronym acronym of chapter
-#' @param project_number type of chapter (one of "rt", "sp", "fmri", "erp")
+#' @param project_number type of chapter (one of "rt",
+#' "sp", "fmri", "erp")
 #' @param path path to Paradigm documentation
 #' @export
 #' @importFrom utils file.edit

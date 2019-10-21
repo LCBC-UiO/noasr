@@ -18,7 +18,9 @@
 #'}
 #'
 #' @importFrom stats ave na.omit time
-#' @importFrom dplyr select select_ group_by ungroup summarise rename filter mutate lag first left_join arrange mutate_
+#' @importFrom dplyr select select_ group_by ungroup summarise
+#' @importFrom dplyr rename filter mutate lag first left_join
+#' @importFrom dplyr arrange mutate_
 #' @importFrom magrittr "%>%"
 #'
 #' @export
@@ -80,7 +82,7 @@ calc_ages = function(data) {
 
   # Calculate the intervals
   data4 = data3 %>%
-    bind_rows(novelBM) %>% 
+    bind_rows(novelBM) %>%
     group_by(CrossProject_ID) %>%
     mutate(lagAge = lag(Age)) %>%
     mutate(

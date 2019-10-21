@@ -11,19 +11,24 @@
 #' categorical/ordinal factors.
 #' @param numeric.var A string vector of column names for numeric,
 #' scalar co-variates.
-#' @param missing.action Action to take on missing data for the
-#' numeric.vars. Options are:
-#' 'delete' - deletes observations with any missing numeric.vars,
-#' 'mean' - replaces missing with mean for that participant,
-#' 'all' - replaces all values with the mean for that participant,
-#' 'first' - replaced all values with the first observation for that
-#' participant.
+#' @param missing.action Action to take on missing data i the
+#' numeric.var
+#'
 #' @param keep For double/triple scans, which data should be kept.
 #' option calls \code{site_keeper}.
 #' @param file Optional string specifying file name to be saved
 #'
 #' @return a data frame ready for Freesurfer LMM use.
-
+#'
+#' @details Available options for 'missing.action' are:
+#' \itemize{
+#'  \item{"delete"}{delete observations with any missing numeric.vars}
+#'  \item{"mean"}{replace missing with mean for that participant}
+#'  \item{"all"}{replace all values with the mean for that participant}
+#'  \item{"first"}{replace all values with the first
+#'  observation for that participant}
+#' }
+#'
 #' @examples
 #' \dontrun{
 #' site_keeper(MOAS)
@@ -31,7 +36,9 @@
 #' site_keeper(MOAS, "ousAvanto")
 #' }
 #'
-#' @importFrom dplyr filter mutate ungroup transmute select one_of mutate_all funs group_by summarise_all left_join first everything
+#' @importFrom dplyr filter mutate ungroup transmute select
+#' @importFrom dplyr one_of mutate_all funs group_by
+#' @importFrom dplyr summarise_all left_join first everything
 #' @importFrom stats na.omit
 #' @importFrom utils write.table
 #' @importFrom magrittr "%>%"

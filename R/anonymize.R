@@ -14,7 +14,8 @@
 #'
 #' @return tibble
 #' @export
-#' @importFrom dplyr mutate_at vars ends_with select distinct mutate rename everything
+#' @importFrom dplyr mutate_at vars ends_with select distinct
+#' @importFrom dplyr mutate rename everything
 #' @importFrom magrittr '%>%'
 mutate_sensitive <- function(data, scramble_ids = TRUE){
 
