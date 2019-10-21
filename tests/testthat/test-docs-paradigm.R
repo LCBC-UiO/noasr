@@ -1,5 +1,5 @@
 if(interactive()){
-  wrk_dir <- paste0(here::here(),"/tests/testthat/tmp_docs")
+  wrk_dir <- paste0("tests/testthat/tmp_docs")
 }else{
   wrk_dir <-"tmp_docs"
 }

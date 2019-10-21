@@ -1,3 +1,10 @@
+if(interactive()){
+  wrk_dir <- paste0("tests/testthat/tmp_docs")
+}else{
+  wrk_dir <-"tmp_docs"
+}
+
+
 # test_that("docs_project are created", {
 #
 #   tmpdir <- "tmp/"

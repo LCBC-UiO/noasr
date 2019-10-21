@@ -31,7 +31,6 @@ Imports:
     crayon,
     pbapply,
     readr,
-    here,
     rstudioapi
 Suggests: 
     knitr,
