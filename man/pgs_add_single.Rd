@@ -41,7 +41,7 @@ to the MOAS-type data provided.
 # folder path provided, and add them to the MOAS
 # data you provided
 
-pgs_add_all(
+pgs_add_single(
     MOAS
     pgs_file = "path/to/Genetics/PGS/PGS_somedate/",
     genetic_match_file = "path/to//gID_MOAS_match.tsv",

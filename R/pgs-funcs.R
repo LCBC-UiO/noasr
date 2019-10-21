@@ -293,13 +293,13 @@ pgs_add_all <- function(MOAS = NULL,
 #' # lagringshotell, you can substitute "~" in the
 #' # paths with the path to the lagringshotell
 #'
-#' pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'          genetic_match_file =  "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#' pgs_get_single( pgs_path = "path/to//PGS_wAPOE/",
+#'          genetic_match_file =  "path/to/gID_MOAS_match.tsv",
 #' )
 #'
 #' # You can also toggle adding the CNT columns from the PGS, by changing
 #' # include_cnt to TRUE
-#' pgs_get( pgs_path = "path/to/PGS_20190618/PGS_wAPOE/",
+#' pgs_get_single( pgs_path = "path/to/PGS_wAPOE/",
 #'          genetic_match_file = "path/to/gID_MOAS_match.tsv",
 #'          include_cnt = TRUE
 #' )
@@ -368,7 +368,7 @@ pgs_get_single <- function(pgs_file = character(),
 #' # folder path provided, and add them to the MOAS
 #' # data you provided
 #'
-#' pgs_add_all(
+#' pgs_add_single(
 #'     MOAS
 #'     pgs_file = "path/to/Genetics/PGS/PGS_somedate/",
 #'     genetic_match_file = "path/to//gID_MOAS_match.tsv",
