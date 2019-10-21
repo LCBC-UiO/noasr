@@ -6,11 +6,12 @@
 #'
 #' @param ID 7-digit code, CrossProject_ID
 #' @param MOAS A string with the path to, or the pre-loaded,
-#' MOAS data.frame
+#' MOAS data.frame, from windows for instance:
+#' "//lagringshotell/sv-psi/LCBC/Projects/Cross_project"
 #'
 #' @return a data.frame with information on the ID
 #' @export
-check_tp <- function(ID=NULL, MOAS="//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData"){
+check_tp <- function(ID=NULL, MOAS = character()){
 
   if(is.null(ID)){
     cat(crayon::red(paste("I need and ID to look for.")))

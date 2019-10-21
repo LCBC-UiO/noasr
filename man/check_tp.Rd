@@ -4,14 +4,14 @@
 \alias{check_tp}
 \title{Check subject timepoint}
 \usage{
-check_tp(ID = NULL,
-  MOAS = "//lagringshotell/sv-psi/LCBC/Projects/Cross_projects/MOAS/Data/MOAS.RData")
+check_tp(ID = NULL, MOAS = character())
 }
 \arguments{
 \item{ID}{7-digit code, CrossProject_ID}
 
 \item{MOAS}{A string with the path to, or the pre-loaded,
-MOAS data.frame}
+MOAS data.frame, from windows for instance:
+"//lagringshotell/sv-psi/LCBC/Projects/Cross_project"}
 }
 \value{
 a data.frame with information on the ID
