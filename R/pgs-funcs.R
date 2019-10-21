@@ -30,7 +30,7 @@
 #'
 #' pgs_get( pgs = character(),
 #'          s_levels = c("S1", "S7", "S11"),
-#'          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'          pgs_path = "path/to/PGS_wAPOE/",
 #'          genetic_match_file = character(),
 #' )
 #'
@@ -38,8 +38,8 @@
 #' # include_cnt to TRUE
 #' pgs_get( pgs = character(),
 #'          s_levels = c("S1", "S7", "S11"),
-#'          pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'          pgs_path = "path/to/PGS_wAPOE/",
+#'          genetic_match_file = "path/to/gID_MOAS_match.tsv",
 #'          include_cnt = FALSE
 #' )
 #'
@@ -134,8 +134,8 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
 #'
 #' pgs_get_all(
 #'     s_levels = c("S1", "S7", "S11"),
-#'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     pgs_path = "path/to/PGS_wAPOE/",
+#'     genetic_match_file = "path/to/gID_MOAS_match.tsv",
 #' )
 #' }
 pgs_get_all <- function(s_levels = paste0("S", 1:12),
@@ -182,10 +182,10 @@ pgs_get_all <- function(s_levels = paste0("S", 1:12),
 #' # lagringshotell, you can substitute "~" in the
 #' # paths with the path to the lagringshotell
 #'
-#' pgs_add(pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+#' pgs_add(pgs = c("AD", "EduYears_2016"),
 #'     s_levels = c("S1", "S7", "S11"),
-#'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     pgs_path = "path/to/PGS_wAPOE/",
+#'     genetic_match_file = "path/to/gID_MOAS_match.tsv",
 #' )
 #' }
 #' @importFrom dplyr mutate left_join
@@ -240,7 +240,7 @@ pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
 #' pgs_add_all(
 #'     MOAS,
 #'     s_levels = c("S1", "S7", "S11"),
-#'     pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+#'     pgs_path = "path/to/PGS_wAPOE/",
 #'     genetic_match_file = character(),
 #' )
 #' }
@@ -299,8 +299,8 @@ pgs_add_all <- function(MOAS = NULL,
 #'
 #' # You can also toggle adding the CNT columns from the PGS, by changing
 #' # include_cnt to TRUE
-#' pgs_get( pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'          genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#' pgs_get( pgs_path = "path/to/PGS_20190618/PGS_wAPOE/",
+#'          genetic_match_file = "path/to/gID_MOAS_match.tsv",
 #'          include_cnt = TRUE
 #' )
 #'
@@ -370,8 +370,8 @@ pgs_get_single <- function(pgs_file = character(),
 #'
 #' pgs_add_all(
 #'     MOAS
-#'     pgs_file = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-#'     genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+#'     pgs_file = "path/to/Genetics/PGS/PGS_somedate/",
+#'     genetic_match_file = "path/to//gID_MOAS_match.tsv",
 #' )
 #' }
 pgs_add_single <- function(MOAS = NULL,

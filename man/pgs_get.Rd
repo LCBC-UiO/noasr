@@ -45,7 +45,7 @@ provide for a check.
 
 pgs_get( pgs = character(),
          s_levels = c("S1", "S7", "S11"),
-         pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
+         pgs_path = "path/to/PGS_wAPOE/",
          genetic_match_file = character(),
 )
 
@@ -53,8 +53,8 @@ pgs_get( pgs = character(),
 # include_cnt to TRUE
 pgs_get( pgs = character(),
          s_levels = c("S1", "S7", "S11"),
-         pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-         genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+         pgs_path = "path/to/PGS_wAPOE/",
+         genetic_match_file = "path/to/gID_MOAS_match.tsv",
          include_cnt = FALSE
 )
 

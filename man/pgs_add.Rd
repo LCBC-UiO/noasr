@@ -40,10 +40,10 @@ to the MOAS-type data provided.
 # lagringshotell, you can substitute "~" in the
 # paths with the path to the lagringshotell
 
-pgs_add(pgs = c("AD", "EduYears_2016", "Depression_Nagel2018"),
+pgs_add(pgs = c("AD", "EduYears_2016"),
     s_levels = c("S1", "S7", "S11"),
-    pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+    pgs_path = "path/to/PGS_wAPOE/",
+    genetic_match_file = "path/to/gID_MOAS_match.tsv",
 )
 }
 }

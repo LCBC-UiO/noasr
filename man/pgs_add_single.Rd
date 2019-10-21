@@ -43,8 +43,8 @@ to the MOAS-type data provided.
 
 pgs_add_all(
     MOAS
-    pgs_file = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+    pgs_file = "path/to/Genetics/PGS/PGS_somedate/",
+    genetic_match_file = "path/to//gID_MOAS_match.tsv",
 )
 }
 }

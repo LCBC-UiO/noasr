@@ -11,6 +11,10 @@
 #'
 #' @return a data.frame with information on the ID
 #' @export
+#' @examples
+#' \dontrun{
+#' check_tp(1000401, "LCBC/Projects/Cross_projecs/MOAS/MOAS.RData")
+#' }
 check_tp <- function(ID=NULL, MOAS = character()){
 
   if(is.null(ID)){

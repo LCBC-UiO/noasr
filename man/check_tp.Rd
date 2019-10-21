@@ -21,3 +21,8 @@ This function is intended for the RA's of LCBC to lookup,
 using the MOAS, hich timepoint should be the next allocated
 to a participant.
 }
+\examples{
+\dontrun{
+check_tp(1000401, "LCBC/Projects/Cross_projecs/MOAS/MOAS.RData")
+}
+}

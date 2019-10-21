@@ -42,8 +42,8 @@ all PGS at specified significance levels (by default all 12)
 
 pgs_get_all(
     s_levels = c("S1", "S7", "S11"),
-    pgs_path = "path/to/Genetics/PGS/PGS_20190618/PGS_wAPOE/",
-    genetic_match_file = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
+    pgs_path = "path/to/PGS_wAPOE/",
+    genetic_match_file = "path/to/gID_MOAS_match.tsv",
 )
 }
 }
