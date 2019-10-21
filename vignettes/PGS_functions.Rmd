@@ -13,7 +13,7 @@ vignette: >
   comment = "#>"
   )
 ```
-  
+
 ```{r setup}
   library(MOAS)
 ```
@@ -113,7 +113,7 @@ pgs_add_all(
 )
 ```
 
-##S The `_single` functions
+## The `_single` functions
 There is a new function pair, that will allow you to add/get a single PGS from its `.profile`.
 This should enable you to grab and safely merge new PGS data as they come in, and not have to wait for assistance before you can start working with the data. 
 

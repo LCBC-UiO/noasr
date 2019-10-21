@@ -4,7 +4,6 @@
 #' @param type type of chapter (one of "rt", "sp", "fmri", "erp")
 #' @param path path to Paradigm documentation
 #' @param bib logical, initiate bibTex file or not
-#' @param open open the file for editing after creation
 #' @export
 #' @importFrom utils file.edit
 docs_paradigm_page <- function(name = NULL, type = NULL,
@@ -21,9 +20,10 @@ docs_paradigm_page <- function(name = NULL, type = NULL,
   if(!type %in% types) stop(paste0("type can only be one of either ",
                                    paste0(types, collapse=", ")))
   if(!dir.exists(path)){
-    cat("path does not exist, creating path:\n")
+    cat("Path does not exist, creating path:\n")
     cat(path)
     dir.create(path)
+    cat("\n\n")
   }
 
   cnt <- length(list.files(path, pattern = type)) + 1
@@ -65,6 +65,13 @@ docs_paradigm_page <- function(name = NULL, type = NULL,
 #' @importFrom tidyr unite
 #' @importFrom magrittr '%>%'
 docs_paradigm_order_chapter <- function(path = "."){
+
+  if(!dir.exists(path)){
+    cat("Path does not exist, no files to reorder in:\n")
+    cat(path)
+    cat("\n\n")
+    stop(call.=FALSE)
+  }
 
   types <- c("rt", "sp", "fmri", "erp")
 
