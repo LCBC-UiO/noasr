@@ -24,11 +24,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' # Here we assume you know the path to the LCBC
-#' # lagringshotell, you can substitute "~" in the
-#' # paths with the path to the lagringshotell
-#'
-#' pgs_get( pgs = character(),
+#' pgs_get( pgs = "JansenAD",
 #'          s_levels = c("S1", "S7", "S11"),
 #'          pgs_path = "path/to/PGS_wAPOE/",
 #'          genetic_match_file = character(),
@@ -123,10 +119,6 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
 #' @examples
 #' \dontrun{
 #'
-#' # Here we assume you know the path to the LCBC
-#' # lagringshotell, you can substitute "~" in the
-#' # paths with the path to the lagringshotell
-#'
 #' # In this version you dont need to specify the
 #' # PGS you want, it will take all it finds in the
 #' # folder path provided.
@@ -178,10 +170,6 @@ pgs_get_all <- function(s_levels = paste0("S", 1:12),
 #' @examples
 #' \dontrun{
 #'
-#' # Here we assume you know the path to the LCBC
-#' # lagringshotell, you can substitute "~" in the
-#' # paths with the path to the lagringshotell
-#'
 #' pgs_add(pgs = c("AD", "EduYears_2016"),
 #'     s_levels = c("S1", "S7", "S11"),
 #'     pgs_path = "path/to/PGS_wAPOE/",
@@ -228,9 +216,6 @@ pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
 #' @examples
 #' \dontrun{
 #'
-#' # Here we assume you know the path to the LCBC
-#' # lagringshotell, you can substitute "~" in the
-#' # paths with the path to the lagringshotell
 #'
 #' # In this version you dont need to specify the
 #' # PGS you want, it will take all it finds in the
@@ -288,11 +273,6 @@ pgs_add_all <- function(MOAS = NULL,
 #'
 #' @examples
 #' \dontrun{
-#'
-#' # Here we assume you know the path to the LCBC
-#' # lagringshotell, you can substitute "~" in the
-#' # paths with the path to the lagringshotell
-#'
 #' pgs_get_single( pgs_path = "path/to//PGS_wAPOE/",
 #'          genetic_match_file =  "path/to/gID_MOAS_match.tsv",
 #' )
@@ -359,14 +339,8 @@ pgs_get_single <- function(pgs_file = character(),
 #' @examples
 #' \dontrun{
 #'
-#' # Here we assume you know the path to the LCBC
-#' # lagringshotell, you can substitute "~" in the
-#' # paths with the path to the lagringshotell
-#'
 #' # In this version you dont need to specify the
-#' # PGS you want, it will take all it finds in the
-#' # folder path provided, and add them to the MOAS
-#' # data you provided
+#' # PGS.profile you want
 #'
 #' pgs_add_single(
 #'     MOAS
