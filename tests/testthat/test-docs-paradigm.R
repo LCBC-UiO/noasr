@@ -1,8 +1,5 @@
-if(interactive()){
-  wrk_dir <- paste0("tests/testthat/tmp_docs")
-}else{
-  wrk_dir <-"tmp_docs"
-}
+#wrk_dir <- paste0("tests/testthat/tmp_docs")
+wrk_dir <-"tmp_docs"
 
 test_that("docs_paradigm_page works", {
   expect_output(docs_paradigm_page("ginger", "fmri", path = wrk_dir),
