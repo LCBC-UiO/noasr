@@ -17,7 +17,11 @@ a data frame with no empty columns
 data frame that does not contain any data.
 }
 \examples{
-\dontrun{
-na.col.rm(data)
-}
+df <- data.frame(
+ID = 1:3,
+Age = c(22, 25,17),
+Sex = NA,
+group = NA
+)
+na_col_rm(df)
 }

@@ -4,7 +4,7 @@
 \alias{check_tp}
 \title{Check subject timepoint}
 \usage{
-check_tp(ID = NULL, MOAS = character())
+check_tp(ID = NULL, MOAS = NULL)
 }
 \arguments{
 \item{ID}{7-digit code, CrossProject_ID}
