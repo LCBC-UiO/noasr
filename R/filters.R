@@ -111,6 +111,7 @@ filter_site = function(data,
 
 #' Deprecated, use filter_site
 #'
+#' @param ... arguments to filter_site
 #' @inherit filter_site
 #' @export
 site_keeper <- function(...){
@@ -137,6 +138,16 @@ site_keeper <- function(...){
 #' @importFrom rio import
 #' @export
 #' @return tibble
+#' @examples
+#'   dt <-  data.frame(
+#'     CrossProject_ID = rep("1000000", 6),
+#'     Site_Name = c("ousAvanto", "ousAvanto","ousAvanto",
+#'                 "ousSkyra", "ousSkyra", "ousSkyra"),
+#'     Subject_Timepoint = c(1:3,3:5),
+#'     Age = c(8, 10, 14, 14, 17, 20),
+#'     stringsAsFactors = FALSE
+#'   )
+#'   filter_site(dt)
 filter_trainingexposed <- function(data, predicate){
 
   if(any(!c("CrossProject_ID", "Age") %in% names(data)))

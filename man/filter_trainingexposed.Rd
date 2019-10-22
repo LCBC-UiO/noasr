@@ -23,3 +23,14 @@ This function helps filter out participants data
 after they have been exposed to training. Meaning
 data before training remain, data after do not.
 }
+\examples{
+  dt <-  data.frame(
+    CrossProject_ID = rep("1000000", 6),
+    Site_Name = c("ousAvanto", "ousAvanto","ousAvanto",
+                "ousSkyra", "ousSkyra", "ousSkyra"),
+    Subject_Timepoint = c(1:3,3:5),
+    Age = c(8, 10, 14, 14, 17, 20),
+    stringsAsFactors = FALSE
+  )
+  filter_site(dt)
+}
