@@ -1,5 +1,3 @@
-context("test-site_keeper")
-
 test_that("filter_site works", {
   dt <-  data.frame(
     CrossProject_ID = rep("1000000", 6),
@@ -98,6 +96,11 @@ test_that("filter_site works", {
                  Subject_Timepoint = c(1:5),
                  stringsAsFactors = FALSE
                ))
+
+  expect_output(site_keeper(dt,
+                            keep="ousSkyra",
+                            quiet = TRUE),
+                "site_keeper will be deprecated")
 
 })
 

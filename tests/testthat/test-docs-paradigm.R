@@ -8,6 +8,8 @@ test_that("docs_paradigm_page works", {
   expect_true(file.exists(
     paste0(wrk_dir, "/01-fmri-ginger.Rmd")
   ))
+
+  # This works locally but fails on travis
   # expect_true(file.exists(
   #   paste0(wrk_dir, "/bibtex/fmri-ginger.bib")
   # ))

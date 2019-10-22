@@ -17,9 +17,13 @@ get_moas <- function(MOAS){
 #' @return a data frame with no empty columns
 
 #' @examples
-#' \dontrun{
-#' na.col.rm(data)
-#' }
+#' df <- data.frame(
+#' ID = 1:3,
+#' Age = c(22, 25,17),
+#' Sex = NA,
+#' group = NA
+#' )
+#' na_col_rm(df)
 #' @export
 na_col_rm = function(data) {
   NaNidx = apply(data, 2, function(x) all(is.na(x)))

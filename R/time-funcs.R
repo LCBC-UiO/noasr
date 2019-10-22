@@ -5,7 +5,6 @@
 #' @param data a data.frame
 #'
 #' @return logical vector of length==ncol(data)
-
 #' @examples
 #' \dontrun{
 #' is_hms(data)

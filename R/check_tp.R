@@ -15,21 +15,21 @@
 #' \dontrun{
 #' check_tp(1000401, "LCBC/Projects/Cross_projecs/MOAS/MOAS.RData")
 #' }
-check_tp <- function(ID=NULL, MOAS = character()){
+check_tp <- function(ID=NULL, MOAS = NULL){
 
   if(is.null(ID)){
-    cat(crayon::red(paste("I need and ID to look for.")))
-    stop()
+    stop("I need an ID to look for.", call.=FALSE)
   }
 
   if(is.null(MOAS)){
-    cat(crayon::red(paste("I need the MOAS to function.",
-                          "Give me either a string with the path to the file,",
-                          "or a preloaded data.frame.")))
-    stop()
+    stop(paste("I need the MOAS to function.",
+               "Give me either a string with the path to the file,",
+               "or a preloaded data.frame."),
+         call.=FALSE)
   }else if(is.character(MOAS)){
     if(!file.exists(MOAS)){
-      stop(" -- Cannot find MOAS in this path, check the path for errors.")
+      stop(" -- Cannot find MOAS in this path, check the path for errors.",
+           call.=FALSE)
     }
   }
 
