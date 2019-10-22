@@ -25,10 +25,6 @@ Add epigenetic data to MOAS like data
 }
 \seealso{
 Other epigen-functions: \code{\link{epigen_get}}
-
-Other MOAS add-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}
 }
 \concept{MOAS add-functions}
 \concept{epigen-functions}

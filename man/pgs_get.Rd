@@ -58,13 +58,7 @@ pgs_get( pgs = character(),
 
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}, \code{\link{pgs_get_single}},
-  \code{\link{pgs_read}}
-
-Other MOAS get-functions: \code{\link{dbs_get}},
-  \code{\link{epigen_get}}, \code{\link{pgs_get_single}}
+Other pgs_get-functions: \code{\link{pgs_get_all}},
+  \code{\link{pgs_get_single}}
 }
-\concept{MOAS get-functions}
-\concept{pgs-functions}
+\concept{pgs_get-functions}

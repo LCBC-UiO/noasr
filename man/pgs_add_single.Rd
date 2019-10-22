@@ -43,14 +43,7 @@ pgs_add_single(
 }
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add}}, \code{\link{pgs_get_all}},
-  \code{\link{pgs_get_single}}, \code{\link{pgs_get}},
-  \code{\link{pgs_read}}
-
-Other MOAS add-functions: \code{\link{epigen_add}},
-  \code{\link{pgs_add_all}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}
+Other pgs_add-functions: \code{\link{pgs_add_all}},
+  \code{\link{pgs_add}}
 }
-\concept{MOAS add-functions}
-\concept{pgs-functions}
+\concept{pgs_add-functions}

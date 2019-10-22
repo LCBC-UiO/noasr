@@ -47,13 +47,7 @@ pgs_get_single( pgs_path = "path/to/PGS_wAPOE/",
 
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}, \code{\link{pgs_get}},
-  \code{\link{pgs_read}}
-
-Other MOAS get-functions: \code{\link{dbs_get}},
-  \code{\link{epigen_get}}, \code{\link{pgs_get}}
+Other pgs_get-functions: \code{\link{pgs_get_all}},
+  \code{\link{pgs_get}}
 }
-\concept{MOAS get-functions}
-\concept{pgs-functions}
+\concept{pgs_get-functions}

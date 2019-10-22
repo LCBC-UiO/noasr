@@ -31,8 +31,7 @@ dbs_get(file_path = "path/to/file",
  }
 }
 \seealso{
-Other MOAS get-functions: \code{\link{epigen_get}},
-  \code{\link{pgs_get_single}}, \code{\link{pgs_get}}
+Other MOAS get-functions: \code{\link{epigen_get}}
 }
 \concept{MOAS get-functions}
 \concept{dbs-functions}
