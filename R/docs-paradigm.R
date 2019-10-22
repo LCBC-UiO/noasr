@@ -22,7 +22,9 @@ docs_paradigm_page <- function(name = NULL, type = NULL,
   if(!dir.exists(path)){
     cat("Path does not exist, creating path:\n")
     cat(path)
-    dir.create(path)
+    test <- dir.create(path)
+
+    if(!test) stop("Directory creation failed\n", call.=FALSE)
     cat("\n\n")
   }
 
