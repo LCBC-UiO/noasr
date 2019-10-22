@@ -6,9 +6,6 @@
 \usage{
 site_keeper(...)
 }
-\arguments{
-\item{...}{any argument to filter_site}
-}
 \value{
 A MOAS type file with one line per subject and timepoint.
 }

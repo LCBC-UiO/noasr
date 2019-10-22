@@ -111,8 +111,6 @@ filter_site = function(data,
 
 #' Deprecated, use filter_site
 #'
-#' @param ... any argument to filter_site
-#'
 #' @inherit filter_site
 #' @export
 site_keeper <- function(...){
@@ -137,6 +135,7 @@ site_keeper <- function(...){
 #' @importFrom dplyr as_tibble arrange
 #' @importFrom tidyr fill
 #' @importFrom rio import
+#' @export
 #' @return tibble
 filter_trainingexposed <- function(data, predicate){
 
