@@ -10,6 +10,10 @@ test_that("filter_site works", {
 
   # Check default action
   expect_output(filter_site(dt),"scanner with most data")
+  expect_output(filter_site(dt, keep = "ousAvanto"),"ousAvanto")
+  expect_output(filter_site(dt, keep = "ousSkyra"),"ousSkyra")
+  expect_output(filter_site(dt, keep = "ousPrisma"),"ousPrisma")
+
   expect_equal(filter_site(dt, quiet = TRUE),
                data.frame(
                  CrossProject_ID = rep("1000000", 5),
@@ -87,15 +91,20 @@ test_that("filter_site works", {
                  stringsAsFactors = FALSE
                ))
 
-  expect_equal(filter_site(dt, keep="ousSkyra",
+  # expect_equal(filter_site(dt, keep="ousPrisma",
+  #                          quiet = TRUE),
+  #              data.frame(
+  #                CrossProject_ID = "1000000",
+  #                Site_Name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),
+  #                Age = c(8, 10, 14, 17, 20),
+  #                Subject_Timepoint = c(1:5),
+  #                stringsAsFactors = FALSE
+  #              ))
+
+  expect_error(filter_site(dt,
+                           keep="something",
                            quiet = TRUE),
-               data.frame(
-                 CrossProject_ID = "1000000",
-                 Site_Name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),
-                 Age = c(8, 10, 14, 17, 20),
-                 Subject_Timepoint = c(1:5),
-                 stringsAsFactors = FALSE
-               ))
+               "Unrecognised option")
 
   expect_output(site_keeper(dt,
                             keep="ousSkyra",

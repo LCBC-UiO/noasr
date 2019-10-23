@@ -17,7 +17,7 @@
 #' in the genetic_match_file in the final output
 #'
 #' @return a tibble / data.frame
-#' @family pgs_get-functions
+#' @family pgs-functions
 #' @export
 #'
 #' @examples
@@ -111,7 +111,7 @@ pgs_get <- function(pgs = c("AD", "AD_Jansen"),
 #' @inheritParams pgs_get
 #'
 #' @return a tibble / data.frame
-#' @family pgs_get-functions
+#' @family pgs-functions
 #'
 #' @export
 #' @examples
@@ -163,7 +163,7 @@ pgs_get_all <- function(s_levels = paste0("S", 1:12),
 #' @return a tibble / data.frame
 #'
 #' @export
-#' @family pgs_add-functions
+#' @family pgs-functions
 #' @examples
 #' \dontrun{
 #'
@@ -207,7 +207,7 @@ pgs_add <- function(MOAS, pgs = NULL, s_levels = c("S1", "S7", "S11"),
 #' @inheritParams pgs_get
 #'
 #' @return a tibble / data.frame
-#' @family pgs_add-functions
+#' @family pgs-functions
 #' @export
 #' @examples
 #' \dontrun{
@@ -263,7 +263,7 @@ pgs_add_all <- function(MOAS = NULL,
 #' @inheritParams pgs_get
 #'
 #' @return a tibble / data.frame
-#' @family pgs_get-functions
+#' @family pgs-functions
 #' @export
 #'
 #' @examples
@@ -328,7 +328,7 @@ pgs_get_single <- function(pgs_file = character(),
 #' @inheritParams pgs_get_single
 #'
 #' @return a tibble / data.frame
-#' @family pgs_add-functions
+#' @family pgs-functions
 #' @export
 #' @examples
 #' \dontrun{
@@ -373,8 +373,9 @@ pgs_add_single <- function(MOAS = NULL,
 #' @param name Name of the PGS
 #'
 #' @importFrom utils read.table
-#' @return data frame
 #' @importFrom utils read.table
+#' @family pgs-functions
+#' @return data frame
 #' @export
 pgs_read <- function(path, name = NULL){
   pgs_data <- read.table(path, header = TRUE, stringsAsFactors = FALSE)

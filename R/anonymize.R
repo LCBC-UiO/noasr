@@ -24,15 +24,14 @@ mutate_sensitive <- function(data, scramble_ids = TRUE){
                      function(x) round(x, 0))
 
   if(scramble_ids){
-    ids <- dplyr::select(ret_dt, CrossProject_ID) %>%
-      dplyr::distinct() %>%
-      dplyr::mutate(CrossProject_ID2 = sample(1:nrow(.), replace = FALSE))
-
-    ret_dt <- left_join(ret_dt, ids, by="CrossProject_ID") %>%
-      dplyr::select(-CrossProject_ID) %>%
-      dplyr::rename(CrossProject_ID = CrossProject_ID2) %>%
-      dplyr::select(CrossProject_ID, dplyr::everything())
+    ret_dt <- ret_dt %>%
+      mutate(
+        CrossProject_ID = factor(CrossProject_ID,
+                                 labels = sample(1:length(unique(.$CrossProject_ID)),
+                                                 replace = FALSE)))
   }
+
+  ret_dt
 }
 
 
@@ -93,10 +92,12 @@ deselect_sensitive <- function(data){
 #' select_sensitive(dt)
 select_sensitive <- function(data){
   dplyr::select(data,
-                one_of(c("CrossProject_ID",
-                         "Site_BIDS",
-                         "Folder",
-                         "Project_Wave_ID")),
+                suppressWarnings(
+                  one_of(c("CrossProject_ID",
+                           "Site_BIDS",
+                           "Folder",
+                           "Project_Wave_ID"))
+                ),
 
                 # All freetext columns, may contain medical information
                 dplyr::contains("Comment"),
