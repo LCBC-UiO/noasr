@@ -13,6 +13,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://travis-ci.org/LCBC-UiO/MOAS.svg?branch=master)](https://travis-ci.org/LCBC-UiO/MOAS)
 [![Codecov test
 coverage](https://codecov.io/gh/LCBC-UiO/MOAS/branch/master/graph/badge.svg)](https://codecov.io/gh/LCBC-UiO/MOAS?branch=master)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/LCBC-UiO/MOAS?branch=master&svg=true)](https://ci.appveyor.com/project/LCBC-UiO/MOAS)
 <!-- badges: end -->
 
 The functions in this package are intended for use on the Mother of All

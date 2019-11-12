@@ -14,15 +14,16 @@ knitr::opts_chunk$set(
 ```
 # LCBC MOAS functions <img src="man/figures/hex.png" align="right" alt="" width="120" />
 <!-- badges: start --> 
-[![CircleCI build status](https://circleci.com/gh/LCBC-UiO/MOAS.svg)](https://circleci.com/gh/LCBC-UiO/MOAS)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build status](https://travis-ci.org/LCBC-UiO/MOAS.svg?branch=master)](https://travis-ci.org/LCBC-UiO/MOAS)
-[![Codecov test coverage](https://codecov.io/gh/LCBC-UiO/MOAS/branch/master/graph/badge.svg)](https://codecov.io/gh/LCBC-UiO/MOAS?branch=master)
+  [![CircleCI build status](https://circleci.com/gh/LCBC-UiO/MOAS.svg)](https://circleci.com/gh/LCBC-UiO/MOAS)
+  [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+  [![Travis build status](https://travis-ci.org/LCBC-UiO/MOAS.svg?branch=master)](https://travis-ci.org/LCBC-UiO/MOAS)
+  [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/LCBC-UiO/MOAS?branch=master&svg=true)](https://ci.appveyor.com/project/LCBC-UiO/MOAS)
+  [![Codecov test coverage](https://codecov.io/gh/LCBC-UiO/MOAS/branch/master/graph/badge.svg)](https://codecov.io/gh/LCBC-UiO/MOAS?branch=master)
 <!-- badges: end -->
 
 The functions in this package are intended for use on the Mother of All Spreadsheets (and related files) in LCBC. The functions will mostly not work on any other data, it is an in-house package of functions.
 
-The package can be installed using devtools:
+The package can be installed using remotes:
 
 ```{r eval=F}
 install.packages("remotes")
