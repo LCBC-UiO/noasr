@@ -43,7 +43,9 @@ pgs_add_single(
 }
 }
 \seealso{
-Other pgs_add-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add}}
+Other pgs-functions: \code{\link{pgs_add_all}},
+  \code{\link{pgs_add}}, \code{\link{pgs_get_all}},
+  \code{\link{pgs_get_single}}, \code{\link{pgs_get}},
+  \code{\link{pgs_read}}
 }
-\concept{pgs_add-functions}
+\concept{pgs-functions}

@@ -47,7 +47,9 @@ pgs_get_single( pgs_path = "path/to/PGS_wAPOE/",
 
 }
 \seealso{
-Other pgs_get-functions: \code{\link{pgs_get_all}},
-  \code{\link{pgs_get}}
+Other pgs-functions: \code{\link{pgs_add_all}},
+  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
+  \code{\link{pgs_get_all}}, \code{\link{pgs_get}},
+  \code{\link{pgs_read}}
 }
-\concept{pgs_get-functions}
+\concept{pgs-functions}

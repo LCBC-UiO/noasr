@@ -2,7 +2,7 @@
 #'
 #' \code{mutate_ages} Creates a dataframe where age and subject timepoint
 #' have been added to the data. Both MRI and Test age are calculated,
-#' and 'Age' is the mean between these two. If only of of MRI or Test
+#' and 'Age' is the mean between these two. If only one of MRI or Test
 #' age are present, this one is used for Age.
 #'
 #' @param data The MOAS or a MOAS generated file.
@@ -120,15 +120,13 @@ mutate_tp <- function(data){
 #' order the data in most likely chronological order.
 #'
 #'
-#' @param data
+#' @param data MOAS-like data
 #'
-#' @return
+#' @return data frame
 #' @export
 #'
 #' @importFrom dplyr group_by arrange filter mutate
 #' @importFrom dplyr summarise arrange
-#'
-#' @examples
 mutate_mean_date <- function(data){
 
   nec <- c("CrossProject_ID", "MRI_Date", "Test_Date", "Project_Wave", "Project_Name")
@@ -136,9 +134,6 @@ mutate_mean_date <- function(data){
   if(length(nec) > 0)
     stop(paste0("Necessary missing columns are missing from the data: ",
                 paste(nec, collase=", ")), call.=FALSE)
-
-
-
 
   # Create a single Date columns. with test-Date if MRI-date is missing
   data2 = mutate(data,
@@ -156,7 +151,8 @@ mutate_mean_date <- function(data){
 
   # Replace NA-dates in the data with the mean date for that project
   for (i in which(is.na(data2$Date))) {
-    idx = which(DATES$Project_Name %in% data2$Project_Name[i] & DATES$Project_Wave %in% data2$Project_Wave[i])
+    idx = which(DATES$Project_Name %in% data2$Project_Name[i] &
+                DATES$Project_Wave %in% data2$Project_Wave[i])
     data2$Date[i] = DATES$Dates[idx]
   }
 
@@ -187,6 +183,8 @@ if(getRversion() >= "2.15.1"){
                     "tt",
                     "Interval_LastVisit",
                     "row_number",
-                    "Subject_Timepoint"))
+                    "Subject_Timepoint",
+                    "mutate_dates", "data2",
+                    "data4"))
 }
 
