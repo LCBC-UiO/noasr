@@ -1,4 +1,4 @@
 name: LCBC letter
 description: >
    Letter template for LCBC
-create_dir: FALSE
+create_dir: TRUE
