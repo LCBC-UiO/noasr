@@ -35,6 +35,7 @@ Imports:
 Suggests: 
     knitr,
     tidyverse,
+    here,
     testthat (>= 2.1.0),
     rmarkdown,
     covr

@@ -1,0 +1,26 @@
+---
+size: 11pt
+draft: no
+head:
+    address: 'Postboks 1094, Blindern'
+    city: '0317 Oslo'
+    country: 'Norway'
+    phone: '\(\+47\) xxxxxx'
+    email: 'a.m.mowinckel@psykologi.uio.no'
+    dept: "Center for Lifespan Changes in Brain and Cognition, Dept. of Psychology"
+sig:
+ include: yes
+ sign: # path to image with your signature
+ name: 'Athanasia M. Mowinckel, PhD'
+ post: Staff Scientist
+---
+
+\today
+
+
+To whom it may concern,
+
+this is a letter. 
+Put in it what you like with standard Rmarkdown principles
+
+Sincierly

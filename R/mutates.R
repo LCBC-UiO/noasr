@@ -86,16 +86,23 @@ mutate_intervals <- function(data){
 }
 
 mutate_tp <- function(data){
+
+  nec <- c("CrossProject_ID", "Project_Wave", "Project_Name")
+  nec <- nec[! nec %in% names(data)]
+  if(length(nec) > 0)
+    stop(paste0("Necessary columns are missing from the data: ",
+                paste(nec, collase=", ")), call.=FALSE)
+
   # Calculate subject timepoint
   # There might be double/triple scanned
   # so standerd row_number might not be enough
-  data4 %>%
+  data %>%
     group_by(CrossProject_ID, Project_Wave, Project_Name) %>%
     mutate(tt = row_number(),
            tt = ifelse(tt==1, 1, 0)) %>%
     group_by(CrossProject_ID) %>%
     mutate(Subject_Timepoint = cumsum(tt)) %>%
-    select(-lagAge, -tt)
+    select(-tt)
 
 }
 
@@ -126,28 +133,33 @@ mutate_tp <- function(data){
 #' @export
 #'
 #' @importFrom dplyr group_by arrange filter mutate
-#' @importFrom dplyr summarise arrange
+#' @importFrom dplyr summarise arrange row_number
 mutate_mean_date <- function(data){
 
   nec <- c("CrossProject_ID", "MRI_Date", "Test_Date", "Project_Wave", "Project_Name")
   nec <- nec[! nec %in% names(data)]
   if(length(nec) > 0)
-    stop(paste0("Necessary missing columns are missing from the data: ",
+    stop(paste0("Necessary columns are missing from the data: ",
                 paste(nec, collase=", ")), call.=FALSE)
 
   # Create a single Date columns. with test-Date if MRI-date is missing
-  data2 = mutate(data,
-                 Date = as.Date(ifelse(!is.na(MRI_Date),
-                                       MRI_Date,
-                                       Test_Date),
-                                origin = "1970-01-01"))
+  data2 = data %>%
+    group_by(row_number()) %>%
+    mutate(Date = case_when(
+       !is.na(MRI_Date) & !is.na(Test_Date) ~ mean_date(MRI_Date, Test_Date),
+       !is.na(MRI_Date) & is.na(Test_Date) ~ MRI_Date,
+       is.na(MRI_Date) & !is.na(Test_Date) ~ Test_Date,
+    )
+  ) %>%
+    ungroup() %>%
+    select(-`row_number()`)
 
   # Calculate mean dates for all projects and project waves. For those participants we are missing Dates, so we may sort the
   # data chronologically This is a necessary workaround because of participants having participated across projects, and
   # subject timepoints need to be chronological, not by project.
   DATES = data2 %>%
     group_by(Project_Name, Project_Wave) %>%
-    summarise(Dates = mean.Date(Date, na.rm = T) )
+    summarise(Dates = mean.Date(Date, na.rm = TRUE) )
 
   # Replace NA-dates in the data with the mean date for that project
   for (i in which(is.na(data2$Date))) {
@@ -160,6 +172,18 @@ mutate_mean_date <- function(data){
   data2 %>%
     filter(!is.na(CrossProject_ID)) %>%
     arrange(CrossProject_ID, Date)
+}
+
+mean_date <- function(date1, date2){
+  diff <- abs(as.numeric(date1-date2)/2)
+
+  x <- ifelse(
+    date1 > date2,
+    date2 + diff,
+    date1 + diff
+  )
+
+  as.Date(x, origin = "1970-01-01")
 }
 
 ## quiets concerns of R CMD check
@@ -185,6 +209,6 @@ if(getRversion() >= "2.15.1"){
                     "row_number",
                     "Subject_Timepoint",
                     "mutate_dates", "data2",
-                    "data4"))
+                    "data4", "row_number()"))
 }
 

@@ -14,4 +14,16 @@ test_that("na_col_rm works", {
 })
 
 test_that("get_moas works", {
+
+  dt <- data.frame(ID = c(10:12),
+                   Age  = 22:24)
+
+  dt2 <- get_moas(dt)
+  expect_equal(dt, dt2)
+
+  ff <- paste0(here::here("test.RData"))
+  save(dt, file = ff)
+  dt2 <- get_moas(ff)
+  expect_equal(dt, dt2)
+  unlink(ff)
 })
