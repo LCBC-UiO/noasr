@@ -104,7 +104,7 @@ test_that("filter_site works", {
   expect_error(filter_site(dt,
                            keep="something",
                            quiet = TRUE),
-               "Unrecognised option")
+               "should be one of")
 
   expect_output(site_keeper(dt,
                             keep="ousSkyra",

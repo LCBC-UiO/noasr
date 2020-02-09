@@ -15,7 +15,7 @@
 #' \dontrun{
 #' check_tp(1000401, "LCBC/Projects/Cross_projecs/MOAS/MOAS.RData")
 #' }
-check_tp <- function(ID=NULL, MOAS = NULL){
+check_tp <- function(ID = NULL, MOAS = NULL){
 
   if(is.null(ID)){
     stop("I need an ID to look for.", call.=FALSE)
@@ -33,12 +33,12 @@ check_tp <- function(ID=NULL, MOAS = NULL){
     }
   }
 
-  MOAS <- get_moas(MOAS) %>%
-    select(CrossProject_ID, Project_Name, Project_Wave, Test_Date, Subject_Timepoint) %>%
-    distinct()
+  MOAS <- get_moas(MOAS)
+  MOAS <- dplyr::select(MOAS,
+                 CrossProject_ID, Project_Name, Project_Wave, Test_Date, Subject_Timepoint)
+  MOAS <- dplyr::distinct(MOAS)
 
-  t <- MOAS %>%
-    filter(CrossProject_ID %in% ID)
+  t <- dplyr::filter(MOAS, CrossProject_ID %in% ID)
 
   next_tp <- stringr::str_pad(round(max(t$Subject_Timepoint)+1,0), 2, 'left', '0')
   last_tp <- stringr::str_pad(round(max(t$Subject_Timepoint),0), 2, 'left', '0')

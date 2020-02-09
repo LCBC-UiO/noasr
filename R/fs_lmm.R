@@ -35,14 +35,6 @@
 #' site_keeper(MOAS, "ousSkyra")
 #' site_keeper(MOAS, "ousAvanto")
 #' }
-#'
-#' @importFrom dplyr filter mutate ungroup transmute select
-#' @importFrom dplyr one_of mutate_all funs group_by
-#' @importFrom dplyr summarise_all left_join first everything
-#' @importFrom stats na.omit
-#' @importFrom utils write.table
-#' @importFrom magrittr "%>%"
-#'
 #' @export
 
 fs_lmm = function(data,
@@ -84,50 +76,51 @@ fs_lmm = function(data,
     stop(paste0("Unrecognised option '",missing.action,"' for missing.action. Options are: 'mean','first','all','delete'"))
   }
 
-  data = cbind.data.frame(orig_data,N=1:nrow(orig_data))
+  data <- cbind.data.frame(orig_data,N=1:nrow(orig_data))
 
   # Decide which data to keep from double/triple scans
-  data = data %>% MOAS::filter_site(keep, quiet=T)
+  data <- MOAS::filter_site(data, keep, quiet=T)
 
-  data = data %>% dplyr::filter(!is.na(get(dt)))
+  data <- dplyr::filter(data, !is.na(get(dt)))
 
-  data = data %>%
-    dplyr::mutate_at(dplyr::vars(Folder,Site_Number,Site_Name),
-                     dplyr::all_vars(as.character(.))) %>%
-    dplyr::ungroup()
+  data <- dplyr::mutate_at(data,
+                         dplyr::vars(Folder,Site_Number,Site_Name),
+                         dplyr::all_vars(as.character(.)))
+  data <- dplyr::ungroup(data)
+
   names(data)[grep("CrossProject_ID",names(data))] = "ID"
 
-  FS_data = data %>%
-    dplyr::transmute(N=N,
+  FS_data <- dplyr::transmute(data, N=N,
                      fsid=as.character(Folder),
                      ID=ID,
-                     time=Interval_FirstVisit) %>%
-    stats::na.omit()
+                     time=Interval_FirstVisit)
+  FS_data <- stats::na.omit(FS_data)
 
   # Remove omitted rows above in the incoming data. For merging purposes
-  data = data %>% dplyr::filter(N %in% FS_data$N)
+  data<- dplyr::filter(data, N %in% FS_data$N)
 
   # Get the grouping.var data, and create one column with them pasted into eachother. Reduce factor levels to only the present ones
-  GROUPS = data %>%
-    dplyr::select(ID,N,dplyr::one_of(grouping.var)) %>%
-    dplyr::mutate_all(dplyr::funs(factor)) %>%
-    stats::na.omit()
+  GROUPS <- dplyr::select(data, ID,N,dplyr::one_of(grouping.var))
+  GROUPS <- dplyr::mutate_all(GROUPS, dplyr::funs(factor))
+  GROUPS<- stats::na.omit(GROUPS)
 
-  #Create model.matrix (GLM) for the group variables
+  # Create model.matrix (GLM) for the group variables
   Group.matrix = eval(parse(text=paste("model.matrix(~ ",paste(grouping.var, collapse="+"),",data=GROUPS)"))) %>% as.data.frame()
-  tmp=names(Group.matrix)[-1]; Group.matrix = Group.matrix[,-1] %>% as.data.frame()
+  tmp = names(Group.matrix)[-1];
+  Group.matrix = as.data.frame(Group.matrix[,-1])
+
   for(i in 1:length(grouping.var)){
     names(Group.matrix) = gsub(grouping.var[i], paste("1.",grouping.var[i],":",sep=""), tmp)
     tmp = names(Group.matrix)
   }
 
   #Remove correspinding rows in the data frames
-  FS_data = FS_data %>% dplyr::filter(N %in% GROUPS$N);
-  data = data %>% dplyr::filter(N %in% GROUPS$N)
-  GROUPS = GROUPS %>% dplyr::select(-N, -ID)
+  FS_data <- dplyr::filter(FS_data, N %in% GROUPS$N);
+  data <- dplyr::filter(data, N %in% GROUPS$N)
+  GROUPS <- dplyr::select(GROUPS, -N, -ID)
 
   # Get the numerical data
-  NUMERIC = data %>% dplyr::select(dplyr::one_of(numeric.var))
+  NUMERIC = dplyr::select(data, dplyr::one_of(numeric.var))
 
   #Combine the Four matrices
   FS_data = cbind.data.frame(FS_data,GROUPS,Group.matrix,NUMERIC)
@@ -228,5 +221,6 @@ if(getRversion() >= "2.15.1"){
                            "Age",
                            "Age_orig",
                            "fsid",
-                           "fsid-base"))
+                           "fsid-base",
+                           "time"))
 }

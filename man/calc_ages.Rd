@@ -25,5 +25,4 @@ intervall between timepoints.
 \dontrun{
 calc_ages(data)
 }
-
 }

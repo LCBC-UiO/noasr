@@ -63,21 +63,22 @@ inbody_get <- function(path,
   }
 
   data <- inbody_read(path) %>%
-    mutate(
+    dplyr::mutate(
       Test_Date_Time = strptime(Test_Date_Time, format="%m.%d.%Y %H:%M:%S") %>% as.POSIXct(),
       Date = as.character(as.Date(Test_Date_Time)),
       Time = substr(Test_Date_Time, start=12, stop=19),
-      TimeOfDay = factor_times(Time)) %>%
-    select(-one_of(c("Test_Date_Time")))
+      #TimeOfDay = factor_times(Time)
+      ) %>%
+    dplyr::select(-dplyr::one_of(c("Test_Date_Time")))
 
-  if(!keep.limits) data <- select(data, -contains("Limit"))
-  if(!keep.kHz) data <- select(data, -contains("kHz"))
-  if(!keep.partials) data <- select(data, -contains("_of_"))
-  if(!keep.indices) data <- select(data, -contains("Index"),
-                                   -contains("Level"), -contains("Score"))
+  if(!keep.limits) data <- dplyr::select(data, -dplyr::contains("Limit"))
+  if(!keep.kHz) data <- dplyr::select(data, -dplyr::contains("kHz"))
+  if(!keep.partials) data <- dplyr::select(data, -dplyr::contains("_of_"))
+  if(!keep.indices) data <- dplyr::select(data, -dplyr::contains("Index"),
+                                   -dplyr::contains("Level"), -dplyr::contains("Score"))
 
   data %>%
-    rename_at(vars(-1:-3), function(x) paste0("InBody_", x)) %>%
+    dplyr::rename_at(dplyr::vars(-1:-3), function(x) paste0("InBody_", x)) %>%
     na_col_rm()
 }
 
@@ -106,7 +107,7 @@ inbody_get_all <- function(path, ...){
 
   suppressMessages(
     suppressWarnings(
-      data <- map(lfiles, function(x) inbody_get(x, ...))
+      data <- purrr::map(lfiles, function(x) inbody_get(x, ...))
     )
   )
 
@@ -156,12 +157,12 @@ inbody_add <- function(data, path, suffix = ".x", ...){
 that are the same. Names in the original data are suffixed with", suffix))
     cat("\n")
     data <- data %>%
-      rename_at(vars(one_of(cln)), function(x) paste0(x, ".x"))
+      dplyr::rename_at(dplyr::vars(dplyr::one_of(cln)), function(x) paste0(x, ".x"))
   }
 
   data %>%
-    mutate(CrossProject_ID = as.numeric(CrossProject_ID)) %>%
-    left_join(bd)
+    dplyr::mutate(CrossProject_ID = as.numeric(CrossProject_ID)) %>%
+    dplyr::left_join(bd)
 }
 
 #' Add all InBody data from folder to data
@@ -174,9 +175,6 @@ that are the same. Names in the original data are suffixed with", suffix))
 #'
 #' @return data frame
 #' @export
-#' @importFrom dplyr rename_at vars one_of mutate select left_join
-#' @importFrom magrittr '%>%'
-#' @importFrom crayon yellow
 #' @examples
 #' \dontrun{
 #'
@@ -199,22 +197,22 @@ inbody_add_all <- function(data, path, suffix = ".x", ...){
 that are the same. Names in the original data are suffixed with", suffix))
     cat("\n")
     data <- data %>%
-      rename_at(vars(one_of(cln)), function(x) paste0(x, ".x"))
+      dplyr::rename_at(dplyr::vars(dplyr::one_of(cln)), function(x) paste0(x, ".x"))
   }
 
   data %>%
-    mutate(CrossProject_ID = as.numeric(CrossProject_ID)) %>%
-    left_join(bd)
+    dplyr::mutate(CrossProject_ID = as.numeric(CrossProject_ID)) %>%
+    dplyr::left_join(bd)
 }
 
 # Helpers ----
 #' @importFrom stringr str_replace str_remove str_replace_all str_remove_all str_replace_all
 inbody_clean_names <- function(data){
-  names(data) <- str_replace(names(data), "[0-9]. ", "_") %>%
-    str_remove(".*_") %>%
-    str_replace_all("%", "pc") %>%
-    str_remove_all("[[:punct:]]") %>%
-    str_replace_all("  | ", "_")
+  names(data) <- stringr::str_replace(names(data), "[0-9]. ", "_") %>%
+    stringr::str_remove(".*_") %>%
+    stringr::str_replace_all("%", "pc") %>%
+    stringr::str_remove_all("[[:punct:]]") %>%
+    stringr::str_replace_all("  | ", "_")
   data
 }
 
@@ -224,10 +222,10 @@ inbody_split_ID <- function(data){
 
   # Old files have only Wave and Number, add Project_
   if("Wave" %in% names(data)){
-    data <- rename_at(data, vars(Wave, Number),
+    data <- dplyr::rename_at(data, dplyr::vars(Wave, Number),
                       function(x) paste0("Project_", x)) %>%
-      mutate(ID = parse_number(ID)) %>%
-      rename(CrossProject_ID = ID)
+      dplyr::mutate(ID = readr::parse_number(ID)) %>%
+      dplyr::rename(CrossProject_ID = ID)
   }
 
 
@@ -235,19 +233,19 @@ inbody_split_ID <- function(data){
   # split ID to what we expect
   if(!"Project_Number" %in% names(data)){
     suppressWarnings(
-      data <- mutate(data, ID = str_remove(ID, "<|>")) %>%
-        separate(ID, c("CrossProject_ID", "Project_Number", "Project_Wave"))
+      data <- dplyr::mutate(data, ID = stringr::str_remove(ID, "<|>")) %>%
+        tidyr::separate(ID, c("CrossProject_ID", "Project_Number", "Project_Wave"))
     )
 
     if(any(is.na(data$Project_Wave ))){
       cat(crayon::red("Some InBody data does not have correct ID column in the raw data\n"))
       cat(crayon::red("Raw data needs additions to become '<xxxxxxx.yy.zz>' \n"))
-      print(filter(data, is.na(Project_Wave)) %>% select(1:5))
+      print(dplyr::filter(data, is.na(Project_Wave)) %>% dplyr::select(1:5))
     }
   }
 
-  mutate_at(data,
-            vars(CrossProject_ID, Project_Number, Project_Wave), as.integer)
+  dplyr::mutate_at(data,
+            dplyr::vars(CrossProject_ID, Project_Number, Project_Wave), as.integer)
 }
 
 # read in unaltered inbody data
@@ -259,7 +257,7 @@ inbody_read_raw <- function(path){
 
 # read in pre-cleaned inbody data
 inbody_read_cleaned <- function(path){
-  x <- read_csv2(path, col_types = readr::cols())
+  x <- readr::read_csv2(path, col_types = readr::cols())
   x <- inbody_clean_names(x)
   inbody_split_ID(x)
 }
@@ -267,7 +265,7 @@ inbody_read_cleaned <- function(path){
 
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
-  globalVariables(c(
+  utils::globalVariables(c(
     "Test_Date_Time",
     "Time", "read_csv2",
     "Wave", "Number"

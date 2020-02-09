@@ -16,10 +16,6 @@
 #' fix_dups(data, suffix="YY")
 #' }
 #'
-#' @importFrom dplyr mutate_ select matches
-#' @importFrom purrr is_empty
-#' @importFrom magrittr "%>%"
-#'
 #' @export
 fix_dups = function(data, suffix, remove = T){
 
@@ -31,15 +27,14 @@ fix_dups = function(data, suffix, remove = T){
     nmSuff = names(data)[i]
     #print(nm);print(nmSuff)
 
-    if(!grep(paste0("^",nm,"$"), names(data)) %>% purrr::is_empty()){
+    if(purrr::is_empty(!grep(paste0("^",nm,"$"), names(data)))){
 
       idx = which(is.na(data[,nm]))
-      
+
       data[idx,nm] = data[idx,nmSuff]
 
-      if(grepl("_Date", nm) & !class(data[,nm] %>% unlist()) %in% "character"){
-        data[,nm] = as.Date(data[,nm], origin="1970-01-01") %>%
-          as.character()
+      if(grepl("_Date", nm) & !class(unlist(data[,nm])) %in% "character"){
+        data[,nm] = as.character(as.Date(data[,nm], origin="1970-01-01"))
       }
     }else{
       names(data)[i] = gsub(suff, "", names(data)[i] )
@@ -47,8 +42,7 @@ fix_dups = function(data, suffix, remove = T){
   }
 
   if(remove){
-    data %>%
-      dplyr::select(-dplyr::matches(suff))
+    dplyr::select(data, -dplyr::matches(suff))
   }else{
     data
   }

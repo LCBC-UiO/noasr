@@ -4,9 +4,13 @@
 \alias{pgs_get_single}
 \title{Read in and sort a single PGS profile}
 \usage{
-pgs_get_single(pgs_file = character(),
-  genetic_match_file = character(), include_cnt = FALSE,
-  include_pheno = FALSE, include_genetic_debug = FALSE)
+pgs_get_single(
+  pgs_file = character(),
+  genetic_match_file = character(),
+  include_cnt = FALSE,
+  include_pheno = FALSE,
+  include_genetic_debug = FALSE
+)
 }
 \arguments{
 \item{pgs_file}{path to PGS.profile}
@@ -47,9 +51,12 @@ pgs_get_single( pgs_path = "path/to/PGS_wAPOE/",
 
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}, \code{\link{pgs_get}},
-  \code{\link{pgs_read}}
+Other pgs-functions: 
+\code{\link{pgs_add_all}()},
+\code{\link{pgs_add_single}()},
+\code{\link{pgs_add}()},
+\code{\link{pgs_get_all}()},
+\code{\link{pgs_get}()},
+\code{\link{pgs_read}()}
 }
 \concept{pgs-functions}

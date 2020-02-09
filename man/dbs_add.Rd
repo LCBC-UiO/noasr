@@ -4,8 +4,7 @@
 \alias{dbs_add}
 \title{Add DBS data to data frame}
 \usage{
-dbs_add(data, file_path,
-  match_file = "data-raw/Blood_data/DBS_MOAS_match.tsv")
+dbs_add(data, file_path, match_file = "data-raw/Blood_data/DBS_MOAS_match.tsv")
 }
 \arguments{
 \item{data}{a MOAs--like data frame the data should be added

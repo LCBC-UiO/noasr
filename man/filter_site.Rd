@@ -4,8 +4,13 @@
 \alias{filter_site}
 \title{Utility function for reducing double/triple scans to a single row}
 \usage{
-filter_site(data, keep = "long", tie = "interval",
-  site_order = c("ousPrisma", "ousSkyra", "ousAvanto"), quiet = F)
+filter_site(
+  data,
+  keep = "long",
+  tie = "interval",
+  site_order = c("ousPrisma", "ousSkyra", "ousAvanto"),
+  quiet = F
+)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}

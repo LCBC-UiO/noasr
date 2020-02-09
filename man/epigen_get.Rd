@@ -4,9 +4,11 @@
 \alias{epigen_get}
 \title{Get epigenetic data}
 \usage{
-epigen_get(file_path,
+epigen_get(
+  file_path,
   match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
-  debug = FALSE)
+  debug = FALSE
+)
 }
 \arguments{
 \item{file_path}{path to excel file containing epigenetic
@@ -22,9 +24,11 @@ Defaults to FALSE}
 Get epigenetic data
 }
 \seealso{
-Other epigen-functions: \code{\link{epigen_add}}
+Other epigen-functions: 
+\code{\link{epigen_add}()}
 
-Other MOAS get-functions: \code{\link{dbs_get}}
+Other MOAS get-functions: 
+\code{\link{dbs_get}()}
 }
 \concept{MOAS get-functions}
 \concept{epigen-functions}

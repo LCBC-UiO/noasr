@@ -7,43 +7,8 @@
 site_keeper(...)
 }
 \arguments{
-\item{...}{arguments to filter_site}
-}
-\value{
-A MOAS type file with one line per subject and timepoint.
+\item{...}{arguments to \code{\link{filter_site}}}
 }
 \description{
-returns a MOAS data.frame with one row per
-participant and timepoint (i.e. removes double/triple scan entries).
-For analyses not intending to use the power of double/triple scans,
-or for data which will be widened and scanner type/site is not of
-interest.
-Only subject timepoints that have several entries
-(i.e. several scan sites),
-will be reduced. All timepoints will be retained.
-}
-\details{
-Available options for 'keep' are:
-\itemize{
- \item{"long"}{keep data from scanner with most data (default)}
- \item{"ousAvanto"}{keep 'ousAvanto'}
- \item{"ousSkyra"}{keep 'ousSkyra'}
- \item{"ousPrisma"}{'ousPrisma'}
-}
-
-Available options for 'tie' are:
-\itemize{
- \item{"interval"}{keep data from scanner with longest data interval (default)}
- \item{"ousAvanto"}{keep 'ousAvanto'}
- \item{"ousSkyra"}{keep 'ousSkyra'}
- \item{"ousPrisma"}{'ousPrisma'}
-}
-}
-\examples{
-\dontrun{
-filter_site(MOAS)
-filter_site(MOAS, 'ousSkyra')
-filter_site(MOAS, 'ousAvanto')
-}
-
+Deprecated, use filter_site
 }

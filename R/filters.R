@@ -42,10 +42,6 @@
 #' filter_site(MOAS, 'ousAvanto')
 #' }
 #'
-#' @importFrom dplyr group_by add_tally ungroup filter select mutate slice
-#' @importFrom stringr str_split
-#' @importFrom magrittr "%>%"
-#'
 #' @export
 filter_site = function(data,
                        keep = "long",
@@ -53,10 +49,7 @@ filter_site = function(data,
                        site_order = c("ousPrisma", "ousSkyra", "ousAvanto"),
                        quiet = F) {
 
-  if(any(!keep %in% c("long","ousAvanto","ousSkyra","ousPrisma"))){
-    stop(paste0("Unrecognised option '",keep,"' for keep. Options are: 'long','ousAvanto','ousSkyra','ousPrisma'"),
-         call. = FALSE)
-  }
+  keep <- match.arg(keep, c("long","ousAvanto","ousSkyra","ousPrisma"))
 
   if(!quiet){
     switch(keep,
@@ -75,44 +68,41 @@ filter_site = function(data,
       stopifnot("Age" %in% names(data2))
 
       # Find those with longest interval
-      data2 <- data2 %>%
-        group_by(CrossProject_ID, Site_Name) %>%
-        mutate(interval = Age-min(Age)) %>%
-        mutate(n = max(interval)) %>%
-        group_by(CrossProject_ID) %>%
-        mutate(dups = ifelse( dup & n == max(n), TRUE, FALSE),
-               dup2 = ifelse(dup == dups, TRUE, FALSE)) %>%
-        filter(dup2) %>%
-        select(-interval)
+      data2 <- group_by(data2, CrossProject_ID, Site_Name)
+      data2 <- dplyr::mutate(data2, interval = Age-min(Age))
+      data2 <- dplyr::mutate(data2, n = max(interval))
+      data2 <- dplyr::group_by(data2, CrossProject_ID)
+      data2 <- dplyr::mutate(data2,
+                             dups = ifelse( dup & n == max(n), TRUE, FALSE),
+                             dup2 = ifelse(dup == dups, TRUE, FALSE))
+      data2 <- dplyr::filter(data2, dup2)
+      data2 <- dplyr::select(data2, -interval)
 
       # If there still are ties, keep scanner according
       # to the site_order vector
-      data2 <- data2 %>%
-        mutate(site = factor(Site_Name, levels = site_order)) %>%
-        arrange(CrossProject_ID, Subject_Timepoint, site) %>%
-        filter(!duplicated(Subject_Timepoint)) %>%
-        select(-dups, -dup2, -dup, -n, -site)
+      data2 <- dplyr::mutate(data2, site = factor(Site_Name, levels = site_order))
+      data2 <- dplyr::arrange(data2, CrossProject_ID, Subject_Timepoint, site)
+      data2 <- dplyr::filter(data2, !duplicated(Subject_Timepoint))
+      data2 <- dplyr::select(data2, -dups, -dup2, -dup, -n, -site)
 
     }else{
-      data2 <- data2 %>%
-        mutate(dup = ifelse(dup & Site_Name != tie, FALSE, TRUE)) %>%
-        filter( dup) %>%
-        select(-dup)
+      data2 <- dplyr::mutate(data2,
+                             dup = ifelse(dup & Site_Name != tie, FALSE, TRUE))
+      data2 <- dplyr::filter(data2, dup)
+      data2 <- dplyr::select(data2, -dup)
     }
 
   }else{
     data2 <- find_scanner(data, keep)
   }
 
-  data2 %>%
-    dplyr::ungroup() %>%
-    dplyr::as_tibble()
+  data2 <- dplyr::ungroup(data2)
+  dplyr::as_tibble(data2)
 }
 
 #' Deprecated, use filter_site
 #'
-#' @param ... arguments to filter_site
-#' @inherit filter_site
+#' @param ... arguments to \code{\link{filter_site}}
 #' @export
 site_keeper <- function(...){
   cat(crayon::red("site_keeper will be deprecated in future versions, please use filter_site instead\n"))
@@ -132,10 +122,6 @@ site_keeper <- function(...){
 #' @param predicate a logical statement to identify
 #' rows of data under memory experimentation
 #'
-#' @importFrom dplyr case_when rename_at starts_with
-#' @importFrom dplyr as_tibble arrange
-#' @importFrom tidyr fill
-#' @importFrom rio import
 #' @export
 #' @return tibble
 #' @examples
@@ -155,46 +141,49 @@ filter_trainingexposed <- function(data, predicate){
          call. = FALSE)
 
 
-  data %>%
-    group_by(CrossProject_ID) %>%
-    arrange(Age) %>%
-    mutate(TrainExposed = case_when(
-      !duplicated(CrossProject_ID) ~ 0,  #set so that first obvservation always is without training exposure
-      {{predicate}} ~ 1 #set all fulfilling the predicate to be training exposed
-    )
-    ) %>%
-    fill(TrainExposed) %>%  # Will, per participant, fill inn the NA with the previous non NA value in a row-sequential manner
-    mutate(TrainExposed = ifelse(is.na(TrainExposed), 0, TrainExposed)) %>% # in case subsetting ruins the wranling
-    filter(TrainExposed != 1) %>%
-    ungroup() %>%
-    select(-TrainExposed) %>%
-    as_tibble()
+  data <- dplyr::group_by(data, CrossProject_ID)
+  data <- dplyr::arrange(data, Age)
+  data <- dplyr::mutate(data,
+                        TrainExposed = dplyr::case_when(
+                          !duplicated(CrossProject_ID) ~ 0,  #set so that first obvservation always is without training exposure
+                          {{predicate}} ~ 1 #set all fulfilling the predicate to be training exposed
+                        )
+  )
+  data <- tidyr::fill(data, TrainExposed) # Will, per participant, fill inn the NA with the previous non NA value in a row-sequential manner
+  data <- dplyr::mutate(data,
+                        TrainExposed = ifelse(is.na(TrainExposed),
+                                              0,
+                                              TrainExposed)) # in case subsetting ruins the wranling
+  data <- dplyr::filter(data, TrainExposed != 1)
+  data <- dplyr::ungroup(data)
+  data <- dplyr::select(data, -TrainExposed)
+  dplyr::as_tibble(data)
 }
 
 
 # helpers ----
 find_long <- function(data){
-  data %>%
-    dplyr::group_by(CrossProject_ID, Site_Name) %>%
-    dplyr::mutate(n_scans_at_site = dplyr::n()) %>%
-    dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
-    dplyr::mutate(n_replicates_at_tp = dplyr::n()) %>%
-    dplyr::group_by(CrossProject_ID) %>%
-    dplyr::filter(n_replicates_at_tp == 1 |
-                    (n_replicates_at_tp > 1 & n_scans_at_site == max(n_scans_at_site))) %>%
-    dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
-    dplyr::mutate(dup = dplyr::n() > 1) %>%
-    dplyr::select(-n_replicates_at_tp, -n_scans_at_site)
+  data <- dplyr::group_by(data, CrossProject_ID, Site_Name)
+  data <- dplyr::mutate(data, n_scans_at_site = dplyr::n())
+  data <- dplyr::group_by(data, CrossProject_ID, Subject_Timepoint)
+  data <- dplyr::mutate(data, n_replicates_at_tp = dplyr::n())
+  data <- dplyr::group_by(data, CrossProject_ID)
+  data <- dplyr::filter(data,
+                        n_replicates_at_tp == 1 |
+                          (n_replicates_at_tp > 1 & n_scans_at_site == max(n_scans_at_site)))
+  data <- dplyr::group_by(data, CrossProject_ID, Subject_Timepoint)
+  data <- dplyr::mutate(data, dup = dplyr::n() > 1)
+  dplyr::select(data, -n_replicates_at_tp, -n_scans_at_site)
 }
 
 find_scanner <- function(data, keep){
-  data %>%
-    dplyr::group_by(CrossProject_ID, Subject_Timepoint) %>%
-    dplyr::add_tally() %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F))) %>%
-    dplyr::filter(Keep) %>%
-    dplyr::select(-n, -Keep)
+  data <- dplyr::group_by(data, CrossProject_ID, Subject_Timepoint)
+  data <- dplyr::add_tally(data)
+  data <- dplyr::ungroup(data)
+  data <- dplyr::mutate(data, Keep=ifelse(n==1,T, ifelse(Site_Name %in% keep, T, F)))
+  data <- dplyr::filter(data, Keep)
+
+  dplyr::select(data, -n, -Keep)
 }
 
 ## quiets concerns of R CMD check

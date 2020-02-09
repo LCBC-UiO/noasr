@@ -4,9 +4,12 @@
 \alias{epigen_add}
 \title{Add epigenetic data to MOAS like data}
 \usage{
-epigen_add(MOAS, file_path,
+epigen_add(
+  MOAS,
+  file_path,
   match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
-  debug = FALSE)
+  debug = FALSE
+)
 }
 \arguments{
 \item{MOAS}{A MOAS-derived data frame you want data added to}
@@ -24,7 +27,8 @@ Defaults to FALSE}
 Add epigenetic data to MOAS like data
 }
 \seealso{
-Other epigen-functions: \code{\link{epigen_get}}
+Other epigen-functions: 
+\code{\link{epigen_get}()}
 }
 \concept{MOAS add-functions}
 \concept{epigen-functions}

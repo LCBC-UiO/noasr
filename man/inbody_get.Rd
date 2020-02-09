@@ -4,8 +4,13 @@
 \alias{inbody_get}
 \title{Get InBody data}
 \usage{
-inbody_get(path, keep.limits = FALSE, keep.kHz = FALSE,
-  keep.partials = FALSE, keep.indices = FALSE)
+inbody_get(
+  path,
+  keep.limits = FALSE,
+  keep.kHz = FALSE,
+  keep.partials = FALSE,
+  keep.indices = FALSE
+)
 }
 \arguments{
 \item{path}{path to file}

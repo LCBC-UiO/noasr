@@ -78,7 +78,7 @@ widen = function(data, by, keep=NULL){
     # Merge wave and project together to spread it, or else will fail with multi-project participants
     if(by == "Project_Wave"){
       DATA <- DATA %>%
-        unite(Project_Wave, c(Project_Name, Project_Wave), sep=".")
+        tidyr::unite(Project_Wave, c(Project_Name, Project_Wave), sep=".")
     }else{
       DATA <- data
     }
@@ -128,7 +128,7 @@ widen = function(data, by, keep=NULL){
       rrr <- grab_error_slice(DATA3)
 
       print(DATA4 %>%
-        slice(rrr))
+        dplyr::slice(rrr))
 
       stop("There are duplicate entries. check the output above.")
     }
@@ -177,7 +177,7 @@ widen = function(data, by, keep=NULL){
       rrr <- grab_error_slice(DATA4)
 
       print(DATA2 %>%
-              slice(rrr))
+              dplyr::slice(rrr))
 
       stop("There are duplicate entries. check the output above.")
     }
@@ -199,6 +199,22 @@ widen = function(data, by, keep=NULL){
     na_col_rm()
 }
 
+safely_spread <- purrr::safely(tidyr::spread)
+
+grab_error_slice <-   function(data){
+  t <- data$error$message %>%
+    as.character() %>%
+    stringr::str_split(":")
+
+    gsub("[[:alpha:]]|[[:punct:]]", "", t[[1]][2]) %>%
+    stringr::str_split("\\\n| ") %>%
+    unlist() %>%
+    as.numeric() %>%
+    stats::na.omit() %>%
+    as.numeric()
+}
+
+
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
   utils::globalVariables(c("variable",
@@ -210,19 +226,4 @@ if(getRversion() >= "2.15.1"){
                            "n",
                            "Subject_Timepoint",
                            "N_Scans"))
-}
-
-safely_spread <- purrr::safely(spread)
-
-grab_error_slice <-   function(data){
-  t <- data$error$message %>%
-    as.character() %>%
-    str_split(":")
-
-    gsub("[[:alpha:]]|[[:punct:]]", "", t[[1]][2]) %>%
-    str_split("\\\n| ") %>%
-    unlist() %>%
-    as.numeric() %>%
-    na.omit() %>%
-    as.numeric()
 }

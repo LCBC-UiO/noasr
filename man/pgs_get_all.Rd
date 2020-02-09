@@ -4,9 +4,13 @@
 \alias{pgs_get_all}
 \title{Get all PGS's}
 \usage{
-pgs_get_all(s_levels = paste0("S", 1:12), pgs_path = NULL,
-  genetic_match_file = NULL, include_cnt = FALSE,
-  include_genetic_debug = FALSE)
+pgs_get_all(
+  s_levels = paste0("S", 1:12),
+  pgs_path = NULL,
+  genetic_match_file = NULL,
+  include_cnt = FALSE,
+  include_genetic_debug = FALSE
+)
 }
 \arguments{
 \item{s_levels}{character vector of the significance levels wanted}
@@ -44,9 +48,12 @@ pgs_get_all(
 }
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_single}}, \code{\link{pgs_get}},
-  \code{\link{pgs_read}}
+Other pgs-functions: 
+\code{\link{pgs_add_all}()},
+\code{\link{pgs_add_single}()},
+\code{\link{pgs_add}()},
+\code{\link{pgs_get_single}()},
+\code{\link{pgs_get}()},
+\code{\link{pgs_read}()}
 }
 \concept{pgs-functions}

@@ -208,26 +208,6 @@ This particularly convenient if you have subsetted the rows of data to specific 
 data2 = data %>% filter(Project_Name %in% "NCP") %>% na_col_rm()
 ```
 
-#### The `factor_times()` function {#factor_times} 
-If you have a vector of "HH:MM" time specification, it might be convenient to create a factor of what time of day this would be. 
-`factor_times()` takes a character vector, and produces a new carachte vector with up to four levels:  
-- Morning  
-- Afternoon  
-- Evening  
-- Night  
 
-```{r "factor_times", eval=T, warning=F}
-times_hhmm = c("22:40","19:30","08:21","02:47","11:45","13:12")
-factor_times(times_hhmm)
-```
-
-#### The `calc_hour()` function {#calc_hour} 
-If you have a vector of "HH:MM" time specification, it might be convenient to create a factor of what time of day this would be. 
-`calc_hour()` takes a character time vector, a numeric vector of decimal hours.
-
-```{r "calc_hour", eval=T, warning=F}
-times_hhmm = c("22:40","19:30","08:21","02:47","11:45","13:12")
-calc_hour(times_hhmm)
-```
 
 

@@ -4,10 +4,15 @@
 \alias{pgs_get}
 \title{Read in and sort PGS data}
 \usage{
-pgs_get(pgs = c("AD", "AD_Jansen"), s_levels = c("S1", "S7", "S11"),
-  pgs_path = character(), genetic_match_file = character(),
-  include_cnt = FALSE, include_pheno = FALSE,
-  include_genetic_debug = FALSE)
+pgs_get(
+  pgs = c("AD", "AD_Jansen"),
+  s_levels = c("S1", "S7", "S11"),
+  pgs_path = character(),
+  genetic_match_file = character(),
+  include_cnt = FALSE,
+  include_pheno = FALSE,
+  include_genetic_debug = FALSE
+)
 }
 \arguments{
 \item{pgs}{character vector of the PGS wanted}
@@ -58,9 +63,12 @@ pgs_get( pgs = character(),
 
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add_single}}, \code{\link{pgs_add}},
-  \code{\link{pgs_get_all}}, \code{\link{pgs_get_single}},
-  \code{\link{pgs_read}}
+Other pgs-functions: 
+\code{\link{pgs_add_all}()},
+\code{\link{pgs_add_single}()},
+\code{\link{pgs_add}()},
+\code{\link{pgs_get_all}()},
+\code{\link{pgs_get_single}()},
+\code{\link{pgs_read}()}
 }
 \concept{pgs-functions}

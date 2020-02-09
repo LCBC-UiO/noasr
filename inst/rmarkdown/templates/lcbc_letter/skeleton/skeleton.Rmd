@@ -13,7 +13,10 @@ sig:
  sign: # path to image with your signature
  name: 'Athanasia M. Mowinckel, PhD'
  post: Staff Scientist
-output: MOAS::lcbc_letter
+output:
+  pdf_document:
+    template: tempalte.tex
+
 ---
 
 \today

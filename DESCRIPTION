@@ -5,7 +5,7 @@ Authors@R: person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.
 Description: Functions created to work well with LCBC's Mother of All Spreadsheet data.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 LazyData: true
 Depends: R (>= 2.10)
 Imports: 
@@ -18,6 +18,7 @@ Imports:
     tidyr,
     plotly,
     Cairo,
+    png, 
     rio,
     svglite,
     DT,
@@ -31,7 +32,9 @@ Imports:
     crayon,
     pbapply,
     readr,
-    rstudioapi
+    rstudioapi,
+    ggplot2,
+    grDevices
 Suggests: 
     knitr,
     tidyverse,

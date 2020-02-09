@@ -4,9 +4,13 @@
 \alias{pgs_add_single}
 \title{Add single PGS data to the MOAS}
 \usage{
-pgs_add_single(MOAS = NULL, pgs_file = character(),
-  genetic_match_file = character(), include_cnt = FALSE,
-  include_genetic_debug = FALSE)
+pgs_add_single(
+  MOAS = NULL,
+  pgs_file = character(),
+  genetic_match_file = character(),
+  include_cnt = FALSE,
+  include_genetic_debug = FALSE
+)
 }
 \arguments{
 \item{MOAS}{data.frame of the full MOAS or MOAS sub-set}
@@ -43,9 +47,12 @@ pgs_add_single(
 }
 }
 \seealso{
-Other pgs-functions: \code{\link{pgs_add_all}},
-  \code{\link{pgs_add}}, \code{\link{pgs_get_all}},
-  \code{\link{pgs_get_single}}, \code{\link{pgs_get}},
-  \code{\link{pgs_read}}
+Other pgs-functions: 
+\code{\link{pgs_add_all}()},
+\code{\link{pgs_add}()},
+\code{\link{pgs_get_all}()},
+\code{\link{pgs_get_single}()},
+\code{\link{pgs_get}()},
+\code{\link{pgs_read}()}
 }
 \concept{pgs-functions}

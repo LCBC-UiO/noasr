@@ -14,21 +14,17 @@
 #'
 #' @return tibble
 #' @export
-#' @importFrom dplyr mutate_at vars ends_with select distinct
-#' @importFrom dplyr mutate rename everything
-#' @importFrom magrittr '%>%'
 mutate_sensitive <- function(data, scramble_ids = TRUE){
 
-  ret_dt <- data %>%
-    dplyr::mutate_at(dplyr::vars(dplyr::ends_with("Age")),
-                     function(x) round(x, 0))
+  ret_dt <- dplyr::mutate_at(data,
+                             dplyr::vars(dplyr::ends_with("Age")),
+                             function(x) round(x, 0))
 
   if(scramble_ids){
-    ret_dt <- ret_dt %>%
-      mutate(
-        CrossProject_ID = factor(CrossProject_ID,
-                                 labels = sample(1:length(unique(.$CrossProject_ID)),
-                                                 replace = FALSE)))
+    ret_dt <- mutate(ret_dt,
+                     CrossProject_ID = factor(CrossProject_ID,
+                                              labels = sample(1:length(unique(ret_dt$CrossProject_ID)),
+                                                              replace = FALSE)))
   }
 
   ret_dt
@@ -46,7 +42,6 @@ mutate_sensitive <- function(data, scramble_ids = TRUE){
 #'
 #' @return tibble
 #' @export
-#' @importFrom dplyr select contains ends_with
 #' @examples
 #' dt <- data.frame(ID = 1:3,
 #'     Birth_Date = c("1997-01-12", "1984-01-01", "1953-09-16"),
@@ -82,7 +77,6 @@ deselect_sensitive <- function(data){
 #'
 #' @return tibble
 #' @export
-#' @importFrom dplyr select contains ends_with
 #' @examples
 #' dt <- data.frame(ID = 1:3,
 #'     Birth_Date = c("1997-01-12", "1984-01-01", "1953-09-16"),
@@ -93,7 +87,7 @@ deselect_sensitive <- function(data){
 select_sensitive <- function(data){
   dplyr::select(data,
                 suppressWarnings(
-                  one_of(c("CrossProject_ID",
+                  dplyr::one_of(c("CrossProject_ID",
                            "Site_BIDS",
                            "Folder",
                            "Project_Wave_ID"))
@@ -127,11 +121,10 @@ select_sensitive <- function(data){
 #' @inheritParams mutate_sensitive
 #'
 #' @return tibble
-#' @importFrom magrittr '%>%'
 #' @export
 anonymize_moas <- function(data, scramble_ids = TRUE){
-  deselect_sensitive(data) %>%
-    mutate_sensitive(scramble_ids = scramble_ids)
+  k <- deselect_sensitive(data)
+  mutate_sensitive(k, scramble_ids = scramble_ids)
 }
 
 

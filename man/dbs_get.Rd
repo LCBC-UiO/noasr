@@ -4,8 +4,11 @@
 \alias{dbs_get}
 \title{Get DBS information from a file}
 \usage{
-dbs_get(file_path, match_file = "data-raw/Blood_data/DBS_MOAS_match.tsv",
-  debug = FALSE)
+dbs_get(
+  file_path,
+  match_file = "data-raw/Blood_data/DBS_MOAS_match.tsv",
+  debug = FALSE
+)
 }
 \arguments{
 \item{file_path}{path to DBS excel-file}
@@ -31,7 +34,8 @@ dbs_get(file_path = "path/to/file",
  }
 }
 \seealso{
-Other MOAS get-functions: \code{\link{epigen_get}}
+Other MOAS get-functions: 
+\code{\link{epigen_get}()}
 }
 \concept{MOAS get-functions}
 \concept{dbs-functions}

@@ -10,10 +10,6 @@
 #'
 #' @family epigen-functions
 #' @family MOAS get-functions
-#'
-#' @importFrom dplyr starts_with rename_at rename mutate
-#' @importFrom dplyr as_tibble select contains everything left_join
-#' @importFrom rio import
 #' @export
 epigen_get <- function(file_path,
                        match_path = "path/to/MOAS/data-raw/DNA/gID_MOAS_match.tsv",
@@ -27,24 +23,25 @@ epigen_get <- function(file_path,
     stop(paste(match_path, "does not exist or is not a path. Please check the path and file name carefully."),
          call. = FALSE)
 
-  epigen <- import(file_path) %>%
-    mutate(SampleID = gsub("^X", "", SampleID )) %>%
-    rename(FID = SampleID) %>%
-    rename_at(vars(-FID), function(x) paste0("EpiGen_", x))
+  epigen <- rio::import(file_path)
+  epigen <- dplyr::mutate(epigen, SampleID = gsub("^X", "", SampleID ))
+  epigen <- dplyr::rename(epigen, FID = SampleID)
+  epigen <- dplyr::rename_at(epigen, dplyr::vars(-FID), function(x) paste0("EpiGen_", x))
 
-  match <- read_tsv(match_path) %>%
-    filter(for_ewas == 1) %>%
-    rename_at(vars(-FID, -Genetic_ID, -CrossProject_ID, -Project_Name, -Project_Wave), function(x) paste0("EpiGen_debug_", x))
+  match <- read_tsv(match_path)
+  match <- dplyr::filter(match, for_ewas == 1)
+  match <- dplyr::rename_at(match, dplyr::vars(-FID, -Genetic_ID, -CrossProject_ID, -Project_Name, -Project_Wave),
+                     function(x) paste0("EpiGen_debug_", x))
 
-  ret_dt <- left_join(epigen, match, by="FID") %>%
-    as_tibble() %>%
-    select(CrossProject_ID, contains("Project"), everything())
+  ret_dt <- dplyr::left_join(epigen, match, by="FID")
+  ret_dt <- dplyr::as_tibble(ret_dt)
+  ret_dt <- dplyr::select(ret_dt, CrossProject_ID, dplyr::contains("Project"), dplyr::everything())
 
   if(debug){
     ret_dt
   } else {
-    ret_dt %>%
-      select(-FID, -starts_with("EpiGen_debug_"))
+    dplyr::select(ret_dt,
+           -FID, -dplyr::starts_with("EpiGen_debug_"))
   }
 }
 
@@ -69,18 +66,19 @@ epigen_add <- function(MOAS,
                                                call.=FALSE)
   if(any(!c("CrossProject_ID", "Project_Name", "Project_Wave") %in% names(MOAS)))
     stop("One of 'CrossProject_ID', 'Project_Name', 'Project_Wave' is missing from the MOAS-like data. These are needed for merging.",
-     call.=FALSE)
+         call.=FALSE)
 
-  MOAS <- mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
+  MOAS <- dplyr::mutate(MOAS, CrossProject_ID = as.numeric(as.character(CrossProject_ID)))
   epigen_data <- epigen_get(file_path, match_path, debug)
 
-  left_join(MOAS, epigen_data, by=c("CrossProject_ID", "Project_Name", "Project_Wave")) %>%
-    mutate(CrossProject_ID = as.factor(CrossProject_ID))
+  dt <- dplyr::left_join(MOAS, epigen_data, by=c("CrossProject_ID", "Project_Name", "Project_Wave"))
+
+  dplyr::mutate(dt, CrossProject_ID = as.factor(CrossProject_ID))
 }
 
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
-  globalVariables(c("for_ewas", "Genetic_ID",
-                           "SampleID"
+  utils::globalVariables(c("for_ewas", "Genetic_ID",
+                    "SampleID"
   ))
 }

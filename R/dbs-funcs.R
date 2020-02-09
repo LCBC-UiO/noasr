@@ -23,8 +23,8 @@ dbs_get <- function(file_path,
                     match_file = "data-raw/Blood_data/DBS_MOAS_match.tsv",
                     debug = FALSE){
 
-  match <- readr::read_tsv(match_file) %>%
-    dplyr::filter(trusted == 1)
+  match <- readr::read_tsv(match_file)
+  match <- dplyr::filter(match, trusted == 1)
 
   dt <- rio::import_list(file_path)
   dt$Frontpage <- NULL
@@ -42,31 +42,33 @@ dbs_get <- function(file_path,
     nm <- names(dt)[i]
     dt[[nm]] <- tidyr::gather(dt[[nm]],
                               Analyte, Result,
-                              starts_with(nm))
+                              dplyr::starts_with(nm))
   }
 
   # Make sure the Result column is numeric
   # Will throw warnings of NA, which is fine
-  dt <- purrr::map(dt, ~ mutate(.x,
+  dt <- purrr::map(dt, ~ dplyr::mutate(.x,
                                 Result = ifelse(grepl("<", Result),
                                                 .5 * LLOQ,
                                                 as.numeric(Result))
-                                )
-                   )
+  )
+  )
 
-  dt <- dt %>%
-    dplyr::bind_rows() %>%
-    dplyr::as_tibble() %>%
-    dplyr::mutate(Analyte = gsub("\\(|\\)|:|_|-", "", Analyte),
-    )
+  dt <- dplyr::bind_rows(dt)
+  dt <- dplyr::as_tibble(dt)
+  dt <- dplyr::mutate(dt,
+                      Analyte = gsub("\\(|\\)|:|_|-", "", Analyte)
+  )
 
   # Merge with the match file to keep only trusted samples.
-  ret_dt <- match %>%
-    dplyr::left_join(dt, by = "sample_id") %>%
-    dplyr::rename(DBS_Units = Units, DBS_LLOQ = LLOQ,
-                  DBS_Result = Result, DBS_Analyte = Analyte) %>%
-    dplyr::distinct() %>%
-    filter(!is.na(DBS_Result))
+  ret_dt <- dplyr::left_join(match, dt, by = "sample_id")
+  ret_dt <- dplyr::rename(ret_dt,
+                          DBS_Units = Units,
+                          DBS_LLOQ = LLOQ,
+                          DBS_Result = Result,
+                          DBS_Analyte = Analyte)
+  ret_dt <- dplyr::distinct(ret_dt)
+  ret_dt <- dplyr::filter(ret_dt, !is.na(DBS_Result))
 
   if(debug){
     ret_dt
@@ -101,12 +103,12 @@ dbs_add <- function(data,
                     file_path,
                     match_file = "data-raw/Blood_data/DBS_MOAS_match.tsv"){
 
-  ret_dt <- dbs_get(file_path, match_file, debug = FALSE) %>%
-    select(-DBS_Units, -DBS_LLOQ) %>%
-    dplyr::mutate(DBS_Analyte = paste0("DBS_", DBS_Analyte)) %>%
-    tidyr::spread(DBS_Analyte, DBS_Result)
+  ret_dt <- dbs_get(file_path, match_file, debug = FALSE)
+  ret_dt <- dplyr::select(ret_dt, -DBS_Units, -DBS_LLOQ)
+  ret_dt <- dplyr::mutate(ret_dt, DBS_Analyte = paste0("DBS_", DBS_Analyte))
+  ret_dt <- tidyr::spread(ret_dt, DBS_Analyte, DBS_Result)
 
-    dplyr::left_join(data, ret_dt)
+  dplyr::left_join(data, ret_dt)
 }
 
 
@@ -119,7 +121,7 @@ if(getRversion() >= "2.15.1"){
                            "Note", "Analyte", "LLOQ",
                            "FID", "species",
                            "sample_type", "Units", "Result"
-                           ))
+  ))
 }
 
 

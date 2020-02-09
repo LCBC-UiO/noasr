@@ -378,7 +378,7 @@ pgs_add_single <- function(MOAS = NULL,
 #' @return data frame
 #' @export
 pgs_read <- function(path, name = NULL){
-  pgs_data <- read.table(path, header = TRUE, stringsAsFactors = FALSE)
+  pgs_data <- utils::read.table(path, header = TRUE, stringsAsFactors = FALSE)
 
   if(is.null(name)){
     name <- gsub("\\.profile", "", basename(path))

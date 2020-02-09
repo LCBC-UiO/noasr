@@ -4,8 +4,7 @@
 \alias{docs_project_page}
 \title{Create new chapter for the Project documentation}
 \usage{
-docs_project_page(project_acronym = NULL, project_number = NULL,
-  path = ".")
+docs_project_page(project_acronym = NULL, project_number = NULL, path = ".")
 }
 \arguments{
 \item{project_acronym}{acronym of chapter}

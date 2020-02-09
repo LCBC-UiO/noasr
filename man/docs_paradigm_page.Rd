@@ -4,8 +4,7 @@
 \alias{docs_paradigm_page}
 \title{Create new chapter for the Paradigm documentation}
 \usage{
-docs_paradigm_page(name = NULL, type = NULL, path = ".",
-  bib = TRUE)
+docs_paradigm_page(name = NULL, type = NULL, path = ".", bib = TRUE)
 }
 \arguments{
 \item{name}{acronym of chapter}

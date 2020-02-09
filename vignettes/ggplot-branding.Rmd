@@ -1,0 +1,147 @@
+---
+title: "Branding ggplots"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ggplot-branding}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+```{r setup}
+library(MOAS)
+```
+
+In the event of needing plots that have LCBC branding for presentations, reports etc. we have custom ggplot2 themes and colour scales to ensure that we have consistent branding. These are particularly suitable when using the rmarkdown-templates that also accompany this package.
+
+## Applying the LCBC themes to ggplot
+
+The themes are quite minimal, applying mostly just the corrent font and colours to match out branding.
+
+```{r warning=FALSE, message = FALSE}
+library(ggplot2)
+library(dplyr)
+
+p <- mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = cyl)) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds")
+
+p +
+  theme_lcbc()
+```
+
+There are variations around the main theme, to adapt to various possible scenarios and tastes, while maintaing a certain aesthetic
+
+```{r}
+p + theme_lcbc_minimal()
+
+p + theme_lcbc_dark()
+
+p + theme_lcbc_void()
+```
+
+and there are also some pre-defined combinations of the above also.
+
+```{r}
+p + theme_lcbc_dark_minimal()
+
+p + theme_lcbc_dark_void()
+```
+
+## Colour scales
+
+### LCBC scales
+
+The colour scales work much the same way as standard ggplot scales do.
+The main difference is you need to be aware if the data your are colouring is discrete (categorical) or continuous, to turn on or off the `discrete` argument.
+
+```{r}
+p + 
+  theme_lcbc() +
+  scale_colour_lcbc(discrete = FALSE) 
+
+mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = factor(cyl))) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds") + 
+  theme_lcbc() +
+  scale_colour_lcbc(discrete = TRUE) 
+```
+
+By default, the scales grab the "main" palette, which consists of the blue and green colours of our logo. 
+There are also other variations
+
+```{r echo = FALSE}
+MOAS:::lcbc_palettes %>% 
+  lapply(function(x) tibble(colour = x, r = 1:length(x))) %>% 
+  bind_rows(.id="palette") %>% 
+  mutate(palette = factor(palette, 
+                          levels = names(MOAS:::lcbc_palettes))
+  ) %>% 
+  ggplot(aes(x = r, y=palette, fill = I(colour))) +
+  geom_tile() +
+  labs(title = "LCBC palettes", x="") + 
+  theme_lcbc_minimal()
+```
+
+
+```{r}
+p + 
+  theme_lcbc() +
+  scale_colour_lcbc("dark", discrete = FALSE) 
+
+p + 
+  theme_lcbc_dark() +
+  scale_colour_lcbc("light", discrete = FALSE) 
+
+p + 
+  theme_lcbc() +
+  scale_colour_lcbc("blue", discrete = FALSE) 
+
+p + 
+  theme_lcbc() +
+  scale_colour_lcbc("green", discrete = FALSE) 
+```
+
+## Adding logo to plots
+
+Adding the LCBC logo to plots is a great way to brand images further, though should be used carefully, so it's not too garish.
+
+```{r}
+ mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = cyl)) +
+  add_lcbc_logo("long", alpha=.5) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds") 
+```
+
+```{r}
+ mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = cyl)) +
+  add_lcbc_logo(alpha=.7) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds") 
+```
+
+You can control the size and position of the logos by using the `xmin`, `xmax`, `ymin`, `ymax` parameters, defining where on the plot it is placed. 
+
+
+```{r}
+ mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = cyl)) +
+  add_lcbc_logo(alpha = .7, xmin = 70) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds") 
+```

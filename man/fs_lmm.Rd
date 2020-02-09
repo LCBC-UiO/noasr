@@ -5,8 +5,14 @@
 \title{Create a data.frame that is ready for use in Freesufers linear
 mixed models}
 \usage{
-fs_lmm(data, grouping.var, numeric.var, missing.action = "mean",
-  keep = "long", file)
+fs_lmm(
+  data,
+  grouping.var,
+  numeric.var,
+  missing.action = "mean",
+  keep = "long",
+  file
+)
 }
 \arguments{
 \item{data}{The MOAS or a MOAS generated file.}
@@ -50,5 +56,4 @@ site_keeper(MOAS)
 site_keeper(MOAS, "ousSkyra")
 site_keeper(MOAS, "ousAvanto")
 }
-
 }
