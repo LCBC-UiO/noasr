@@ -5,7 +5,6 @@
 #' @param alpha opacity of logo
 #'
 #' @return graphics object (grob)
-#' @export
 lcbc_logo_grob <- function(type = "main", alpha = 0.4){
 
   logo_dir <- system.file("logos", package = "MOAS")
@@ -40,8 +39,10 @@ lcbc_logo_grob <- function(type = "main", alpha = 0.4){
 #' ggplot(mtcars, aes(x = wt, y = disp, colour = cyl)) +
 #'   geom_point() +
 #'   add_lcbc_logo()
-add_lcbc_logo <- function(type = "main", alpha = .4, ...){
+add_lcbc_logo <- function(type = "main", alpha = .4,
+                          ...){
   g <- lcbc_logo_grob(type, alpha = alpha)
 
-  ggplot2::annotation_custom(grob=g, ...)
+  ggplot2::annotation_custom(grob = g, ...)
 }
+

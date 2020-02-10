@@ -10,11 +10,15 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
 collapse = TRUE,
-comment = "#>"
+comment = "#>",
+out.width = "100%", 
+fig.width = 10, 
+fig.retina = TRUE
 )
+devtools::load_all(".")
 ```
 
-```{r setup}
+```{r setup, include=FALSE}
 library(MOAS)
 ```
 
@@ -41,7 +45,7 @@ p +
 There are variations around the main theme, to adapt to various possible scenarios and tastes, while maintaing a certain aesthetic
 
 ```{r}
-p + theme_lcbc_minimal()
+p + theme_lcbc_grid()
 
 p + theme_lcbc_dark()
 
@@ -51,7 +55,7 @@ p + theme_lcbc_void()
 and there are also some pre-defined combinations of the above also.
 
 ```{r}
-p + theme_lcbc_dark_minimal()
+p + theme_lcbc_dark_grid()
 
 p + theme_lcbc_dark_void()
 ```
@@ -90,7 +94,7 @@ MOAS:::lcbc_palettes %>%
   ggplot(aes(x = r, y=palette, fill = I(colour))) +
   geom_tile() +
   labs(title = "LCBC palettes", x="") + 
-  theme_lcbc_minimal()
+  theme_lcbc()
 ```
 
 
@@ -118,30 +122,78 @@ Adding the LCBC logo to plots is a great way to brand images further, though sho
 
 ```{r}
  mtcars %>% 
-  ggplot(aes(x = wt, y = disp, colour = cyl)) +
-  add_lcbc_logo("long", alpha=.5) +
+  ggplot(aes(x = wt, y = disp, colour = cyl))+
   geom_point() +
   labs(title = "LCBC themes", 
-       subtitle = "of various kinds") 
+       subtitle = "of various kinds") +
+  scale_colour_lcbc(discrete = FALSE) +
+  theme_lcbc() +
+  add_lcbc_logo("long", alpha=.5) 
 ```
 
 ```{r}
- mtcars %>% 
+mtcars %>% 
   ggplot(aes(x = wt, y = disp, colour = cyl)) +
-  add_lcbc_logo(alpha=.7) +
   geom_point() +
   labs(title = "LCBC themes", 
-       subtitle = "of various kinds") 
+       subtitle = "of various kinds")  +
+  scale_colour_lcbc(discrete = FALSE) +
+  theme_lcbc() +
+  add_lcbc_logo(alpha=.7) 
 ```
 
 You can control the size and position of the logos by using the `xmin`, `xmax`, `ymin`, `ymax` parameters, defining where on the plot it is placed. 
 
 
 ```{r}
- mtcars %>% 
+mtcars %>% 
   ggplot(aes(x = wt, y = disp, colour = cyl)) +
-  add_lcbc_logo(alpha = .7, xmin = 70) +
   geom_point() +
   labs(title = "LCBC themes", 
-       subtitle = "of various kinds") 
+       subtitle = "of various kinds")  +
+  scale_colour_lcbc(discrete = FALSE) +
+  theme_lcbc() +
+  add_lcbc_logo(alpha = .7, 
+                xmin = 4.5, xmax = Inf,
+                ymin = 60 , ymax = 100
+  ) 
+```
+
+```{r}
+mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = cyl)) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds")  +
+  scale_colour_lcbc(discrete = FALSE) +
+  theme_lcbc() +
+  add_lcbc_logo(type = "brain",
+                alpha = .7, 
+                xmin = 5, xmax = Inf,
+                ymin = 60 , ymax = 110
+  ) 
+```
+
+You can also add the logo outside the plot area, but that requires extra work, as ggplot automatically cuts away all datapoints that dont fit in the main plot area.
+
+To coordinates can be found with some trial and error, here we want to place the logo at the bottom right. The plot y-axis starts at `50`, and the x-axis ends at `5.5`. SO here we specify that the logo should be placed below the y-axis and to the right of the x-axis, extending the main plot area beyong the data.
+
+To keep whatever we place there, we need to tell ggplot to _not_ `clip` anything outside the main plot out, turning clipping off with `coord_cartesian`.
+
+After this, we need to tell ggplot to extend the plot to include the area we placed the logo. This is trial and error, changing the numbers in `units` changes how much the plot is extended to each of it's four sides. `1` is no extention, and any number above or below that will increase or reduce the plotting area, respectively.
+
+```{r}
+mtcars %>% 
+  ggplot(aes(x = wt, y = disp, colour = cyl)) +
+  geom_point() +
+  labs(title = "LCBC themes", 
+       subtitle = "of various kinds")  +
+  scale_colour_lcbc(discrete = FALSE) +
+  theme_lcbc() +
+  add_lcbc_logo(alpha = 1, 
+                xmin = 4.7, xmax = 6.7,
+                ymin = -10 , ymax = 30
+  ) +
+  coord_cartesian(clip = "off") +
+  theme(plot.margin = unit(c(1, 2, 3, 1), "lines"))
 ```

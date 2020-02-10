@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggplot-theme.R
 \name{theme_lcbc_dark}
 \alias{theme_lcbc_dark}
-\title{ggplot dark theme for lcbc}
+\title{ggplot minimal theme for lcbc}
 \usage{
 theme_lcbc_dark(base_size = base_size_text)
 }
@@ -10,5 +10,5 @@ theme_lcbc_dark(base_size = base_size_text)
 \item{base_size}{text size}
 }
 \description{
-ggplot dark theme for lcbc
+ggplot minimal theme for lcbc
 }

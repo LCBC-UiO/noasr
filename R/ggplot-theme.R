@@ -4,7 +4,7 @@ base_size_text <- 10
 #'
 #' @param base_size text size
 #' @export
-theme_lcbc <- function (base_size = base_size_text) {
+theme_lcbc_grid <- function (base_size = base_size_text) {
   ggplot2::theme_grey(base_size = base_size, base_family = "Avenir") %+replace%
     ggplot2::theme(
       line = lcbc_line(lcbc_cols("light grey")),
@@ -26,8 +26,8 @@ theme_lcbc <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
-theme_lcbc_minimal <- function (base_size = base_size_text) {
-  theme_lcbc() %+replace%
+theme_lcbc <- function (base_size = base_size_text) {
+  theme_lcbc_grid() %+replace%
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank()
@@ -38,8 +38,8 @@ theme_lcbc_minimal <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
-theme_lcbc_dark <- function (base_size = base_size_text) {
-  theme_lcbc() %+replace%
+theme_lcbc_dark_grid <- function (base_size = base_size_text) {
+  theme_lcbc_grid() %+replace%
     ggplot2::theme(
       line = lcbc_line(lcbc_cols("dark grey")),
       text = lcbc_text(lcbc_cols("white")),
@@ -50,6 +50,8 @@ theme_lcbc_dark <- function (base_size = base_size_text) {
       plot.background = lcbc_rect(lcbc_cols("black")),
       plot.subtitle = lcbc_text(lcbc_cols("light grey"),
                                 face = "italic", vjust = 1, hjust = 0),
+      plot.caption = lcbc_text(lcbc_cols("light grey"),
+                                  face = "italic", hjust=1.05, size=15),
       axis.line = lcbc_line(lcbc_cols("white")),
       axis.text = lcbc_text(lcbc_cols("light grey")),
       legend.background = lcbc_rect(),
@@ -62,7 +64,7 @@ theme_lcbc_dark <- function (base_size = base_size_text) {
 #' @param base_size text size
 #' @export
 theme_lcbc_void <- function (base_size = base_size_text) {
-  theme_lcbc() %+replace%
+  theme_lcbc_grid() %+replace%
     ggplot2::theme(
       panel.background  =  ggplot2::element_blank(),
       panel.grid = ggplot2::element_blank(),
@@ -79,8 +81,8 @@ theme_lcbc_void <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
-theme_lcbc_dark_minimal <- function (base_size = base_size_text) {
-  theme_lcbc_dark() %+replace%
+theme_lcbc_dark <- function (base_size = base_size_text) {
+  theme_lcbc_dark_grid() %+replace%
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank()
