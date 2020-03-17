@@ -173,15 +173,11 @@ mutate_mean_date <- function(data){
 }
 
 mean_date <- function(date1, date2){
-  diff <- abs(as.numeric(date1-date2)/2)
 
-  x <- ifelse(
-    date1 > date2,
-    date2 + diff,
-    date1 + diff
-  )
+  dts <- cbind(date1,date2)
+  diff <- rowMeans(dts, na.rm=TRUE)
 
-  as.Date(x, origin = "1970-01-01")
+  as.Date(diff, origin = "1970-01-01")
 }
 
 ## quiets concerns of R CMD check

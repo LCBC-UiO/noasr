@@ -4,7 +4,9 @@
 \name{data}
 \alias{data}
 \title{MOAS mock example data}
-\format{An object of class \code{data.frame} with 1383 rows and 244 columns.}
+\format{
+An object of class \code{data.frame} with 1383 rows and 244 columns.
+}
 \usage{
 data(data)
 }

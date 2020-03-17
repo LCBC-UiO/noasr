@@ -48,7 +48,7 @@ test_that("mutate_mean_date works", {
 test_that("mean_date works",{
 
   expect_error(mean_date("2012-08-10", "2012-08-05"),
-               "non-numeric argument to binary operator")
+               "numeric")
 
   expect_equal(mean_date(as.Date("2012-08-10"), as.Date("2012-08-05")),
                structure(15559.5, class = "Date"))

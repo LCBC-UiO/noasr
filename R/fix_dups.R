@@ -20,14 +20,15 @@
 fix_dups = function(data, suffix, remove = T){
 
   suff = paste0(suffix,"$")
-
+  idx_suff <- grep(suff,names(data))
+  
   # Loop though duplicated columns, and coalesce them into single (NA's replaced with values from either)
-  for(i in grep(suff,names(data))){
+  for(i in idx_suff){
     nm = gsub(suff, "", names(data)[i])
     nmSuff = names(data)[i]
-    #print(nm);print(nmSuff)
+    # print(nm);print(nmSuff)
 
-    if(purrr::is_empty(!grep(paste0("^",nm,"$"), names(data)))){
+    if(any(grepl(paste0("^",nm,"$"), names(data)))){
 
       idx = which(is.na(data[,nm]))
 
@@ -36,8 +37,8 @@ fix_dups = function(data, suffix, remove = T){
       if(grepl("_Date", nm) & !class(unlist(data[,nm])) %in% "character"){
         data[,nm] = as.character(as.Date(data[,nm], origin="1970-01-01"))
       }
-    }else{
-      names(data)[i] = gsub(suff, "", names(data)[i] )
+    # }else{
+    #   names(data)[i] = gsub(suff, "", names(data)[i] )
     }
   }
 

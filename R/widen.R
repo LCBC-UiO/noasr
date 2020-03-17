@@ -38,7 +38,7 @@
 #' @importFrom dplyr vars add_tally mutate
 #' @importFrom purrr is_empty safely
 #' @importFrom stats na.omit
-#' @importFrom tidyr gather unite_ spread drop_na_ unite
+#' @importFrom tidyr gather unite_ spread unite
 #' @importFrom magrittr "%>%"
 #' @export
 
@@ -48,6 +48,8 @@ widen = function(data, by, keep=NULL){
     dplyr::select(-dplyr::matches("MRI|PET|InBody")) %>%
     names()
 
+  by <- match.arg(by, c("none", "Subject_Timepoint", "Project_Wave", "Site_Name", "Site_Number"))
+  
   SEP = switch(by,
                "none" = "skip",
                "Subject_Timepoint" = "tp",
@@ -63,24 +65,21 @@ widen = function(data, by, keep=NULL){
       filter_site(keep=keep)
   }
 
-  if(purrr::is_empty(SEP)) stop(paste("There is no way to make wide by '", by, "'", sep=""))
+  # browser()
 
   if(SEP=="skip"){
     #Does nothing...
     DATA3 = data
   }else if(SEP %in% c("W","tp")){  #If going by wave or tp
 
-    DATA = data
+    DATA <- data
 
     # Paste separator infront of the by
-    DATA[,by] = paste0(SEP,DATA[,by] %>% unlist)
+    DATA[,by] = paste0(SEP,unlist(DATA[,by]))
 
     # Merge wave and project together to spread it, or else will fail with multi-project participants
     if(by == "Project_Wave"){
-      DATA <- DATA %>%
-        tidyr::unite(Project_Wave, c(Project_Name, Project_Wave), sep=".")
-    }else{
-      DATA <- data
+      DATA <- tidyr::unite(DATA, Project_Wave, c(Project_Name, Project_Wave), sep=".")
     }
 
     COLS = c("CrossProject_ID", "Birth_Date", "Sex", by)
@@ -100,12 +99,15 @@ widen = function(data, by, keep=NULL){
       tidyr::unite(temp, c(by,variable)) %>%
       dplyr::distinct()
 
-    # NBM w4 has spread in weeks/months between Curato and Oslo.Prisma. coerce these into mean age
-    tmp = DATA4 %>%
-      dplyr::filter(as.numeric(as.character(CrossProject_ID)) > 9000000 &
-                      grepl(paste0(c(paste0(SEP,"4_Age"), paste0(SEP,"4_Interval")), collapse="|"),temp)) %>%
-      dplyr::group_by(CrossProject_ID,Birth_Date,Sex, temp) %>%
-      dplyr::summarise(val=as.character(mean(as.numeric(val)))) %>% as.data.frame() %>% stats::na.omit()
+    # browser()
+    # Some projects have had scanning at two times within the same wave, but with
+    # some time distance. We need to get that merged into a single time to make it
+    # widen properly.
+    tmp <- DATA4 %>% 
+      dplyr::filter(grepl("Age$", temp)) %>% 
+      dplyr::group_by_at(dplyr::vars(CrossProject_ID:temp)) %>% 
+      dplyr::summarise(val = mean(as.numeric(val))) %>% 
+      stats::na.omit()
 
     DATA4 = DATA4 %>%
       dplyr::anti_join(tmp, by=c("CrossProject_ID","Birth_Date","Sex", "temp")) %>%
@@ -115,7 +117,7 @@ widen = function(data, by, keep=NULL){
 
     # If this data does not contain anything to widen
     if(!"temp" %in% names(DATA4)){
-      stop(paste("This data has nothing to widen by", by))
+      stop(paste("This data has nothing to widen by", by), call. = FALSE)
     }
 
     ### This is where it usually goes wrong if there's something odd with the data
@@ -134,7 +136,7 @@ widen = function(data, by, keep=NULL){
     }
 
     DATA3 = DATA3$result %>%
-      dplyr::select(1:3,DATA4$temp %>% unique)
+      dplyr::select(1:3, unique(DATA4$temp))
 
     #Else if going by site
   }else if(any(SEP %in% c("S","T"))){
@@ -147,22 +149,24 @@ widen = function(data, by, keep=NULL){
       dplyr::select(-dplyr::matches("Folder|MRI|Site|Interval", ignore.case = F)) %>%
       dplyr::select(dplyr::one_of(COLS), dplyr::everything()) %>%
       dplyr::distinct() %>%
-      tidyr::drop_na_("CrossProject_ID")
+      dplyr::filter(!is.na(CrossProject_ID))
 
     # Create a widened data frame
-    DATA2 = data %>%
-      dplyr::select(-dplyr::one_of(names(DATAX)[!grepl(paste(COLS,collapse="|"), names(DATAX))])) %>%
-      dplyr::select(dplyr::one_of(COLS),by, dplyr::everything()) %>%
-      tidyr::drop_na_("CrossProject_ID") %>%
-      dplyr::distinct() %>%
-      tidyr::gather(temp, val, -dplyr::one_of(c(COLS,by))) %>%
-      stats::na.omit() %>%
-      dplyr::distinct() %>%
-      dplyr::arrange(temp)
+    
+      DATA2 = suppressWarnings(data %>%
+        dplyr::select(-dplyr::one_of(names(DATAX)[!grepl(paste(COLS,collapse="|"), names(DATAX))])) %>%
+        dplyr::select(dplyr::one_of(COLS),by, dplyr::everything()) %>%
+        dplyr::filter(!is.na(CrossProject_ID)) %>%
+        dplyr::distinct() %>%
+        tidyr::gather(temp, val, -dplyr::one_of(c(COLS, by))) %>%
+        stats::na.omit() %>%
+        dplyr::distinct() %>%
+        dplyr::arrange(temp)
+    )
 
     # If this data does not contain anything to widen
     if(!exists("DATA2")){
-      stop(paste("This data has nothing to widen by", by))
+      stop(paste("This data has nothing to widen by", by), call. = FALSE)
     }
 
     DATA2[,by] = paste(SEP,DATA2[,by] %>% unlist(),sep="")
@@ -179,7 +183,7 @@ widen = function(data, by, keep=NULL){
       print(DATA2 %>%
               dplyr::slice(rrr))
 
-      stop("There are duplicate entries. check the output above.")
+      stop("There are duplicate entries. check the output above.", call. = FALSE)
     }
 
     DATA3 = DATAX %>%
@@ -189,7 +193,7 @@ widen = function(data, by, keep=NULL){
     DATA3 = DATA3 %>%
       dplyr::group_by(CrossProject_ID,Subject_Timepoint) %>%
       dplyr::mutate(N_Scans=sum(N_Scans)) %>% as.data.frame() %>%
-      tidyr::drop_na_("CrossProject_ID")
+      dplyr::filter(!is.na(CrossProject_ID))
   }
 
   #Order columns more nicely

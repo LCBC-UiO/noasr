@@ -20,11 +20,19 @@
 #'
 #' }
 inbody_read <- function(path){
+
+  # Check if quotation marks in the file,
+  # then its raw and new
   if(any(grepl('"', readLines(path)))){
-    inbody_read_raw(path)
+    x <- readr::read_csv(path, col_types = readr::cols())
   }else{
-    inbody_read_cleaned(path)
+    x <- data.table::fread(path)
   }
+
+  x <- inbody_clean_names(x)
+  x <- inbody_split_ID(x)
+
+  dplyr::as_tibble(x)
 }
 
 #' Get InBody data
@@ -90,7 +98,7 @@ inbody_get <- function(path,
 #'
 #' @param path folder path
 #' @param ... additional arguments to [/code{inbody_get}]
-#'@importFrom purrr map
+#' @importFrom purrr map
 #' @return data frame
 #' @export
 #' @examples
@@ -208,11 +216,10 @@ that are the same. Names in the original data are suffixed with", suffix))
 # Helpers ----
 #' @importFrom stringr str_replace str_remove str_replace_all str_remove_all str_replace_all
 inbody_clean_names <- function(data){
-  names(data) <- stringr::str_replace(names(data), "[0-9]. ", "_") %>%
-    stringr::str_remove(".*_") %>%
-    stringr::str_replace_all("%", "pc") %>%
-    stringr::str_remove_all("[[:punct:]]") %>%
-    stringr::str_replace_all("  | ", "_")
+  names(data) <- stringr::str_remove(names(data), "^.+[.] ")
+  names(data) <- stringr::str_replace_all(names(data), "%", "pc")
+  names(data) <- stringr::str_remove_all(names(data), "[(]|[)]|[/]|[-]")
+  names(data) <- stringr::str_replace_all(names(data), "  | ", "_")
   data
 }
 
@@ -242,24 +249,15 @@ inbody_split_ID <- function(data){
       cat(crayon::red("Raw data needs additions to become '<xxxxxxx.yy.zz>' \n"))
       print(dplyr::filter(data, is.na(Project_Wave)) %>% dplyr::select(1:5))
     }
+  }else if(!"CrossProject_ID" %in% names(data)){
+    data <- dplyr::mutate(data,
+                          CrossProject_ID = stringr::str_sub(ID, 2, 8)) %>%
+      dplyr::select(-ID)
   }
 
   dplyr::mutate_at(data,
-            dplyr::vars(CrossProject_ID, Project_Number, Project_Wave), as.integer)
-}
-
-# read in unaltered inbody data
-inbody_read_raw <- function(path){
-  x <- readr::read_csv(path, col_types = readr::cols())
-  x <- inbody_clean_names(x)
-  inbody_split_ID(x)
-}
-
-# read in pre-cleaned inbody data
-inbody_read_cleaned <- function(path){
-  x <- readr::read_csv2(path, col_types = readr::cols())
-  x <- inbody_clean_names(x)
-  inbody_split_ID(x)
+            dplyr::vars(CrossProject_ID, Project_Number, Project_Wave), as.integer) %>%
+    dplyr::select(CrossProject_ID, Project_Number, Project_Wave, dplyr::everything())
 }
 
 

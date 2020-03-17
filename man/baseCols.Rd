@@ -4,7 +4,9 @@
 \name{baseCols}
 \alias{baseCols}
 \title{MOAS base columns}
-\format{An object of class \code{character} of length 13.}
+\format{
+An object of class \code{character} of length 13.
+}
 \usage{
 data(baseCols)
 }

@@ -4,7 +4,9 @@
 \name{Sites}
 \alias{Sites}
 \title{MOAS sites}
-\format{An object of class \code{data.frame} with 5 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 5 rows and 3 columns.
+}
 \usage{
 data(Sites)
 }
