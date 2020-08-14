@@ -4,9 +4,10 @@ base_size_text <- 10
 #'
 #' @param base_size text size
 #' @export
+#' @importFrom ggplot2 theme_grey theme '%+replace%'
 theme_lcbc_grid <- function (base_size = base_size_text) {
-  ggplot2::theme_grey(base_size = base_size, base_family = "Avenir") %+replace%
-    ggplot2::theme(
+  theme_grey(base_size = base_size, base_family = lcbc_font()) %+replace%
+    theme(
       line = lcbc_line(lcbc_cols("light grey")),
       text = lcbc_text(lcbc_cols("black")),
       panel.background  = lcbc_rect(),
@@ -26,11 +27,12 @@ theme_lcbc_grid <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
+#' @importFrom ggplot2 theme element_blank '%+replace%'
 theme_lcbc <- function (base_size = base_size_text) {
   theme_lcbc_grid() %+replace%
-    ggplot2::theme(
-      panel.grid = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank()
+    theme(
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank()
     )
 }
 
@@ -38,9 +40,10 @@ theme_lcbc <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
+#' @importFrom ggplot2 theme '%+replace%'
 theme_lcbc_dark_grid <- function (base_size = base_size_text) {
   theme_lcbc_grid() %+replace%
-    ggplot2::theme(
+    theme(
       line = lcbc_line(lcbc_cols("dark grey")),
       text = lcbc_text(lcbc_cols("white")),
       panel.background  = lcbc_rect(lcbc_cols("black")),
@@ -51,7 +54,7 @@ theme_lcbc_dark_grid <- function (base_size = base_size_text) {
       plot.subtitle = lcbc_text(lcbc_cols("light grey"),
                                 face = "italic", vjust = 1, hjust = 0),
       plot.caption = lcbc_text(lcbc_cols("light grey"),
-                                  face = "italic", hjust=1.05, size=15),
+                               face = "italic", hjust=1.05, size=15),
       axis.line = lcbc_line(lcbc_cols("white")),
       axis.text = lcbc_text(lcbc_cols("light grey")),
       legend.background = lcbc_rect(),
@@ -63,17 +66,18 @@ theme_lcbc_dark_grid <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
+#' @importFrom ggplot2 theme element_blank '%+replace%'
 theme_lcbc_void <- function (base_size = base_size_text) {
   theme_lcbc_grid() %+replace%
-    ggplot2::theme(
-      panel.background  =  ggplot2::element_blank(),
-      panel.grid = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank(),
-      plot.background = ggplot2::element_blank(),
-      axis.line = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.title =  ggplot2::element_blank(),
-      axis.ticks =  ggplot2::element_blank()
+    theme(
+      panel.background  =  element_blank(),
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.background = element_blank(),
+      axis.line = element_blank(),
+      axis.text = element_blank(),
+      axis.title =  element_blank(),
+      axis.ticks =  element_blank()
     )
 }
 
@@ -81,11 +85,12 @@ theme_lcbc_void <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
+#' @importFrom ggplot2 theme element_blank '%+replace%'
 theme_lcbc_dark <- function (base_size = base_size_text) {
   theme_lcbc_dark_grid() %+replace%
-    ggplot2::theme(
-      panel.grid = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank()
+    theme(
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank()
     )
 }
 
@@ -93,18 +98,20 @@ theme_lcbc_dark <- function (base_size = base_size_text) {
 #'
 #' @param base_size text size
 #' @export
+#' @importFrom ggplot2 theme element_blank '%+replace%'
 theme_lcbc_dark_void <- function (base_size = base_size_text) {
   theme_lcbc_dark() %+replace%
-    ggplot2::theme(
-      panel.grid = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank(),
-      axis.line = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank()
+    theme(
+      panel.grid = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.line = element_blank(),
+      axis.text = element_blank(),
+      axis.title = element_blank(),
+      axis.ticks = element_blank()
     )
 }
 
+#' @importFrom ggplot2 element_text margin
 lcbc_text <- function(colour,
                       size = base_size_text,
                       lineheight = 0.9,
@@ -113,25 +120,44 @@ lcbc_text <- function(colour,
                       angle = 0,
                       face = "plain"){
 
-  ggplot2::element_text(family = "Avenir",
-                        face = face,
-                        colour =  colour,
-                        hjust = hjust,
-                        vjust = vjust,
-                        angle = angle,
-                        size = size,
-                        lineheight = lineheight,
-                        margin = ggplot2::margin(),
-                        debug = FALSE)
+  element_text(family = lcbc_font(),
+               face = face,
+               colour =  colour,
+               hjust = hjust,
+               vjust = vjust,
+               angle = angle,
+               size = size,
+               lineheight = lineheight,
+               margin = margin(),
+               debug = FALSE)
 }
 
+#' @importFrom ggplot2 element_line
 lcbc_line <- function(colour, linetype = "solid"){
-  ggplot2::element_line(colour = colour,
-                        size = .6,
-                        linetype =  linetype,
-                        lineend = "round")
+  element_line(colour = colour,
+               size = .6,
+               linetype =  linetype,
+               lineend = "round")
 }
 
+#' @importFrom ggplot2 element_rect
 lcbc_rect <- function(fill = "transparent", colour = NA){
-  ggplot2::element_rect(fill = fill, colour = colour)
+  element_rect(fill = fill, colour = colour)
+}
+
+lcbc_font <- function(type = NULL ){
+
+  if(!is.null(type)){
+    type <- match.arg(type,
+                      c("Roman", "Light", "Book"))
+  }else{
+    type <- c("Roman", "Light", "Book")
+  }
+
+  fonts <- list.files(system.file("font", package = "MOAS"),
+                      "ttf", full.names = TRUE)
+
+
+  names(fonts) <- gsub("Avenir-|\\.ttf", "", basename(fonts))
+  fonts
 }

@@ -204,7 +204,7 @@ fs_lmm = function(data,
     dplyr::select(-ID, -Site_Number)  %>%
     dplyr::select(fsid, `fsid-base`, time, dplyr::one_of(grouping.var), dplyr::one_of(numeric.var), dplyr::everything())
 
-  if(!missing(file)) utils::write.table(FS_data, file=file, sep=",", dec=".")
+  if(!missing(file)) utils::write.table(FS_data, file=file, sep=",", dec=".", row.names = FALSE)
 
   return(FS_data)
 }
