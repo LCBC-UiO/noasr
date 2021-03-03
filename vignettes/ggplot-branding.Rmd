@@ -9,11 +9,11 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-collapse = TRUE,
-comment = "#>",
-out.width = "100%", 
-fig.width = 10, 
-fig.retina = TRUE
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%",
+  fig.width = 10, 
+  fig.retina = TRUE
 )
 ```
 
@@ -23,7 +23,7 @@ In the event of needing plots that have LCBC branding for presentations, reports
 
 The themes are quite minimal, applying mostly just the corrent font and colours to match out branding.
 
-```{r warning=FALSE, message = FALSE}
+```{r}
 library(noasr)
 library(ggplot2)
 library(dplyr)
