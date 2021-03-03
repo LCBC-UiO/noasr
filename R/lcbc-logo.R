@@ -10,7 +10,7 @@
 #' @importFrom grid rasterGrob
 lcbc_logo_grob <- function(type = "main", alpha = 0.4){
 
-  logo_dir <- system.file("logos", package = "MOAS")
+  logo_dir <- system.file("logos", package = "noasr")
 
 
   logos <- list.files(logo_dir)
