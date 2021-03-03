@@ -11,7 +11,7 @@ add_lcbc_logo(type = "main", alpha = 0.4, ...)
 
 \item{alpha}{opacity of logo}
 
-\item{...}{arguments to \code{annotation_custom}}
+\item{...}{arguments to \link{ggplot2}{\code{annotation_custom}}}
 }
 \description{
 in a ggplot, adding the logo should be added

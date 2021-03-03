@@ -1,14 +1,11 @@
 project_colors <- c(
   `NDev`  = "#c5da84",
-  `MemP`   = "#f94333",
-
+  `MemP`  = "#f94333",
   `NCP`   = "#3b567d",
-  `MoBa`    = "#f6ae33",
-
+  `MoBa`  = "#f6ae33",
   `Loci`   = "#249596",
-  `MemC`    = "#ae2e23",
-
-  `ACon`    = "#fa685b",
+  `MemC`   = "#ae2e23",
+  `ACon`   = "#fa685b",
   `S2C`    = "#155858"
 )
 

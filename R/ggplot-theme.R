@@ -6,7 +6,8 @@ base_size_text <- 10
 #' @export
 #' @importFrom ggplot2 theme_grey theme '%+replace%'
 theme_lcbc_grid <- function (base_size = base_size_text) {
-  theme_grey(base_size = base_size, base_family = lcbc_font()) %+replace%
+  theme_grey(base_size = base_size,# base_family = lcbc_font()
+             ) %+replace%
     theme(
       line = lcbc_line(lcbc_cols("light grey")),
       text = lcbc_text(lcbc_cols("black")),
@@ -120,7 +121,7 @@ lcbc_text <- function(colour,
                       angle = 0,
                       face = "plain"){
 
-  element_text(family = lcbc_font(),
+  element_text(#family = lcbc_font(),
                face = face,
                colour =  colour,
                hjust = hjust,
@@ -143,21 +144,4 @@ lcbc_line <- function(colour, linetype = "solid"){
 #' @importFrom ggplot2 element_rect
 lcbc_rect <- function(fill = "transparent", colour = NA){
   element_rect(fill = fill, colour = colour)
-}
-
-lcbc_font <- function(type = NULL ){
-
-  if(!is.null(type)){
-    type <- match.arg(type,
-                      c("Roman", "Light", "Book"))
-  }else{
-    type <- c("Roman", "Light", "Book")
-  }
-
-  fonts <- list.files(system.file("font", package = "MOAS"),
-                      "ttf", full.names = TRUE)
-
-
-  names(fonts) <- gsub("Avenir-|\\.ttf", "", basename(fonts))
-  fonts
 }

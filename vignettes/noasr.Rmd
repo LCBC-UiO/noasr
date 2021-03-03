@@ -1,0 +1,124 @@
+---
+title: "Using the MOAS-package for LCBC custom functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the MOAS-package for LCBC custom functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=FALSE)
+```
+
+## Introduction
+The Nephew of all Spreadsheets (NOAS) data is a database with research data from LCBC's projects. 
+The {noasr} R-package is created with the intent to share common operations/functions people may use on the NOAS, in order to get the data into the shape they need. This vignette is intended to showcase some of the functions currently available in the package that people may wish to use.
+
+## How to use the package
+
+### Basic usage
+After the package is installed, the package needs to be called in every script or R instance to make it's functions available.
+
+```{r "library", eval=TRUE, warning=F, error=F}
+library(noasr)
+```
+
+The package needs data from the NOAS to work. These data must usually contain at minimum the columns `subject_id`, `project_id` and `wave_code`, and a substantial amount of functions also rely on the `age` colum being present.
+
+
+### Function documentation
+Like all R-functions, the {noasr}-package functions have documentation that may be accessed by typing a question mark in the console, and the function you want to know more about.
+
+```{r "help", eval=FALSE}
+# Base R
+?anova
+?t.test
+
+# MOAS functions
+?add_timepoint
+?fs_lmm
+```
+
+
+#### The `filter_site()` function {#filter_site} 
+The `filter_site()` function is intended for use when you wish to reduce double and triple scanned data to a single line from one of the scanners. 
+This is necessary for all analyses not using the site as a variable of interest. 
+To run the function, you must choose which scanner you wish to keep data from.   
+
+There are four options:  
+1. "long" - finds which scanner there is most data from, and keeps those (default) 
+2. "ousAvanto" - keeps Avanto data  
+3. "ousSkyra" - keeps Skyra data  
+4. "ourPrisma" - keeps Prisma data  
+
+If you choose the 'long' option, you also may specify the `tie` option, in case there is a tie for how many scans of each a participant has. By default the `tie` is set to "interval" where is will look for the scanner that has been used for the longest period of time. Again, here you may specify any one scanner and that will be picked.
+
+Lastly, if there is a tie for scanner also when taking into account the interval, `site_order` takes a string vector specifying the order of priority for scanners. By default it is c("ousPrisma", "ousSkyra", "ousAvanto"), meaninggiven a tie still, it will firstly pick a Prisma scan if its there, if no Prisma it will choose Skyra, and lastly Avanto.
+
+**Note**: the operation only affects double and triple scan timepoints.
+All participants retain the same amount of time points, but number of rows per double/triple scans is reduced to one.
+
+```{r "filter_site example1"}
+simple_data = filter_site(data, "long", tie = "interval", site_order = c("ousPrisma", "ousSkyra", "ousAvanto"))
+simple_data = filter_site(data, "ousAvanto")
+simple_data = filter_site(data, "ourPrisma")
+```
+
+<!-- ### The `fs_lmm()` function {#fs_lmm} -->
+<!-- This function will return a data.frame containing formatted data for use in Freesurfers LME models.  -->
+<!-- There are specific requirements to how the data should look, and also there are operations done on the data which help our data engineer to set up analyses. -->
+
+<!-- The function will run even without much input, but the output will not necessarily make muc sense.  -->
+<!-- You must supply the function with the data you want to use. -->
+<!-- Secondly, you must decide which numeric covariates and categorical (grouping) variables you want your model include. -->
+
+<!-- `grouping.var` - a vector of strings with the names of the columns for your categorical groups. Usually, "Sex" and "Site_Name" are added here, like so: `grouping.var = c("Sex","Site_Name"). -->
+<!-- `numeric.var` - a vector of strings with the names of the columns for you numeric covariates. Here we often add cognitive scores like: `numeric.var = "CVLT_A_Total`. -->
+
+<!-- Example:  -->
+<!-- ```{r fs_lmm1, eval=F} -->
+<!-- fs_lmm(data, grouping.var = c("Sex","Site_Name"), numeric.var="CVLT_A_Total") -->
+<!-- ``` -->
+
+<!-- There are several other options to help you do different things. -->
+<!-- the `keep` option is passed to the [`filter_site()`](#filter_site) function to handle double and triple scanned data.  -->
+<!-- By default is uses the value "long", which will choose the scanner from a subject with the most data (in case of a tie, it picks the Skyra). -->
+
+<!-- Please see the documentation of this function for more options: -->
+<!-- ```{r} -->
+<!-- ?fs_lmm -->
+<!-- ``` -->
+
+
+### Pipe ( %>% ) compatibility {#pipe}
+All MOAS functions are pipe compatible, and should thus easily be incorporated into tidyverse-type syntax.
+
+```{r "pipeExample"}
+library(dplyr)
+simple_data = data %>% 
+  filter(project_id %in% c("MemC","MemP")) %>% 
+  na_col_rm() %>% # see section on Utility functions
+  filter_site("ousPrisma")
+```
+
+
+### Utility functions
+Some functions in the {noasr}-package are what we call utility functions.
+They do not exclusively work on NOAS, they will work well on other data.frames or vectors.
+These functions perform operations to help clean up data or perform simple and useful operations.
+
+
+#### The `na_col_rm()` function {#na_col_rm} 
+This function locates any column in a data.frame that has no observations (only contains `NA` or `NaN`), and removes it from the data.frame.
+This particularly convenient if you have subsetted the rows of data to specific observations, and want to quickly remove any columns that no longer are of consequence for the data you have. 
+
+```{r "na_col_rm"}
+data2 = data %>% 
+  filter(Project_Name %in% "NCP") %>% 
+  na_col_rm()
+```
+
+
+
+

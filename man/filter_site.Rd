@@ -6,14 +6,17 @@
 \usage{
 filter_site(
   data,
+  site_var = site_name,
   keep = "long",
   tie = "interval",
   site_order = c("ousPrisma", "ousSkyra", "ousAvanto"),
-  quiet = F
+  verbose = TRUE
 )
 }
 \arguments{
-\item{data}{The MOAS or a MOAS generated file.}
+\item{data}{data extracted from the NOAS}
+
+\item{site_var}{column name with the site information}
 
 \item{keep}{A string specifying which data from double/triple scans to keep.}
 
@@ -21,7 +24,7 @@ filter_site(
 
 \item{site_order}{string vector of the scanner priority given a tie between scanners}
 
-\item{quiet}{logical, TRUE sets it to verbose}
+\item{verbose}{logical, TRUE sets it to verbose}
 }
 \value{
 A MOAS type file with one line per subject and timepoint.
@@ -55,9 +58,8 @@ Available options for 'tie' are:
 }
 \examples{
 \dontrun{
-filter_site(MOAS)
-filter_site(MOAS, 'ousSkyra')
-filter_site(MOAS, 'ousAvanto')
+filter_site(noas_data)
+filter_site(noas_data, 'ousSkyra')
+filter_site(noas_data, 'ousAvanto')
 }
-
 }

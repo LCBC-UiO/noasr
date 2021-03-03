@@ -15,11 +15,6 @@ out.width = "100%",
 fig.width = 10, 
 fig.retina = TRUE
 )
-devtools::load_all(".")
-```
-
-```{r setup, include=FALSE}
-library(MOAS)
 ```
 
 In the event of needing plots that have LCBC branding for presentations, reports etc. we have custom ggplot2 themes and colour scales to ensure that we have consistent branding. These are particularly suitable when using the rmarkdown-templates that also accompany this package.
@@ -29,6 +24,7 @@ In the event of needing plots that have LCBC branding for presentations, reports
 The themes are quite minimal, applying mostly just the corrent font and colours to match out branding.
 
 ```{r warning=FALSE, message = FALSE}
+library(noasr)
 library(ggplot2)
 library(dplyr)
 
@@ -85,11 +81,11 @@ By default, the scales grab the "main" palette, which consists of the blue and g
 There are also other variations
 
 ```{r echo = FALSE}
-MOAS:::lcbc_palettes %>% 
+noasr:::lcbc_palettes %>% 
   lapply(function(x) tibble(colour = x, r = 1:length(x))) %>% 
   bind_rows(.id="palette") %>% 
   mutate(palette = factor(palette, 
-                          levels = names(MOAS:::lcbc_palettes))
+                          levels = names(noasr:::lcbc_palettes))
   ) %>% 
   ggplot(aes(x = r, y=palette, fill = I(colour))) +
   geom_tile() +

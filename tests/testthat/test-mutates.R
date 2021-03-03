@@ -1,56 +1,57 @@
+dt <- data.frame(
+  subject_id = c(rep(1,4), rep(2,2),3,4),
+  project_id = c(rep("MemP", 5), rep("MemC", 3)),
+  wave_code = c(1:3, 3, 2, rep(1,3)),
+  age = c(10:12, 12:13, 14, 16, 18)
+)
 
-# mutate_tp
-test_that("mutate_tp works",{
-  dt <- data.frame(
-    CrossProject_ID = c(rep(1,4), rep(2,2),3,4),
-    Project_Name = c(rep("MemP", 5), rep("MemC", 3)),
-    Project_Wave = c(1:3, 3, 2, rep(1,3)),
-    Age = c(10:12, 12:13, 14, 16, 18)
-  )
-
-  dt2 <- mutate_tp(dt)
-  expect_equal( dt2$Subject_Timepoint,
+# add_timepoint
+test_that("add_timepoint works",{
+  dt2 <- add_timepoint(dt)
+  expect_equal( dt2$timepoint,
                 c(1, 2, 3, 3, 1, 2, 1, 1))
   expect_length(dt2, 5)
 
-})
 
-# mutate_mean_date ----
-test_that("mutate_mean_date works", {
+  dt2 <- add_timepoint(dt, tp)
+  expect_equal( dt2$tp,
+                c(1, 2, 3, 3, 1, 2, 1, 1))
+  expect_length(dt2, 5)
 
-  dt <- data.frame(
-    CrossProject_ID = c(rep(1,3), rep(2,2),3,4),
-    Project_Name = c(rep("MemP", 4), rep("MemC", 3)),
-    Project_Wave = c(1:3, 2, rep(1,3)),
-    Test_Date = c("12.02.2012", "22.05.2015", "03.10.2017",
-                  NA, "12.02.2012", NA, "22.05.2015"),
-    MRI_Date = c("18.02.2012", "02.06.2015", "28.09.2017",
-                 NA, NA, "22.05.2015", "30.05.2015"),
-    stringsAsFactors = FALSE
-  ) %>%
-    mutate(MRI_Date = as.Date(MRI_Date, format="%d.%m.%Y"),
-           Test_Date = as.Date(Test_Date, format="%d.%m.%Y"))
-
-  dt2 <- mutate_mean_date(dt)
-  expect_equal(dt2$Date, structure(
-    c(15385, 16582.5, 17439.5, 15382, 16582.5, 16577, 16581),
-    class = "Date"))
-  expect_equal(names(dt2), c("CrossProject_ID", "Project_Name",
-                             "Project_Wave", "Test_Date",
-                             "MRI_Date", "Date"))
-
-  expect_error(mutate_mean_date(select(dt, -Project_Name)),
-               "columns are missing")
-
+  expect_error(add_timepoint(dplyr::select(dt, -age)),
+               "needs 'age'")
 })
 
 
-test_that("mean_date works",{
+# add_interval
+test_that("add_interval works",{
+  dt2 <- add_interval(dt)
+  expect_equal( dt2$interval,
+                c(0,1,1,1,0,1,0,0))
+  expect_length(dt2, 5)
 
-  expect_error(mean_date("2012-08-10", "2012-08-05"),
-               "numeric")
+  dt2 <- add_interval(dt, interval_visit)
+  expect_equal( dt2$interval_visit,
+                c(0,1,1,1,0,1,0,0))
+  expect_length(dt2, 5)
 
-  expect_equal(mean_date(as.Date("2012-08-10"), as.Date("2012-08-05")),
-               structure(15559.5, class = "Date"))
-
+  expect_error(add_interval(dplyr::select(dt, -age)),
+               "needs 'age'")
 })
+
+# add_interval
+test_that("add_interval_baseline works",{
+  dt2 <- add_interval_baseline(dt)
+  expect_equal( dt2$interval_baseline,
+                c(0,1,2,2,0,1,0,0))
+  expect_length(dt2, 5)
+
+  dt2 <- add_interval_baseline(dt, baseline_int)
+  expect_equal( dt2$baseline_int,
+                c(0,1,2,2,0,1,0,0))
+  expect_length(dt2, 5)
+
+  expect_error(add_interval_baseline(dplyr::select(dt, -age)),
+               "needs 'age'")
+})
+
