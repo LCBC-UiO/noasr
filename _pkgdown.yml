@@ -1,6 +1,6 @@
 destination: docs
-  params:
-    bootswatch: cerulean
+params:
+  bootswatch: cerulean
 reference:
 - title: "Adding standard variables"
   desc: >
