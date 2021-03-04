@@ -12,7 +12,8 @@ fs_lmm(
   folder_var,
   numeric_transform = "delete",
   ...,
-  file = NULL
+  file = NULL,
+  concat_list = NULL
 )
 }
 \arguments{
@@ -30,6 +31,10 @@ from the 'mri_info' table.}
 \item{...}{other arguments to \code{\link{utils}{model.matrix}}}
 
 \item{file}{Optional string specifying file name to be saved}
+
+\item{concat_list}{character vector of fsid's that you want the data matched to.
+Used if the data is already concatenated and you wish to add more variables to
+your models.}
 }
 \value{
 a data frame ready for Freesurfer LMM use.
@@ -81,5 +86,13 @@ fs_lmm(dt, ~ age * sex * cog,
        site_var = site_name,
        folder_var = folder
      )
+
+ # Provide a vector of fsid to reduce the data to
+ # pre-existing concatenated imaging data.
+ fs_lmm(noas_example, ~ age,
+        site_var = site_name,
+        folder_var = folder,
+        concat_list = c("1000000_1", "1000000_3", "1000000_5")
+        )
 
 }

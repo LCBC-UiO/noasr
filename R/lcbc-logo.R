@@ -42,8 +42,8 @@ lcbc_logo_grob <- function(type = "main", alpha = 0.4){
 #' library(ggplot2)
 #' ggplot(mtcars, aes(x = wt, y = disp, colour = cyl)) +
 #'   geom_point() +
-#'   add_lcbc_logo()
-add_lcbc_logo <- function(type = "main", alpha = .4,
+#'   lcbc_logo()
+lcbc_logo <- function(type = "main", alpha = .4,
                           ...){
   g <- lcbc_logo_grob(type, alpha = alpha)
 

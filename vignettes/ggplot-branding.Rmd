@@ -124,7 +124,7 @@ Adding the LCBC logo to plots is a great way to brand images further, though sho
        subtitle = "of various kinds") +
   scale_colour_lcbc(discrete = FALSE) +
   theme_lcbc() +
-  add_lcbc_logo("long", alpha=.5) 
+  lcbc_logo("long", alpha=.5) 
 ```
 
 ```{r}
@@ -135,7 +135,7 @@ mtcars %>%
        subtitle = "of various kinds")  +
   scale_colour_lcbc(discrete = FALSE) +
   theme_lcbc() +
-  add_lcbc_logo(alpha=.7) 
+  lcbc_logo(alpha=.7) 
 ```
 
 You can control the size and position of the logos by using the `xmin`, `xmax`, `ymin`, `ymax` parameters, defining where on the plot it is placed. 
@@ -149,7 +149,7 @@ mtcars %>%
        subtitle = "of various kinds")  +
   scale_colour_lcbc(discrete = FALSE) +
   theme_lcbc() +
-  add_lcbc_logo(alpha = .7, 
+  lcbc_logo(alpha = .7, 
                 xmin = 4.5, xmax = Inf,
                 ymin = 60 , ymax = 100
   ) 
@@ -163,7 +163,7 @@ mtcars %>%
        subtitle = "of various kinds")  +
   scale_colour_lcbc(discrete = FALSE) +
   theme_lcbc() +
-  add_lcbc_logo(type = "brain",
+  lcbc_logo(type = "brain",
                 alpha = .7, 
                 xmin = 5, xmax = Inf,
                 ymin = 60 , ymax = 110
@@ -186,7 +186,7 @@ mtcars %>%
        subtitle = "of various kinds")  +
   scale_colour_lcbc(discrete = FALSE) +
   theme_lcbc() +
-  add_lcbc_logo(alpha = 1, 
+  lcbc_logo(alpha = 1, 
                 xmin = 4.7, xmax = 6.7,
                 ymin = -10 , ymax = 30
   ) +

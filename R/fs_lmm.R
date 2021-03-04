@@ -14,6 +14,9 @@
 #' @param numeric_transform Action to take on numeric_transform data that are numeric
 #' @param ... other arguments to \code{\link{utils}{model.matrix}}
 #' @param file Optional string specifying file name to be saved
+#' @param concat_list character vector of fsid's that you want the data matched to.
+#' Used if the data is already concatenated and you wish to add more variables to
+#' your models.
 #'
 #' @return a data frame ready for Freesurfer LMM use.
 #'
@@ -29,7 +32,7 @@
 #' @importFrom utils capture.output type.convert write.table
 #' @importFrom dplyr mutate arrange group_by ungroup
 #' @importFrom dplyr filter row_number as_tibble across
-#' @importFrom dplyr left_join anti_join rename_with all_of
+#' @importFrom dplyr left_join anti_join rename_with all_of ends_with
 # #' @importFrom dplyr where
 #' @examples
 #' # attach built-in noas example data to test
@@ -63,6 +66,14 @@
 #'        folder_var = folder
 #'      )
 #'
+#'  # Provide a vector of fsid to reduce the data to
+#'  # pre-existing concatenated imaging data.
+#'  fs_lmm(noas_example, ~ age,
+#'         site_var = site_name,
+#'         folder_var = folder,
+#'         concat_list = c("1000000_1", "1000000_3", "1000000_5")
+#'         )
+#'
 #' @export
 fs_lmm = function(data,
                   formula,
@@ -70,7 +81,8 @@ fs_lmm = function(data,
                   folder_var,
                   numeric_transform = "delete",
                   ...,
-                  file = NULL){
+                  file = NULL,
+                  concat_list = NULL){
   stopifnot(class(formula) == "formula")
   check_data(data)
 
@@ -120,7 +132,6 @@ fs_lmm = function(data,
   mmatrix <- model.matrix(new_formula, data, ...) %>%
     as_tibble() %>%
     type.convert() %>%
-    mutate(across(where(is.mnumber) & !.N, custom_scale)) %>%
     rename_with(col_rename, where(is.mnumber) & !.N)
   names(mmatrix)[1] <- "intercept"
 
@@ -136,14 +147,31 @@ fs_lmm = function(data,
             call. = FALSE)
   }
 
-  fs <- select(fs, -.N)
+  if(!is.null(concat_list)){
+
+    idx2 <- !concat_list %in% fs$fsid
+    if(any(idx2)){
+      warning("Some items in concat_list are not in the data.\n",
+              "This output is not compatible with the concatenated imaging data.\n",
+              "Check data for possible issues:\n",
+              paste0(concat_list[idx2], collapse="\n"),
+              "\n",
+              call. = FALSE)
+    }
+
+    fs <- fs[fs$fsid %in% concat_list,]
+  }
+
+  # scale numerical values
+  fs <- select(fs, -.N) %>%
+    mutate(across(where(is.mnumber) & ends_with("_z"), custom_scale))
 
   if(!is.null(file))
     write.table(fs, file = file,
                 sep = ",", dec = ".",
                 row.names = FALSE)
 
-  return(fs)
+  fs
 }
 
 fix_numeric <- function(data, numeric_transform){

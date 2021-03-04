@@ -1,1 +1,29 @@
 destination: docs
+  params:
+    bootswatch: cerulean
+reference:
+- title: "Adding standard variables"
+  desc: >
+    Functions for adding standardised values to the dataset
+- contents:
+  - starts_with("add")
+- title: "FreeSurfer LME"
+  desc: "Functions to create vertex-wise mixed models in FreeSurfer"
+- contents:
+  - fs_lmm
+- title: "LCBC ggplot2 banding"
+- subtitle: "Themes"
+- contents:
+  - starts_with("theme")
+- subtitle: "Colour and Fill scales"
+- contents:
+  - starts_with("scale")
+- subtitle: "LCBC logo to plot"
+- contents:
+  - lcbc_logo
+- title: "Colour palettes"
+  desc: >
+    Functions that contain and return colour palettes
+- contents:
+  - starts_with("lcbc")
+  - starts_with("project")
