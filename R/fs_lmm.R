@@ -11,17 +11,17 @@
 #' @template site_var
 #' @param folder_var unqoted column name with folder-information of MRI data
 #' from the 'mri_info' table.
-#' @param missing Action to take on missing data that are numeric
+#' @param numeric_transform Action to take on numeric_transform data that are numeric
 #' @param ... other arguments to \code{\link{utils}{model.matrix}}
 #' @param file Optional string specifying file name to be saved
 #'
 #' @return a data frame ready for Freesurfer LMM use.
 #'
-#' @details Available options for 'missing.action' are:
+#' @details Available options for 'numeric_transform' are:
 #' \itemize{
-#'  \item{"delete"}{delete observations with any missing numeric.vars}
-#'  \item{"mean"}{replace missing with mean for that participant}
-#'  \item{"all"}{replace all values with the mean for that participant}
+#'  \item{"delete"}{delete observations with any numeric_transform numeric.vars}
+#'  \item{"mean_na"}{replace numeric_transform with mean for that participant}
+#'  \item{"mean_all"}{replace all values with the mean for that participant}
 #'  \item{"first"}{replace all values with the first
 #'  observation for that participant}
 #' }
@@ -32,17 +32,43 @@
 #' @importFrom dplyr left_join anti_join rename_with all_of
 # #' @importFrom dplyr where
 #' @examples
-#' \dontrun{
-#' fs_lmm(data,
-#'        age * sex * cog
+#' # attach built-in noas example data to test
+#' dt <- noas_example
+#'
+#' fs_lmm(dt, ~ age * sex * cog,
+#'        site_var = site_name,
+#'        folder_var = folder
 #'      )
-#' }
+#'
+#'  # replace NA values in numeric with
+#'  # mean values for the participant
+#'  fs_lmm(dt, ~ age * sex * cog,
+#'        numeric_transform = "mean_na",
+#'        site_var = site_name,
+#'        folder_var = folder
+#'      )
+#'
+#'  # replace all numeric values with
+#'  # mean values for the participant
+#'  fs_lmm(dt, ~ age * sex * cog,
+#'        numeric_transform = "mean_na",
+#'        site_var = site_name,
+#'        folder_var = folder
+#'      )
+#'
+#'  # replace all numeric values with
+#'  # first for the participant
+#'  fs_lmm(dt, ~ age * cog,
+#'        site_var = site_name,
+#'        folder_var = folder
+#'      )
+#'
 #' @export
 fs_lmm = function(data,
                   formula,
                   site_var,
                   folder_var,
-                  missing = "mean",
+                  numeric_transform = "delete",
                   ...,
                   file = NULL){
   stopifnot(class(formula) == "formula")
@@ -53,7 +79,7 @@ fs_lmm = function(data,
          call. = FALSE)
 
 
-  missing <- match.arg(missing, c("mean","all","first","delete"))
+  numeric_transform <- match.arg(numeric_transform, c("mean_na","mean_all","first","delete"))
 
   cols <- all.vars(formula)
 
@@ -79,13 +105,14 @@ fs_lmm = function(data,
   # to keep track of removed data.
   orig_data <- data %>%
     select(.N, subject_id, project_id, wave_code,
-           {{site_var}}, {{folder_var}})
+           {{site_var}}, {{folder_var}},
+           all_of(cols))
 
   data <- select(data,
                  .N, subject_id, fsid, `fsid-base`,
                  all_of(cols))
 
-  data <- fix_numeric(data, missing) %>%
+  data <- fix_numeric(data, numeric_transform) %>%
     select(-subject_id)
 
   new_formula <- update(formula, ~. + .N)
@@ -119,19 +146,19 @@ fs_lmm = function(data,
   return(fs)
 }
 
-fix_numeric <- function(data, missing){
-  if(missing != "delete"){
-    func <- switch(missing,
+fix_numeric <- function(data, numeric_transform){
+  if(numeric_transform != "delete"){
+    func <- switch(numeric_transform,
                    first = replace_all_first,
-                   mean = replace_na_mean,
-                   all = replace_all_mean)
+                   mean_na = replace_na_mean,
+                   mean_all = replace_all_mean)
 
     group_by(data, subject_id) %>%
       mutate(across(where(is.numeric), func)) %>%
       ungroup()
 
   }else{
-    na_rows <- apply(select(data, where(is.numeric)), 1, function(x) any(is.na(x)))
+    na_rows <- apply(select(data, where(is.numeric)), 1, function(x) !any(is.na(x)))
     filter(data, na_rows)
   }
 }

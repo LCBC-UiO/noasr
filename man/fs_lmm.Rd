@@ -5,7 +5,15 @@
 \title{Create a data.frame that is ready for use in Freesufers linear
 mixed models}
 \usage{
-fs_lmm(data, formula, site_var, folder_var, missing = "mean", ..., file = NULL)
+fs_lmm(
+  data,
+  formula,
+  site_var,
+  folder_var,
+  numeric_transform = "delete",
+  ...,
+  file = NULL
+)
 }
 \arguments{
 \item{data}{data extracted from the NOAS}
@@ -17,7 +25,7 @@ fs_lmm(data, formula, site_var, folder_var, missing = "mean", ..., file = NULL)
 \item{folder_var}{unqoted column name with folder-information of MRI data
 from the 'mri_info' table.}
 
-\item{missing}{Action to take on missing data that are numeric}
+\item{numeric_transform}{Action to take on numeric_transform data that are numeric}
 
 \item{...}{other arguments to \code{\link{utils}{model.matrix}}}
 
@@ -33,19 +41,45 @@ Design matrices are created for the grouping.var factors, and numeric
 variables are z-transformed.
 }
 \details{
-Available options for 'missing.action' are:
+Available options for 'numeric_transform' are:
 \itemize{
- \item{"delete"}{delete observations with any missing numeric.vars}
- \item{"mean"}{replace missing with mean for that participant}
- \item{"all"}{replace all values with the mean for that participant}
+ \item{"delete"}{delete observations with any numeric_transform numeric.vars}
+ \item{"mean_na"}{replace numeric_transform with mean for that participant}
+ \item{"mean_all"}{replace all values with the mean for that participant}
  \item{"first"}{replace all values with the first
  observation for that participant}
 }
 }
 \examples{
-\dontrun{
-fs_lmm(data,
-       age * sex * cog
+# attach built-in noas example data to test
+dt <- noas_example
+
+fs_lmm(dt, ~ age * sex * cog,
+       site_var = site_name,
+       folder_var = folder
      )
-}
+
+ # replace NA values in numeric with
+ # mean values for the participant
+ fs_lmm(dt, ~ age * sex * cog,
+       numeric_transform = "mean_na",
+       site_var = site_name,
+       folder_var = folder
+     )
+
+ # replace all numeric values with
+ # mean values for the participant
+ fs_lmm(dt, ~ age * sex * cog,
+       numeric_transform = "mean_na",
+       site_var = site_name,
+       folder_var = folder
+     )
+
+ # replace all numeric values with
+ # first for the participant
+ fs_lmm(dt, ~ age * cog,
+       site_var = site_name,
+       folder_var = folder
+     )
+
 }

@@ -7,11 +7,25 @@
 #' column.
 #'
 #' @template data
-#' @template var_name
+#' @template name
 #'
 #' @return data frame with extra column with timepoint
 #' @export
-add_timepoint <- function(data, var_name = timepoint){
+#' @examples
+#' # attach built-in noas example data to test
+#' dt <- noas_example
+#'
+#' add_timepoint(dt)
+#'
+#' library(dplyr)
+#' dt %>%
+#'  add_timepoint()
+#'
+#' # Change the name of the variable
+#' dt %>%
+#'  add_timepoint(name = tp)
+#'
+add_timepoint <- function(data, name = timepoint){
   check_data(data)
 
   if(!"age" %in% names(data))
@@ -25,7 +39,7 @@ add_timepoint <- function(data, var_name = timepoint){
     ) %>%
     group_by(subject_id) %>%
     mutate(
-      {{var_name}} := cumsum(.tp)
+      {{name}} := cumsum(.tp)
     ) %>%
     select(-.n, -.tp)
 }
@@ -45,18 +59,34 @@ add_timepoint <- function(data, var_name = timepoint){
 #' }
 #'
 #' @template data
-#' @template var_name
+#' @template name
 #'
 #' @return data frame with one extra column
 #'
 #' @name add_interval
+#' @examples
+#' # attach built-in noas example data to test
+#' dt <- noas_example
+#'
+#' add_interval(dt)
+#' add_interval_baseline(dt)
+#'
+#' library(dplyr)
+#' dt %>%
+#'   add_interval() %>%
+#'   add_interval_baseline()
+#'
+#' # Change the default column names
+#' dt %>%
+#'   add_interval(name = intv) %>%
+#'   add_interval_baseline(name = bsl_intv)
 NULL
 
 
 #' @export
 #' @rdname add_interval
 #' @importFrom dplyr group_by mutate ungroup lag lead case_when
-add_interval <- function(data, var_name = interval){
+add_interval <- function(data, name = interval){
   data %>%
     add_interval_baseline(.baseline) %>%
     group_by(subject_id) %>%
@@ -64,11 +94,11 @@ add_interval <- function(data, var_name = interval){
       .lag = lag(age),
       .dup = lag(ifelse(.baseline == lead(.baseline), TRUE, FALSE)),
 
-      {{var_name}} := ifelse(is.na(.lag), 0, age-.lag),
-      {{var_name}} := case_when(
+      {{name}} := ifelse(is.na(.lag), 0, age-.lag),
+      {{name}} := case_when(
         is.na(.lag) ~ 0,
-        .dup == TRUE ~ lag({{var_name}}),
-        TRUE ~ {{var_name}}
+        .dup == TRUE ~ lag({{name}}),
+        TRUE ~ {{name}}
       )
     ) %>%
     ungroup() %>%
@@ -78,7 +108,7 @@ add_interval <- function(data, var_name = interval){
 #' @export
 #' @rdname add_interval
 #' @importFrom dplyr arrange group_by mutate ungroup
-add_interval_baseline <- function(data, var_name = interval_baseline){
+add_interval_baseline <- function(data, name = interval_baseline){
   check_data(data)
 
   if(!"age" %in% names(data))
@@ -89,7 +119,7 @@ add_interval_baseline <- function(data, var_name = interval_baseline){
     arrange(age) %>%
     group_by(subject_id) %>%
     mutate(
-      {{var_name}} := age-min(age)
+      {{name}} := age-min(age)
     ) %>%
     ungroup()
 }

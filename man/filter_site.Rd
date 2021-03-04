@@ -27,7 +27,7 @@ filter_site(
 \item{verbose}{logical, TRUE sets it to verbose}
 }
 \value{
-A MOAS type file with one line per subject and timepoint.
+A NOAS type file with one line per subject and timepoint.
 }
 \description{
 returns a MOAS data.frame with one row per
@@ -57,9 +57,9 @@ Available options for 'tie' are:
 }
 }
 \examples{
-\dontrun{
-filter_site(noas_data)
-filter_site(noas_data, 'ousSkyra')
-filter_site(noas_data, 'ousAvanto')
-}
+# attach built-in noas example data to test
+dt <- noas_example
+filter_site(dt)
+filter_site(dt, 'ousSkyra')
+filter_site(dt, 'ousAvanto')
 }

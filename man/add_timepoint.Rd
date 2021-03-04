@@ -4,12 +4,12 @@
 \alias{add_timepoint}
 \title{Add timepoint to data}
 \usage{
-add_timepoint(data, var_name = timepoint)
+add_timepoint(data, name = timepoint)
 }
 \arguments{
 \item{data}{data extracted from the NOAS}
 
-\item{var_name}{unquoted name to give the new column}
+\item{name}{unquoted name to give the new column}
 }
 \value{
 data frame with extra column with timepoint
@@ -18,4 +18,19 @@ data frame with extra column with timepoint
 Calculated sequential timepoint
 for participants along the 'age'
 column.
+}
+\examples{
+# attach built-in noas example data to test
+dt <- noas_example
+
+add_timepoint(dt)
+
+library(dplyr)
+dt \%>\%
+ add_timepoint()
+
+# Change the name of the variable
+dt \%>\%
+ add_timepoint(name = tp)
+
 }

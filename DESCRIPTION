@@ -19,6 +19,7 @@ Suggests:
     knitr,
     tidyverse,
     here,
+    usethis,
     testthat (>= 2.1.0),
     rmarkdown,
     devtools,

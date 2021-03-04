@@ -5,14 +5,14 @@
 \alias{add_interval_baseline}
 \title{Add intervals}
 \usage{
-add_interval(data, var_name = interval)
+add_interval(data, name = interval)
 
-add_interval_baseline(data, var_name = interval_baseline)
+add_interval_baseline(data, name = interval_baseline)
 }
 \arguments{
 \item{data}{data extracted from the NOAS}
 
-\item{var_name}{unquoted name to give the new column}
+\item{name}{unquoted name to give the new column}
 }
 \value{
 data frame with one extra column
@@ -29,4 +29,21 @@ columns to your data.
 \item{add_interval}{ - add interval since last visit - default col: interval}
 \item{add_interval_baaseline}{ - add interval since first visit- default col: baseline}
 }
+}
+\examples{
+# attach built-in noas example data to test
+dt <- noas_example
+
+add_interval(dt)
+add_interval_baseline(dt)
+
+library(dplyr)
+dt \%>\%
+  add_interval() \%>\%
+  add_interval_baseline()
+
+# Change the default column names
+dt \%>\%
+  add_interval(name = intv) \%>\%
+  add_interval_baseline(name = bsl_intv)
 }

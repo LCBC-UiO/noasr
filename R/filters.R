@@ -34,14 +34,14 @@
 #' @param site_order string vector of the scanner priority given a tie between scanners
 #' @template verbose
 
-#' @return A MOAS type file with one line per subject and timepoint.
+#' @return A NOAS type file with one line per subject and timepoint.
 
 #' @examples
-#' \dontrun{
-#' filter_site(noas_data)
-#' filter_site(noas_data, 'ousSkyra')
-#' filter_site(noas_data, 'ousAvanto')
-#' }
+#' # attach built-in noas example data to test
+#' dt <- noas_example
+#' filter_site(dt)
+#' filter_site(dt, 'ousSkyra')
+#' filter_site(dt, 'ousAvanto')
 #' @importFrom dplyr mutate group_by arrange filter select
 #' @importFrom dplyr ungroup as_tibble
 #' @export

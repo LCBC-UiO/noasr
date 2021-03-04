@@ -1,27 +1,17 @@
-Projects = data.frame(
-  Project_Number = c(10:17,90),
-  Project_Name = c("NDev","MemP","NCP","MoBa","Loci","MemC","ACon","S2C",
-                   "Novel_biomarkers"),
-  Project_Experimental = c(NA,NA, "Memory training",NA,"Memory training",
-                           NA, NA, "Memory training (VR)",NA),
-  stringsAsFactors = F
+noas_example <-  dplyr::tibble(
+  subject_id = c(rep("1000000", 6),
+                 rep("1000010", 4)),
+  project_id = c(rep("MemP", 6), rep("MemC", 4)),
+  wave_code = c(c(1,2,3,3,4,5), 1:4),
+  site_name = c("ousAvanto", "ousAvanto","ousAvanto",
+                "ousSkyra", "ousSkyra", "ousSkyra",
+                rep("ousSkyra", 4)),
+  folder = c(paste(rep("1000000", 6), 1:6, sep="_"),
+             paste(rep("1000010", 4), 1:4, sep="_")
+  ),
+  age = c(8, 10, 14, 14, 17, 20, 22, 28, 33, 40),
+  cog = c(16, 14, 16, NA, 15, 15, 14, 13, NA, 10),
+  sex = c(rep("female", 6), rep("male", 4))
 )
-save(Projects, file="data/Projects.RData")
 
-Sites = data.frame(
-  Site_Number = c(11,12,13,20,21),
-  Site_Name = c("ousAvanto","ousSkyra","ousPrisma","ntnuAvanto","curatoAvanto"),
-  Site_Tesla = c(1.5,3,3,1.5,1.5),
-  stringsAsFactors = F
-)
-save(Sites, file="data/Sites.RData")
-
-baseCols = c("Folder","CrossProject_ID","Sex","Birth_Date",
-             "Subject_Timepoint","Project_Wave","Project_Name",
-             "Site_Name","Site_Number", "Site_Tesla","N_Scans",
-             "Age","Interval_FirstVisit")
-save(baseCols,file="data/baseCols.RData")
-
-# Only works on lagringshotel
-variables = rio::import("../../../../Documentation/MOAS_columns.tsv")
-save(variables, file="data/variables.RData")
+usethis::use_data(noas_example)
