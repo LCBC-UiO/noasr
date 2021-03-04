@@ -22,7 +22,7 @@ The package can be installed using remotes:
 
 ``` r
 install.packages("remotes")
-remotes::install_github("LCBC-UiO/noasr", build_vignettes = TRUE)
+remotes::install_github("LCBC-UiO/noasr")
 ```
 
 The functions are now installed, and you may load them when you want to
