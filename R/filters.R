@@ -74,10 +74,10 @@ filter_site = function(data,
     if(tie == "interval"){
       # Find those with longest interval
       data2 <- group_by(data2, subject_id, {{site_var}}) %>%
-        mutate(.interval = age-min(age)) %>%
-        mutate(.n = max(.interval))%>%
+        mutate(.interval = age-min(age, na.rm = TRUE)) %>%
+        mutate(.n = max(.interval, na.rm = TRUE))%>%
         group_by(subject_id) %>%
-        mutate(.dups = ifelse(.dup & .n == max(.n), TRUE, FALSE),
+        mutate(.dups = ifelse(.dup & .n == max(.n, na.rm = TRUE), TRUE, FALSE),
                .dup2 = ifelse(.dup == .dups, TRUE, FALSE)) %>%
         filter(.dup2)
 
@@ -127,7 +127,7 @@ find_long <- function(data, site_var){
     filter(
       .n_replicates_at_tp == 1 |
         (.n_replicates_at_tp > 1 &
-           .n_scans_at_site == max(.n_scans_at_site))) %>%
+           .n_scans_at_site == max(.n_scans_at_site, na.rm = TRUE))) %>%
     group_by(subject_id, .timepoint) %>%
     mutate(.dup = n() > 1) %>%
     select(-.n_replicates_at_tp, -.n_scans_at_site) %>%
