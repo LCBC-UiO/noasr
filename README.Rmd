@@ -33,11 +33,10 @@ remotes::install_github("LCBC-UiO/noasr")
 The functions are now installed, and you may load them when you want to use them.
 All functions are documented in standard R fashion.
 
-The package also has a vignette, to help you get started using it. 
+To start using the package functions, call: 
 
 ```{r eval=F}
 library(noasr)
-vignette("noasr")
 ```
 
-The vignette and other presentations or tutorials of the package can also be found online [here](https://lcbc-uio.github.io/noasr/)
+The vignette and other presentations or tutorials of the package can be [found online](https://lcbc-uio.github.io/noasr/)
