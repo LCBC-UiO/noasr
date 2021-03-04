@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • noasr</title>
+<title>Create a data.frame that is ready for use in Freesufers linear
+mixed models — fs_lmm • noasr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +47,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Create a data.frame that is ready for use in Freesufers linear
+mixed models — fs_lmm" />
+<meta property="og:description" content="fs_lmm Creates a data.frame of subsetted row and formatted
+columns ready for use in Freesurfers (6.0) linear mixed models.
+Design matrices are created for the grouping.var factors, and numeric
+variables are z-transformed." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +72,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -131,169 +137,79 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Create a data.frame that is ready for use in Freesufers linear
+mixed models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/LCBC-UiO/noasr/blob/master/R/fs_lmm.R'><code>R/fs_lmm.R</code></a></small>
+    <div class="hidden name"><code>fs_lmm.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p><code>fs_lmm</code> Creates a data.frame of subsetted row and formatted
+columns ready for use in Freesurfers (6.0) linear mixed models.
+Design matrices are created for the grouping.var factors, and numeric
+variables are z-transformed.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>fs_lmm</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>formula</span>, <span class='va'>site_var</span>, <span class='va'>folder_var</span>, missing <span class='op'>=</span> <span class='st'>"mean"</span>, <span class='va'>...</span>, file <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="add_interval.html">add_interval()</a></code> <code><a href="add_interval.html">add_interval_baseline()</a></code> </p>
-        </td>
-        <td><p>Add intervals</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="add_lcbc_logo.html">add_lcbc_logo()</a></code> </p>
-        </td>
-        <td><p>Add LCBC logo to plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="add_timepoint.html">add_timepoint()</a></code> </p>
-        </td>
-        <td><p>Add timepoint to data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_date.html">as_date()</a></code> </p>
-        </td>
-        <td><p>Coerce NOAS date into R date</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_site.html">filter_site()</a></code> </p>
-        </td>
-        <td><p>Utility function for reducing double/triple scans to a single row</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fs_lmm.html">fs_lmm()</a></code> </p>
-        </td>
-        <td><p>Create a data.frame that is ready for use in Freesufers linear
-mixed models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lcbc_cols.html">lcbc_cols()</a></code> </p>
-        </td>
-        <td><p>Function to extract lcbc colors as hex codes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lcbc_pal.html">lcbc_pal()</a></code> </p>
-        </td>
-        <td><p>Return function to interpolate a lcbc color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="project_cols.html">project_cols()</a></code> </p>
-        </td>
-        <td><p>Function to extract project colors as hex codes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="project_pal.html">project_pal()</a></code> </p>
-        </td>
-        <td><p>Return function to interpolate a project color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_color_lcbc.html">scale_color_lcbc()</a></code> </p>
-        </td>
-        <td><p>Color scale constructor for lcbc colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_color_proj.html">scale_color_proj()</a></code> </p>
-        </td>
-        <td><p>Color scale constructor for proj colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_colour_lcbc.html">scale_colour_lcbc()</a></code> </p>
-        </td>
-        <td><p>Colour scale constructor for lcbc colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_colour_proj.html">scale_colour_proj()</a></code> </p>
-        </td>
-        <td><p>Colour scale constructor for proj colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_fill_lcbc.html">scale_fill_lcbc()</a></code> </p>
-        </td>
-        <td><p>Fill scale constructor for lcbc colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_fill_proj.html">scale_fill_proj()</a></code> </p>
-        </td>
-        <td><p>Fill scale constructor for proj colors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_lcbc.html">theme_lcbc()</a></code> </p>
-        </td>
-        <td><p>ggplot minimal theme for lcbc</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_lcbc_dark.html">theme_lcbc_dark()</a></code> </p>
-        </td>
-        <td><p>ggplot minimal theme for lcbc</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_lcbc_dark_grid.html">theme_lcbc_dark_grid()</a></code> </p>
-        </td>
-        <td><p>ggplot dark theme for lcbc</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_lcbc_dark_void.html">theme_lcbc_dark_void()</a></code> </p>
-        </td>
-        <td><p>ggplot minimal theme for lcbc</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_lcbc_grid.html">theme_lcbc_grid()</a></code> </p>
-        </td>
-        <td><p>ggplot theme for lcbc</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_lcbc_void.html">theme_lcbc_void()</a></code> </p>
-        </td>
-        <td><p>ggplot minimal theme for lcbc</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>data extracted from the NOAS</p></td>
+    </tr>
+    <tr>
+      <th>formula</th>
+      <td><p>right-hand formula for your model. (ex. ~ age * sex)</p></td>
+    </tr>
+    <tr>
+      <th>site_var</th>
+      <td><p>column name with the site information</p></td>
+    </tr>
+    <tr>
+      <th>folder_var</th>
+      <td><p>unqoted column name with folder-information of MRI data
+from the 'mri_info' table.</p></td>
+    </tr>
+    <tr>
+      <th>missing</th>
+      <td><p>Action to take on missing data that are numeric</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other arguments to <code><a href='https://rdrr.io/r/utils/utils-package.html'>utils</a>{model.matrix}</code></p></td>
+    </tr>
+    <tr>
+      <th>file</th>
+      <td><p>Optional string specifying file name to be saved</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a data frame ready for Freesurfer LMM use.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Available options for 'missing.action' are:</p><ul>
+<li><p>"delete"delete observations with any missing numeric.vars</p></li>
+<li><p>"mean"replace missing with mean for that participant</p></li>
+<li><p>"all"replace all values with the mean for that participant</p></li>
+<li><p>"first"replace all values with the first
+ observation for that participant</p></li>
+</ul>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>fs_lmm</span><span class='op'>(</span><span class='va'>data</span>,
+       <span class='va'>age</span> <span class='op'>*</span> <span class='va'>sex</span> <span class='op'>*</span> <span class='va'>cog</span>
+     <span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
