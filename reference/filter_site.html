@@ -197,7 +197,7 @@ will be reduced. All timepoints will be retained.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A MOAS type file with one line per subject and timepoint.</p>
+    <p>A NOAS type file with one line per subject and timepoint.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Available options for 'keep' are:</p><ul>
@@ -216,12 +216,47 @@ will be reduced. All timepoints will be retained.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>filter_site</span><span class='op'>(</span><span class='va'>noas_data</span><span class='op'>)</span>
-<span class='fu'>filter_site</span><span class='op'>(</span><span class='va'>noas_data</span>, <span class='st'>'ousSkyra'</span><span class='op'>)</span>
-<span class='fu'>filter_site</span><span class='op'>(</span><span class='va'>noas_data</span>, <span class='st'>'ousAvanto'</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># attach built-in noas example data to test</span>
+<span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='va'>noas_example</span>
+<span class='fu'>filter_site</span><span class='op'>(</span><span class='va'>dt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Keeping data from scanner with most data from double/triple scanned.</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 8</span><span>
+#&gt;   subject_id project_id wave_code site_name folder      age   cog sex   
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1000000    MemP               1 ousAvanto 1000000_1     8    16 female
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 1000000    MemP               2 ousAvanto 1000000_2    10    14 female
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1000000    MemP               3 ousSkyra  1000000_4    14    </span><span style='color: #BB0000;'>NA</span><span> female
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 1000000    MemP               4 ousSkyra  1000000_5    17    15 female
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 1000000    MemP               5 ousSkyra  1000000_6    20    15 female
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 1000010    MemC               1 ousSkyra  1000010_1    22    14 male  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 1000010    MemC               2 ousSkyra  1000010_2    28    13 male  
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33    </span><span style='color: #BB0000;'>NA</span><span> male  
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> 1000010    MemC               4 ousSkyra  1000010_4    40    10 male  </div><div class='input'><span class='fu'>filter_site</span><span class='op'>(</span><span class='va'>dt</span>, <span class='st'>'ousSkyra'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Keeping data from scanner with most data from double/triple scanned.</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 9</span><span>
+#&gt;   subject_id project_id wave_code site_name folder      age   cog sex   
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1000000    MemP               1 ousAvanto 1000000_1     8    16 female
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 1000000    MemP               2 ousAvanto 1000000_2    10    14 female
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1000000    MemP               3 ousAvanto 1000000_3    14    16 female
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 1000000    MemP               4 ousSkyra  1000000_5    17    15 female
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 1000000    MemP               5 ousSkyra  1000000_6    20    15 female
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 1000010    MemC               1 ousSkyra  1000010_1    22    14 male  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 1000010    MemC               2 ousSkyra  1000010_2    28    13 male  
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33    </span><span style='color: #BB0000;'>NA</span><span> male  
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> 1000010    MemC               4 ousSkyra  1000010_4    40    10 male  
+#&gt; </span><span style='color: #949494;'># … with 1 more variable: "ousSkyra" &lt;chr&gt;</span><span></div><div class='input'><span class='fu'>filter_site</span><span class='op'>(</span><span class='va'>dt</span>, <span class='st'>'ousAvanto'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Keeping data from scanner with most data from double/triple scanned.</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 9</span><span>
+#&gt;   subject_id project_id wave_code site_name folder      age   cog sex   
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1000000    MemP               1 ousAvanto 1000000_1     8    16 female
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 1000000    MemP               2 ousAvanto 1000000_2    10    14 female
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1000000    MemP               3 ousAvanto 1000000_3    14    16 female
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 1000000    MemP               4 ousSkyra  1000000_5    17    15 female
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 1000000    MemP               5 ousSkyra  1000000_6    20    15 female
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 1000010    MemC               1 ousSkyra  1000010_1    22    14 male  
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 1000010    MemC               2 ousSkyra  1000010_2    28    13 male  
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33    </span><span style='color: #BB0000;'>NA</span><span> male  
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> 1000010    MemC               4 ousSkyra  1000010_4    40    10 male  
+#&gt; </span><span style='color: #949494;'># … with 1 more variable: "ousAvanto" &lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
