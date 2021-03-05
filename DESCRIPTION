@@ -18,6 +18,7 @@ Imports:
 Suggests: 
     knitr,
     tidyverse,
+    vdiffr,
     here,
     usethis,
     testthat (>= 2.1.0),

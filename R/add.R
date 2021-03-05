@@ -124,15 +124,6 @@ add_interval_baseline <- function(data, name = interval_baseline){
     ungroup()
 }
 
-
-mean_date <- function(date1, date2){
-
-  dts <- cbind(date1,date2)
-  diff <- rowMeans(dts, na.rm=TRUE)
-
-  as.Date(diff, origin = "1970-01-01")
-}
-
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
   utils::globalVariables(c("timepoint", "subject_id", "age", ".n",

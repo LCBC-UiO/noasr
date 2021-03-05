@@ -21,6 +21,28 @@ as_date <- function(dates){
   as.Date(dates, format="%Y-%m-%d")
 }
 
+
+
+#' Calculate the mean between two dates
+#'
+#' @param date1 first date
+#' @param date2 second date
+#'
+#' @return mean difference between two dates
+#' @export
+#'
+#' @examples
+#' dates <- as.Date(c("2020-01-20", "1998-01-20"))
+#' mean_date(dates[1], dates[2])
+mean_date <- function(date1, date2){
+
+  dts <- cbind(date1,date2)
+  diff <- rowMeans(dts, na.rm=TRUE)
+
+  as.Date(diff, origin = "1970-01-01")
+}
+
+
 #' Check if data contains important cols
 #'
 #' @template data

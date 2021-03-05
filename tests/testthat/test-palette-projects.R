@@ -30,6 +30,9 @@ test_that("test project_pal", {
   expect_equal(project_pal("memp")(5),
                c("#F94333", "#D3382B", "#AE2E23", "#D34B3F", "#FA685B") )
 
+  expect_equal(project_pal("memp", reverse = TRUE)(5),
+               c("#FA685B", "#D34B3F", "#AE2E23", "#D3382B", "#F94333") )
+
   expect_equal(project_pal("named"),
                c(NDev = "#c5da84", MemP = "#f94333", NCP = "#3b567d", MoBa = "#f6ae33",
                  Loci = "#249596", MemC = "#ae2e23", ACon = "#fa685b", S2C = "#155858"

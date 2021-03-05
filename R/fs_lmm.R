@@ -97,7 +97,7 @@ fs_lmm = function(data,
 
   if(any(is.na(data$age))){
     NAs <- filter(data, is.na(age)) %>%
-      select(.N, subject_id, project_id, wave_code,
+      select(subject_id, project_id, wave_code,
              {{site_var}}, {{folder_var}})
     warning("There are `NA` values in the 'age' column. These data points will be removed.\n",
             paste0(capture.output(NAs), collapse="\n"),
@@ -197,12 +197,13 @@ replace_na_mean <- function(x){
 }
 
 replace_all_mean <- function(x){
-  mean(x, na.rm = TRUE)
+  k <- mean(x, na.rm = TRUE)
+  rep(k, length(x))
 }
 
 replace_all_first <- function(x){
-  x <- x[!is.na(x)]
-  x[1]
+  k <- x[!is.na(x)]
+  rep(k[1], length(x))
 }
 
 custom_scale <- function(x){

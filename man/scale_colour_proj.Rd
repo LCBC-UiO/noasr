@@ -2,20 +2,23 @@
 % Please edit documentation in R/ggplot-scales.R
 \name{scale_colour_proj}
 \alias{scale_colour_proj}
-\title{Colour scale constructor for proj colors}
+\alias{scale_color_proj}
+\title{Colour scale constructor for proj colours}
 \usage{
 scale_colour_proj(palette = "main", discrete = TRUE, reverse = FALSE, ...)
+
+scale_color_proj(palette = "main", discrete = TRUE, reverse = FALSE, ...)
 }
 \arguments{
 \item{palette}{Character name of palette in project_palettes}
 
-\item{discrete}{Boolean indicating whether color aesthetic is discrete or not}
+\item{discrete}{Boolean indicating whether colour aesthetic is discrete or not}
 
 \item{reverse}{Boolean indicating whether the palette should be reversed}
 
-\item{...}{Additional arguments passed to discrete_scale() or
-scale_color_gradientn(), used respectively when discrete is TRUE or FALSE}
+\item{...}{Additional arguments passed to \code{\link{ggplot2}{discrete_scale()}} or
+\code{\link{ggplot2}{scale_colour_gradientn()}}, used respectively when discrete is TRUE or FALSE}
 }
 \description{
-Colour scale constructor for proj colors
+Colour scale constructor for proj colours
 }
