@@ -10,8 +10,8 @@
 #'   \item{project_id}{project identifier}
 #'   \item{wave_code}{assessment wave for the project}
 #'   \item{site_name}{mri site identifier}
-#'   \item{folder}{mri folder on TSD}
-#'   \item{age}{subject age}
+#'   \item{mri_info_folder}{mri folder on TSD}
+#'   \item{visit_age}{subject age at visit}
 #'   \item{cog}{cognitive score}
 #'   \item{sex}{subject sex}
 #' }

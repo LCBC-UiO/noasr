@@ -1,53 +1,53 @@
 library(dplyr)
 
 test_that("fs_lmm works", {
-  tmp <- fs_lmm(noas_example,  ~ age,
+  tmp <- fs_lmm(noas_example,  ~ visit_age,
                 site_var = site_name,
                 folder_var = folder)
 
   expect_equal(nrow(tmp), 10)
   expect_equal(ncol(tmp), 5)
-  expect_equal(names(tmp), c("fsid", "fsid-base", "age", "intercept", "age_z"))
-  expect_equal(tmp$age_z, scale(tmp$age)[,1])
+  expect_equal(names(tmp), c("fsid", "fsid-base", "visit_age", "intercept", "visit_age_z"))
+  expect_equal(tmp$visit_age_z, scale(tmp$visit_age)[,1])
 
-  expect_error(fs_lmm(select(noas_example, -age),
+  expect_error(fs_lmm(select(noas_example, -visit_age),
                       ~ cog,
                       site_var = site_name,
                       folder_var = folder),
-               "'age' must be in the data")
+               "'visit_age' must be in the data")
 
   expect_warning(
-    fs_lmm(mutate(noas_example, age = NA),
+    fs_lmm(mutate(noas_example, visit_age = NA),
            ~ cog,
            site_var = site_name,
            folder_var = folder),
-    "`NA` values in the 'age'"
+    "`NA` values in the 'visit_age'"
   )
 
   concat_list <- c("1000000_1", "1000000_8")
   tmp <- expect_warning(
-    fs_lmm(noas_example, ~ age,
+    fs_lmm(noas_example, ~ visit_age,
            site_var = site_name,
            folder_var = folder,
            concat_list = concat_list
     ), "1000000_8")
   expect_equal(tmp$fsid, "1000000_1")
-  expect_equal(tmp$age_z, NaN)
+  expect_equal(tmp$visit_age_z, NaN)
 
 
   concat_list <- c("1000000_1", "1000000_3", "1000000_5")
-  tmp <- fs_lmm(noas_example, ~ age,
+  tmp <- fs_lmm(noas_example, ~ visit_age,
                 site_var = site_name,
                 folder_var = folder,
                 concat_list = concat_list
   )
   expect_equal(tmp$fsid, concat_list)
-  expect_equal(tmp$age_z,
+  expect_equal(tmp$visit_age_z,
                c(-1.09108945117996, 0.218217890235992, 0.87287156094397))
 
 
   tmp <- expect_warning(
-    fs_lmm(noas_example, ~ age * cog,
+    fs_lmm(noas_example, ~ visit_age * cog,
            site_var = site_name,
            folder_var = folder
     ),
@@ -56,7 +56,7 @@ test_that("fs_lmm works", {
   expect_equal(nrow(tmp), 8)
 
   file <- file.path(test_path(), "fs_lmm-files/test_doppel.csv")
-  tmp <- fs_lmm(noas_example, ~ age,
+  tmp <- fs_lmm(noas_example, ~ visit_age,
                 site_var = site_name,
                 folder_var = folder,
                 concat_list = concat_list,

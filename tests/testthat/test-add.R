@@ -2,7 +2,7 @@ dt <- data.frame(
   subject_id = c(rep(1,4), rep(2,2),3,4),
   project_id = c(rep("MemP", 5), rep("MemC", 3)),
   wave_code = c(1:3, 3, 2, rep(1,3)),
-  age = c(10:12, 12:13, 14, 16, 18)
+  visit_age = c(10:12, 12:13, 14, 16, 18)
 )
 
 # add_timepoint
@@ -18,8 +18,8 @@ test_that("add_timepoint works",{
                 c(1, 2, 3, 3, 1, 2, 1, 1))
   expect_length(dt2, 5)
 
-  expect_error(add_timepoint(dplyr::select(dt, -age)),
-               "needs 'age'")
+  expect_error(add_timepoint(dplyr::select(dt, -visit_age)),
+               "needs the 'visit_age'")
 })
 
 
@@ -35,8 +35,8 @@ test_that("add_interval works",{
                 c(0,1,1,1,0,1,0,0))
   expect_length(dt2, 5)
 
-  expect_error(add_interval(dplyr::select(dt, -age)),
-               "needs 'age'")
+  expect_error(add_interval(dplyr::select(dt, -visit_age)),
+               "needs the 'visit_age'")
 })
 
 # add_interval
@@ -51,7 +51,7 @@ test_that("add_interval_baseline works",{
                 c(0,1,2,2,0,1,0,0))
   expect_length(dt2, 5)
 
-  expect_error(add_interval_baseline(dplyr::select(dt, -age)),
-               "needs 'age'")
+  expect_error(add_interval_baseline(dplyr::select(dt, -visit_age)),
+               "needs the 'visit_age'")
 })
 

@@ -7,7 +7,7 @@
 #' variables are z-transformed.
 #'
 #' @template data
-#' @param formula right-hand formula for your model. (ex. ~ age * sex)
+#' @param formula right-hand formula for your model. (ex. ~ visit_age * sex)
 #' @template site_var
 #' @param folder_var unqoted column name with folder-information of MRI data
 #' from the 'mri_info' table.
@@ -38,14 +38,14 @@
 #' # attach built-in noas example data to test
 #' dt <- noas_example
 #'
-#' fs_lmm(dt, ~ age * sex * cog,
+#' fs_lmm(dt, ~ visit_age * sex * cog,
 #'        site_var = site_name,
 #'        folder_var = folder
 #'      )
 #'
 #'  # replace NA values in numeric with
 #'  # mean values for the participant
-#'  fs_lmm(dt, ~ age * sex * cog,
+#'  fs_lmm(dt, ~ visit_age * sex * cog,
 #'        numeric_transform = "mean_na",
 #'        site_var = site_name,
 #'        folder_var = folder
@@ -53,7 +53,7 @@
 #'
 #'  # replace all numeric values with
 #'  # mean values for the participant
-#'  fs_lmm(dt, ~ age * sex * cog,
+#'  fs_lmm(dt, ~ visit_age * sex * cog,
 #'        numeric_transform = "mean_na",
 #'        site_var = site_name,
 #'        folder_var = folder
@@ -61,14 +61,14 @@
 #'
 #'  # replace all numeric values with
 #'  # first for the participant
-#'  fs_lmm(dt, ~ age * cog,
+#'  fs_lmm(dt, ~ visit_age * cog,
 #'        site_var = site_name,
 #'        folder_var = folder
 #'      )
 #'
 #'  # Provide a vector of fsid to reduce the data to
 #'  # pre-existing concatenated imaging data.
-#'  fs_lmm(noas_example, ~ age,
+#'  fs_lmm(noas_example, ~ visit_age,
 #'         site_var = site_name,
 #'         folder_var = folder,
 #'         concat_list = c("1000000_1", "1000000_3", "1000000_5")
@@ -86,8 +86,8 @@ fs_lmm = function(data,
   stopifnot(class(formula) == "formula")
   check_data(data)
 
-  if(!any("age" == names(data)))
-    stop("'age' must be in the data, even if not in the formula, in order to sort the data correctly.\n",
+  if(!any("visit_age" == names(data)))
+    stop("'visit_age' must be in the data, even if not in the formula, in order to sort the data correctly.\n",
          call. = FALSE)
 
 
@@ -95,18 +95,18 @@ fs_lmm = function(data,
 
   cols <- all.vars(formula)
 
-  if(any(is.na(data$age))){
-    NAs <- filter(data, is.na(age)) %>%
+  if(any(is.na(data$visit_age))){
+    NAs <- filter(data, is.na(visit_age)) %>%
       select(subject_id, project_id, wave_code,
              {{site_var}}, {{folder_var}})
-    warning("There are `NA` values in the 'age' column. These data points will be removed.\n",
+    warning("There are `NA` values in the 'visit_age' column. These data points will be removed.\n",
             paste0(capture.output(NAs), collapse="\n"),
             "\n",
             call. = FALSE)
-    data <- filter(data, !is.na(age))
+    data <- filter(data, !is.na(visit_age))
   }
 
-  data <- arrange(data, subject_id, age) %>%
+  data <- arrange(data, subject_id, visit_age) %>%
     mutate(.N = row_number(),
            fsid = {{folder_var}},
            `fsid-base` = sprintf("base_%s_%s",

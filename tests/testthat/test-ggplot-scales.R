@@ -98,7 +98,7 @@ test_that("project scales works", {
   expect_doppelganger("Project named colour",
                       noas_example %>%
                         dplyr::mutate(project_id = gsub("MemC", "NCP", project_id)) %>%
-                        ggplot(aes(project_id, age)) +
+                        ggplot(aes(project_id, visit_age)) +
                         geom_point(aes(colour = project_id))  +
                         scale_colour_proj("named")
   )

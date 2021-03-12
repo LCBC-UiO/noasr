@@ -5,7 +5,7 @@ test_that("filter_site works", {
     wave_code = c(1,2,3,3,4,5),
     site_name = c("ousAvanto", "ousAvanto","ousAvanto",
                   "ousSkyra", "ousSkyra", "ousSkyra"),
-    age = c(8, 10, 14, 14, 17, 20),
+    visit_age = c(8, 10, 14, 14, 17, 20),
   )
 
   # Check default action
@@ -20,7 +20,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                )
   )
 
@@ -33,7 +33,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                )
   )
 
@@ -45,7 +45,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                )
   )
 
@@ -57,7 +57,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                )
   )
 
@@ -69,7 +69,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                )
   )
 
@@ -80,7 +80,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 2), rep("ousSkyra", 3)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                )
   )
 
@@ -94,7 +94,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 3), rep("ousSkyra", 2)),
-                 age = c(8, 10, 14, 17, 20)
+                 visit_age = c(8, 10, 14, 17, 20)
                ))
 
   expect_equal(filter_site(dplyr::mutate(dt,
@@ -106,7 +106,7 @@ test_that("filter_site works", {
                  project_id = "MemP",
                  wave_code = c(1,2,3,4,5),
                  site_name = c(rep("ousAvanto", 2), rep("ousPrisma", 3)),
-                 age = c(8, 10, 14, 17, 20),
+                 visit_age = c(8, 10, 14, 17, 20),
                ))
 
   expect_error(filter_site(dt,

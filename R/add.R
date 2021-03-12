@@ -3,7 +3,7 @@
 #' Add timepoint to data
 #'
 #' Calculated sequential timepoint
-#' for participants along the 'age'
+#' for participants along the 'visit_age'
 #' column.
 #'
 #' @template data
@@ -27,12 +27,9 @@
 #'
 add_timepoint <- function(data, name = timepoint){
   check_data(data)
+  check_visit_age(data)
 
-  if(!"age" %in% names(data))
-    stop("This function needs 'age' to calculate timepoint.",
-         call. = FALSE)
-
-  group_by(data, subject_id, age) %>%
+  group_by(data, subject_id, visit_age) %>%
     mutate(
       .n = dplyr::row_number(),
       .tp = ifelse(.n == 1, 1, 0)
@@ -91,10 +88,10 @@ add_interval <- function(data, name = interval){
     add_interval_baseline(.baseline) %>%
     group_by(subject_id) %>%
     mutate(
-      .lag = lag(age),
+      .lag = lag(visit_age),
       .dup = lag(ifelse(.baseline == lead(.baseline), TRUE, FALSE)),
 
-      {{name}} := ifelse(is.na(.lag), 0, age-.lag),
+      {{name}} := ifelse(is.na(.lag), 0, visit_age-.lag),
       {{name}} := case_when(
         is.na(.lag) ~ 0,
         .dup == TRUE ~ lag({{name}}),
@@ -110,24 +107,21 @@ add_interval <- function(data, name = interval){
 #' @importFrom dplyr arrange group_by mutate ungroup
 add_interval_baseline <- function(data, name = interval_baseline){
   check_data(data)
-
-  if(!"age" %in% names(data))
-    stop("This function needs 'age' to calculate timepoint.",
-         call. = FALSE)
+  check_visit_age(data)
 
   data %>%
-    arrange(age) %>%
+    arrange(visit_age) %>%
     group_by(subject_id) %>%
     mutate(
-      {{name}} := age-min(age)
+      {{name}} := visit_age-min(visit_age)
     ) %>%
     ungroup()
 }
 
 ## quiets concerns of R CMD check
 if(getRversion() >= "2.15.1"){
-  utils::globalVariables(c("timepoint", "subject_id", "age", ".n",
-                           ":=", ".tp", "age", ".lag", ".dup",
+  utils::globalVariables(c("timepoint", "subject_id", "visit_age", ".n",
+                           ":=", ".tp", "visit_age", ".lag", ".dup",
                            "interval", ".baseline", "interval_baseline"))
 }
 

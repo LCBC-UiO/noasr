@@ -74,7 +74,7 @@ filter_site = function(data,
     if(tie == "interval"){
       # Find those with longest interval
       data2 <- group_by(data2, subject_id, {{site_var}}) %>%
-        mutate(.interval = age-min(age, na.rm = TRUE)) %>%
+        mutate(.interval = visit_age-min(visit_age, na.rm = TRUE)) %>%
         mutate(.n = max(.interval, na.rm = TRUE))%>%
         group_by(subject_id) %>%
         mutate(.dups = ifelse(.dup & .n == max(.n, na.rm = TRUE), TRUE, FALSE),

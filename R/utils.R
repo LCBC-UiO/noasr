@@ -59,3 +59,14 @@ check_data <- function(data){
          paste(c("subject_id","project_id","wave_code")[cols], collapse = ", "),
          call. = FALSE)
 }
+
+#' Check if data visit_age
+#'
+#' @template data
+#' @return
+#' @noRd
+check_visit_age <- function(data){
+  if(!"visit_age" %in% names(data))
+    stop("This function needs the 'visit_age' column in the data to calculate timepoint.",
+         call. = FALSE)
+}
