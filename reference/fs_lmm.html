@@ -225,24 +225,7 @@ your models.</p></td>
        site_var <span class='op'>=</span> <span class='va'>site_name</span>,
        folder_var <span class='op'>=</span> <span class='va'>folder</span>
      <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Some data have been removed.</span>
-#&gt; <span class='warning'><span style='color: #949494;'># A tibble: 2 x 8</span><span></span>
-#&gt; <span class='warning'>  subject_id project_id wave_code site_name folder      age sex      cog</span>
-#&gt; <span class='warning'>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #BCBCBC;'>1</span><span> 1000000    MemP               3 ousSkyra  1000000_4    14 female    </span><span style='color: #BB0000;'>NA</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #BCBCBC;'>2</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33 male      </span><span style='color: #BB0000;'>NA</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 13</span><span>
-#&gt;   fsid      `fsid-base`       age sex      cog intercept   age_z sexmale   cog_z
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1000000_1 base_1000000_11     8 female    16         1 -</span><span style='color: #BB0000;'>1.14</span><span>         0  0.957 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 1000000_2 base_1000000_11    10 female    14         1 -</span><span style='color: #BB0000;'>0.950</span><span>        0 -</span><span style='color: #BB0000;'>0.063</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1000000_3 base_1000000_11    14 female    16         1 -</span><span style='color: #BB0000;'>0.565</span><span>        0  0.957 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 1000000_5 base_1000000_12    17 female    15         1 -</span><span style='color: #BB0000;'>0.276</span><span>        0  0.447 
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 1000000_6 base_1000000_12    20 female    15         1  0.012</span><span style='text-decoration: underline;'>0</span><span>       0  0.447 
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 1000010_1 base_1000010_12    22 male      14         1  0.204        1 -</span><span style='color: #BB0000;'>0.063</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 1000010_2 base_1000010_12    28 male      13         1  0.781        1 -</span><span style='color: #BB0000;'>0.574</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 1000010_4 base_1000010_12    40 male      10         1  1.94         1 -</span><span style='color: #BB0000;'>2.11</span><span>  
-#&gt; </span><span style='color: #949494;'># … with 4 more variables: age:sexmale_z &lt;dbl&gt;, age:cog_z &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   sexmale:cog_z &lt;dbl&gt;, age:sexmale:cog_z &lt;dbl&gt;</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: </span></div><div class='input'>
  <span class='co'># replace NA values in numeric with</span>
  <span class='co'># mean values for the participant</span>
  <span class='fu'>fs_lmm</span><span class='op'>(</span><span class='va'>dt</span>, <span class='op'>~</span> <span class='va'>age</span> <span class='op'>*</span> <span class='va'>sex</span> <span class='op'>*</span> <span class='va'>cog</span>,
@@ -250,21 +233,7 @@ your models.</p></td>
        site_var <span class='op'>=</span> <span class='va'>site_name</span>,
        folder_var <span class='op'>=</span> <span class='va'>folder</span>
      <span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 13</span><span>
-#&gt;    fsid      `fsid-base`       age sex     cog intercept   age_z sexmale   cog_z
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000_1 base_1000000_11     8 fema…  16           1 -</span><span style='color: #BB0000;'>1.22</span><span>         0  1.05  
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000_2 base_1000000_11    10 fema…  14           1 -</span><span style='color: #BB0000;'>1.03</span><span>         0 -</span><span style='color: #BB0000;'>0.028</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000_3 base_1000000_11    14 fema…  16           1 -</span><span style='color: #BB0000;'>0.640</span><span>        0  1.05  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000_4 base_1000000_12    14 fema…  15.2         1 -</span><span style='color: #BB0000;'>0.640</span><span>        0  0.616 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000_5 base_1000000_12    17 fema…  15           1 -</span><span style='color: #BB0000;'>0.349</span><span>        0  0.509 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000_6 base_1000000_12    20 fema…  15           1 -</span><span style='color: #BB0000;'>0.058</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>       0  0.509 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010_1 base_1000010_12    22 male   14           1  0.136        1 -</span><span style='color: #BB0000;'>0.028</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010_2 base_1000010_12    28 male   13           1  0.717        1 -</span><span style='color: #BB0000;'>0.566</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010_3 base_1000010_12    33 male   12.3         1  1.20         1 -</span><span style='color: #BB0000;'>0.924</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010_4 base_1000010_12    40 male   10           1  1.88         1 -</span><span style='color: #BB0000;'>2.18</span><span>  
-#&gt; </span><span style='color: #949494;'># … with 4 more variables: age:sexmale_z &lt;dbl&gt;, age:cog_z &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   sexmale:cog_z &lt;dbl&gt;, age:sexmale:cog_z &lt;dbl&gt;</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: </span></div><div class='input'>
  <span class='co'># replace all numeric values with</span>
  <span class='co'># mean values for the participant</span>
  <span class='fu'>fs_lmm</span><span class='op'>(</span><span class='va'>dt</span>, <span class='op'>~</span> <span class='va'>age</span> <span class='op'>*</span> <span class='va'>sex</span> <span class='op'>*</span> <span class='va'>cog</span>,
@@ -272,43 +241,14 @@ your models.</p></td>
        site_var <span class='op'>=</span> <span class='va'>site_name</span>,
        folder_var <span class='op'>=</span> <span class='va'>folder</span>
      <span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 13</span><span>
-#&gt;    fsid      `fsid-base`       age sex     cog intercept   age_z sexmale   cog_z
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000_1 base_1000000_11     8 fema…  16           1 -</span><span style='color: #BB0000;'>1.22</span><span>         0  1.05  
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000_2 base_1000000_11    10 fema…  14           1 -</span><span style='color: #BB0000;'>1.03</span><span>         0 -</span><span style='color: #BB0000;'>0.028</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000_3 base_1000000_11    14 fema…  16           1 -</span><span style='color: #BB0000;'>0.640</span><span>        0  1.05  
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000_4 base_1000000_12    14 fema…  15.2         1 -</span><span style='color: #BB0000;'>0.640</span><span>        0  0.616 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000_5 base_1000000_12    17 fema…  15           1 -</span><span style='color: #BB0000;'>0.349</span><span>        0  0.509 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000_6 base_1000000_12    20 fema…  15           1 -</span><span style='color: #BB0000;'>0.058</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>       0  0.509 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010_1 base_1000010_12    22 male   14           1  0.136        1 -</span><span style='color: #BB0000;'>0.028</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010_2 base_1000010_12    28 male   13           1  0.717        1 -</span><span style='color: #BB0000;'>0.566</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010_3 base_1000010_12    33 male   12.3         1  1.20         1 -</span><span style='color: #BB0000;'>0.924</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010_4 base_1000010_12    40 male   10           1  1.88         1 -</span><span style='color: #BB0000;'>2.18</span><span>  
-#&gt; </span><span style='color: #949494;'># … with 4 more variables: age:sexmale_z &lt;dbl&gt;, age:cog_z &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   sexmale:cog_z &lt;dbl&gt;, age:sexmale:cog_z &lt;dbl&gt;</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: </span></div><div class='input'>
  <span class='co'># replace all numeric values with</span>
  <span class='co'># first for the participant</span>
  <span class='fu'>fs_lmm</span><span class='op'>(</span><span class='va'>dt</span>, <span class='op'>~</span> <span class='va'>age</span> <span class='op'>*</span> <span class='va'>cog</span>,
        site_var <span class='op'>=</span> <span class='va'>site_name</span>,
        folder_var <span class='op'>=</span> <span class='va'>folder</span>
      <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Some data have been removed.</span>
-#&gt; <span class='warning'></span><span style='color: #949494;'># A tibble: 2 x 7</span><span></span>
-#&gt; <span class='warning'>  subject_id project_id wave_code site_name folder      age   cog</span>
-#&gt; <span class='warning'>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #BCBCBC;'>1</span><span> 1000000    MemP               3 ousSkyra  1000000_4    14    </span><span style='color: #BB0000;'>NA</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #BCBCBC;'>2</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33    </span><span style='color: #BB0000;'>NA</span><span></span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 8 x 8</span><span>
-#&gt;   fsid      `fsid-base`       age   cog intercept   age_z   cog_z `age:cog_z`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1000000_1 base_1000000_11     8    16         1 -</span><span style='color: #BB0000;'>1.14</span><span>    0.957       -</span><span style='color: #BB0000;'>1.40</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 1000000_2 base_1000000_11    10    14         1 -</span><span style='color: #BB0000;'>0.950</span><span>  -</span><span style='color: #BB0000;'>0.063</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>      -</span><span style='color: #BB0000;'>1.27</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1000000_3 base_1000000_11    14    16         1 -</span><span style='color: #BB0000;'>0.565</span><span>   0.957       -</span><span style='color: #BB0000;'>0.417</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 1000000_5 base_1000000_12    17    15         1 -</span><span style='color: #BB0000;'>0.276</span><span>   0.447       -</span><span style='color: #BB0000;'>0.101</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 1000000_6 base_1000000_12    20    15         1  0.012</span><span style='text-decoration: underline;'>0</span><span>  0.447        0.358
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 1000010_1 base_1000010_12    22    14         1  0.204  -</span><span style='color: #BB0000;'>0.063</span><span style='color: #BB0000;text-decoration: underline;'>8</span><span>       0.440
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> 1000010_2 base_1000010_12    28    13         1  0.781  -</span><span style='color: #BB0000;'>0.574</span><span>        1.01 
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> 1000010_4 base_1000010_12    40    10         1  1.94   -</span><span style='color: #BB0000;'>2.11</span><span>         1.38 </div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: </span></div><div class='input'>
  <span class='co'># Provide a vector of fsid to reduce the data to</span>
  <span class='co'># pre-existing concatenated imaging data.</span>
  <span class='fu'>fs_lmm</span><span class='op'>(</span><span class='va'>noas_example</span>, <span class='op'>~</span> <span class='va'>age</span>,
@@ -316,13 +256,8 @@ your models.</p></td>
         folder_var <span class='op'>=</span> <span class='va'>folder</span>,
         concat_list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1000000_1"</span>, <span class='st'>"1000000_3"</span>, <span class='st'>"1000000_5"</span><span class='op'>)</span>
         <span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
-#&gt;   fsid      `fsid-base`       age intercept  age_z
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1000000_1 base_1000000_11     8         1 -</span><span style='color: #BB0000;'>1.09</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 1000000_3 base_1000000_11    14         1  0.218
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 1000000_5 base_1000000_12    17         1  0.873</div><div class='input'>
-</div></span></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error: </span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

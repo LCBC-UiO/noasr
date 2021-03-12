@@ -186,31 +186,32 @@ columns to your data.</p>
 
 <span class='fu'>add_interval</span><span class='op'>(</span><span class='va'>dt</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 9</span><span>
-#&gt;    subject_id project_id wave_code site_name folder     age   cog sex   interval
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000…     8    16 fema…        0
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000…    10    14 fema…        2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000…    14    16 fema…        4
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000…    14    </span><span style='color: #BB0000;'>NA</span><span> fema…        4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000…    17    15 fema…        3
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000…    20    15 fema…        3
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010…    22    14 male         0
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010…    28    13 male         6
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010…    33    </span><span style='color: #BB0000;'>NA</span><span> male         5
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010…    40    10 male         7</div><div class='input'><span class='fu'>add_interval_baseline</span><span class='op'>(</span><span class='va'>dt</span><span class='op'>)</span>
+#&gt;    subject_id project_id wave_code site_name folder    visit_age   cog sex   
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000_1         8    16 female
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000_2        10    14 female
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000_3        14    16 female
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000_4        14    </span><span style='color: #BB0000;'>NA</span><span> female
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000_5        17    15 female
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000_6        20    15 female
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010_1        22    14 male  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010_2        28    13 male  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010_3        33    </span><span style='color: #BB0000;'>NA</span><span> male  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010_4        40    10 male  
+#&gt; </span><span style='color: #949494;'># … with 1 more variable: interval &lt;dbl&gt;</span><span></div><div class='input'><span class='fu'>add_interval_baseline</span><span class='op'>(</span><span class='va'>dt</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 9</span><span>
-#&gt;    subject_id project_id wave_code site_name folder      age   cog sex   
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000_1     8    16 female
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000_2    10    14 female
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000_3    14    16 female
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000_4    14    </span><span style='color: #BB0000;'>NA</span><span> female
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000_5    17    15 female
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000_6    20    15 female
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010_1    22    14 male  
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010_2    28    13 male  
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33    </span><span style='color: #BB0000;'>NA</span><span> male  
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010_4    40    10 male  
+#&gt;    subject_id project_id wave_code site_name folder    visit_age   cog sex   
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000_1         8    16 female
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000_2        10    14 female
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000_3        14    16 female
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000_4        14    </span><span style='color: #BB0000;'>NA</span><span> female
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000_5        17    15 female
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000_6        20    15 female
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010_1        22    14 male  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010_2        28    13 male  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010_3        33    </span><span style='color: #BB0000;'>NA</span><span> male  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010_4        40    10 male  
 #&gt; </span><span style='color: #949494;'># … with 1 more variable: interval_baseline &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'></span>
@@ -222,36 +223,36 @@ columns to your data.</p>
   <span class='fu'>add_interval</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>add_interval_baseline</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 10</span><span>
-#&gt;    subject_id project_id wave_code site_name folder     age   cog sex   interval
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000…     8    16 fema…        0
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000…    10    14 fema…        2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000…    14    16 fema…        4
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000…    14    </span><span style='color: #BB0000;'>NA</span><span> fema…        4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000…    17    15 fema…        3
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000…    20    15 fema…        3
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010…    22    14 male         0
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010…    28    13 male         6
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010…    33    </span><span style='color: #BB0000;'>NA</span><span> male         5
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010…    40    10 male         7
-#&gt; </span><span style='color: #949494;'># … with 1 more variable: interval_baseline &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt;    subject_id project_id wave_code site_name folder    visit_age   cog sex   
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000_1         8    16 female
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000_2        10    14 female
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000_3        14    16 female
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000_4        14    </span><span style='color: #BB0000;'>NA</span><span> female
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000_5        17    15 female
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000_6        20    15 female
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010_1        22    14 male  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010_2        28    13 male  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010_3        33    </span><span style='color: #BB0000;'>NA</span><span> male  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010_4        40    10 male  
+#&gt; </span><span style='color: #949494;'># … with 2 more variables: interval &lt;dbl&gt;, interval_baseline &lt;dbl&gt;</span><span></div><div class='input'>
 <span class='co'># Change the default column names</span>
 <span class='va'>dt</span> <span class='op'>%&gt;%</span>
   <span class='fu'>add_interval</span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>intv</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>add_interval_baseline</span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>bsl_intv</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 10</span><span>
-#&gt;    subject_id project_id wave_code site_name folder      age   cog sex     intv
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 1000000_1     8    16 female     0
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 1000000_2    10    14 female     2
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 1000000_3    14    16 female     4
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  1000000_4    14    </span><span style='color: #BB0000;'>NA</span><span> female     4
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  1000000_5    17    15 female     3
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  1000000_6    20    15 female     3
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  1000010_1    22    14 male       0
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  1000010_2    28    13 male       6
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  1000010_3    33    </span><span style='color: #BB0000;'>NA</span><span> male       5
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  1000010_4    40    10 male       7
+#&gt;    subject_id project_id wave_code site_name folder  visit_age   cog sex    intv
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1000000    MemP               1 ousAvanto 100000…         8    16 fema…     0
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1000000    MemP               2 ousAvanto 100000…        10    14 fema…     2
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1000000    MemP               3 ousAvanto 100000…        14    16 fema…     4
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1000000    MemP               3 ousSkyra  100000…        14    </span><span style='color: #BB0000;'>NA</span><span> fema…     4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1000000    MemP               4 ousSkyra  100000…        17    15 fema…     3
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1000000    MemP               5 ousSkyra  100000…        20    15 fema…     3
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1000010    MemC               1 ousSkyra  100001…        22    14 male      0
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1000010    MemC               2 ousSkyra  100001…        28    13 male      6
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1000010    MemC               3 ousSkyra  100001…        33    </span><span style='color: #BB0000;'>NA</span><span> male      5
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1000010    MemC               4 ousSkyra  100001…        40    10 male      7
 #&gt; </span><span style='color: #949494;'># … with 1 more variable: bsl_intv &lt;dbl&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
