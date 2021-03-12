@@ -1,6 +1,6 @@
 Package: noasr
 Title: NOAS convenience functions
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"))
 Description: Functions created to work well with LCBC's Nephew of All Spreadsheet data.
 License: MIT + file LICENSE
