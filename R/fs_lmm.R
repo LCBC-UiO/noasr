@@ -40,7 +40,7 @@
 #'
 #' fs_lmm(dt, ~ visit_age * sex * cog,
 #'        site_var = site_name,
-#'        folder_var = folder
+#'        folder_var = mri_info_folder
 #'      )
 #'
 #'  # replace NA values in numeric with
@@ -48,7 +48,7 @@
 #'  fs_lmm(dt, ~ visit_age * sex * cog,
 #'        numeric_transform = "mean_na",
 #'        site_var = site_name,
-#'        folder_var = folder
+#'        folder_var = mri_info_folder
 #'      )
 #'
 #'  # replace all numeric values with
@@ -56,21 +56,21 @@
 #'  fs_lmm(dt, ~ visit_age * sex * cog,
 #'        numeric_transform = "mean_na",
 #'        site_var = site_name,
-#'        folder_var = folder
+#'        folder_var = mri_info_folder
 #'      )
 #'
 #'  # replace all numeric values with
 #'  # first for the participant
 #'  fs_lmm(dt, ~ visit_age * cog,
 #'        site_var = site_name,
-#'        folder_var = folder
+#'        folder_var = mri_info_folder
 #'      )
 #'
 #'  # Provide a vector of fsid to reduce the data to
 #'  # pre-existing concatenated imaging data.
 #'  fs_lmm(noas_example, ~ visit_age,
 #'         site_var = site_name,
-#'         folder_var = folder,
+#'         folder_var = mri_info_folder,
 #'         concat_list = c("1000000_1", "1000000_3", "1000000_5")
 #'         )
 #'

@@ -3,7 +3,7 @@ library(dplyr)
 test_that("fs_lmm works", {
   tmp <- fs_lmm(noas_example,  ~ visit_age,
                 site_var = site_name,
-                folder_var = folder)
+                folder_var = mri_info_folder)
 
   expect_equal(nrow(tmp), 10)
   expect_equal(ncol(tmp), 5)
@@ -13,14 +13,14 @@ test_that("fs_lmm works", {
   expect_error(fs_lmm(select(noas_example, -visit_age),
                       ~ cog,
                       site_var = site_name,
-                      folder_var = folder),
+                      folder_var = mri_info_folder),
                "'visit_age' must be in the data")
 
   expect_warning(
     fs_lmm(mutate(noas_example, visit_age = NA),
            ~ cog,
            site_var = site_name,
-           folder_var = folder),
+           folder_var = mri_info_folder),
     "`NA` values in the 'visit_age'"
   )
 
@@ -28,7 +28,7 @@ test_that("fs_lmm works", {
   tmp <- expect_warning(
     fs_lmm(noas_example, ~ visit_age,
            site_var = site_name,
-           folder_var = folder,
+           folder_var = mri_info_folder,
            concat_list = concat_list
     ), "1000000_8")
   expect_equal(tmp$fsid, "1000000_1")
@@ -38,7 +38,7 @@ test_that("fs_lmm works", {
   concat_list <- c("1000000_1", "1000000_3", "1000000_5")
   tmp <- fs_lmm(noas_example, ~ visit_age,
                 site_var = site_name,
-                folder_var = folder,
+                folder_var = mri_info_folder,
                 concat_list = concat_list
   )
   expect_equal(tmp$fsid, concat_list)
@@ -49,7 +49,7 @@ test_that("fs_lmm works", {
   tmp <- expect_warning(
     fs_lmm(noas_example, ~ visit_age * cog,
            site_var = site_name,
-           folder_var = folder
+           folder_var = mri_info_folder
     ),
     "Some data have been removed."
   )
@@ -58,7 +58,7 @@ test_that("fs_lmm works", {
   file <- file.path(test_path(), "fs_lmm-files/test_doppel.csv")
   tmp <- fs_lmm(noas_example, ~ visit_age,
                 site_var = site_name,
-                folder_var = folder,
+                folder_var = mri_info_folder,
                 concat_list = concat_list,
                 file = file
   )

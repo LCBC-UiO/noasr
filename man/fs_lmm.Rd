@@ -19,7 +19,7 @@ fs_lmm(
 \arguments{
 \item{data}{data extracted from the NOAS}
 
-\item{formula}{right-hand formula for your model. (ex. ~ age * sex)}
+\item{formula}{right-hand formula for your model. (ex. ~ visit_age * sex)}
 
 \item{site_var}{column name with the site information}
 
@@ -59,39 +59,39 @@ Available options for 'numeric_transform' are:
 # attach built-in noas example data to test
 dt <- noas_example
 
-fs_lmm(dt, ~ age * sex * cog,
+fs_lmm(dt, ~ visit_age * sex * cog,
        site_var = site_name,
-       folder_var = folder
+       folder_var = mri_info_folder
      )
 
  # replace NA values in numeric with
  # mean values for the participant
- fs_lmm(dt, ~ age * sex * cog,
+ fs_lmm(dt, ~ visit_age * sex * cog,
        numeric_transform = "mean_na",
        site_var = site_name,
-       folder_var = folder
+       folder_var = mri_info_folder
      )
 
  # replace all numeric values with
  # mean values for the participant
- fs_lmm(dt, ~ age * sex * cog,
+ fs_lmm(dt, ~ visit_age * sex * cog,
        numeric_transform = "mean_na",
        site_var = site_name,
-       folder_var = folder
+       folder_var = mri_info_folder
      )
 
  # replace all numeric values with
  # first for the participant
- fs_lmm(dt, ~ age * cog,
+ fs_lmm(dt, ~ visit_age * cog,
        site_var = site_name,
-       folder_var = folder
+       folder_var = mri_info_folder
      )
 
  # Provide a vector of fsid to reduce the data to
  # pre-existing concatenated imaging data.
- fs_lmm(noas_example, ~ age,
+ fs_lmm(noas_example, ~ visit_age,
         site_var = site_name,
-        folder_var = folder,
+        folder_var = mri_info_folder,
         concat_list = c("1000000_1", "1000000_3", "1000000_5")
         )
 

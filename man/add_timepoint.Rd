@@ -16,7 +16,7 @@ data frame with extra column with timepoint
 }
 \description{
 Calculated sequential timepoint
-for participants along the 'age'
+for participants along the 'visit_age'
 column.
 }
 \examples{
